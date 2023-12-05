@@ -22,6 +22,9 @@ namespace dae
     private:
         // --- Week 1 ---
         void Render_W1_TODO_0() const;
+        
+        // DIRECTX
+        HRESULT InitializeDirectX();
 
     private:
         SDL_Window* m_WindowPtr {nullptr};
@@ -30,9 +33,10 @@ namespace dae
         int m_Height {0};
 
         bool m_IsInitialized{false};
-
-        //DIRECTX
-        HRESULT InitializeDirectX();
-        //...
+        
+        // DIRECTX
+        ID3D11Device*        m_DevicePtr        {nullptr};
+        ID3D11DeviceContext* m_DeviceContextPtr {nullptr};
+        
     };
 }
