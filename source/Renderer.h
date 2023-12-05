@@ -35,6 +35,7 @@ namespace dae
         bool m_IsInitialized = false;
         
         // DIRECTX
+        IDXGIFactory1*          m_DXGIFactoryPtr        = nullptr;
         ID3D11Device*           m_DevicePtr             = nullptr;
         ID3D11DeviceContext*    m_DeviceContextPtr      = nullptr;
         IDXGISwapChain*         m_SwapChainPtr          = nullptr;

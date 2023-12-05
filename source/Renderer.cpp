@@ -59,8 +59,7 @@ namespace dae
 
         // Create DXGI factory
         //=======================================================================================================
-        IDXGIFactory1* dxgiFactoryPtr = nullptr;
-        result = CreateDXGIFactory1(__uuidof(IDXGIFactory1), reinterpret_cast<void**>(&dxgiFactoryPtr));
+        result = CreateDXGIFactory1(__uuidof(IDXGIFactory1), reinterpret_cast<void**>(&m_DXGIFactoryPtr));
 
         if (FAILED(result))
             return result;
@@ -92,7 +91,7 @@ namespace dae
 
         // Create swap chain
         //=======================================================================================================
-        result = dxgiFactoryPtr->CreateSwapChain(m_DevicePtr, &swapChainDesc, &m_SwapChainPtr);
+        result = m_DXGIFactoryPtr->CreateSwapChain(m_DevicePtr, &swapChainDesc, &m_SwapChainPtr);
         if (FAILED(result))
             return result;
 
@@ -162,6 +161,29 @@ namespace dae
 #pragma region Cleanup
     Renderer::~Renderer()
     {
+        // Resources are released in reverse order of creation
+        // 7. Render Target View
+        // 6. Render Target Buffer
+        // 5. Depth Stencil View
+        // 4. Depth Stencil Buffer
+        // 3. Swap Chain
+        // 2. Device Context
+        // 1. Device
+        // 0. DXGI Factory
+
+        if (m_RenderTargetViewPtr)   m_RenderTargetViewPtr->Release();
+        if (m_RenderTargetBufferPtr) m_RenderTargetBufferPtr->Release();
+        if (m_DepthStencilViewPtr)   m_DepthStencilViewPtr->Release();
+        if (m_DepthStencilBufferPtr) m_DepthStencilBufferPtr->Release();
+        if (m_SwapChainPtr)          m_SwapChainPtr->Release();
+        if (m_DeviceContextPtr)
+        {
+            m_DeviceContextPtr->ClearState();
+            m_DeviceContextPtr->Flush();
+            m_DeviceContextPtr->Release();
+        }
+        if (m_DevicePtr)      m_DevicePtr->Release();
+        if (m_DXGIFactoryPtr) m_DXGIFactoryPtr->Release();
     }
 #pragma endregion
 
