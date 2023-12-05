@@ -174,11 +174,23 @@ namespace dae
     {
         if (not m_IsInitialized) return;
 
+        // 1. Clear RTV and DSV
+        //=======================================================================================================
+        const float clearColor[] = {0.0f, 0.0f, 0.3f, 1.0f};
+        m_DeviceContextPtr->ClearRenderTargetView(m_RenderTargetViewPtr, clearColor);
+        m_DeviceContextPtr->ClearDepthStencilView(m_DepthStencilViewPtr, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+        // 2. Set pipeline + invoke draw calls (= render)
+        //=======================================================================================================
 #if W1
 #if TODO_0
         Render_W1_TODO_0();
 #endif
 #endif
+        
+        // 3. Present backbuffer (swap)
+        //=======================================================================================================
+        m_SwapChainPtr->Present(0, 0);
     }
 #pragma endregion
 
