@@ -125,6 +125,20 @@ namespace dae
         result = m_DevicePtr->CreateDepthStencilView(m_DepthStencilBufferPtr, &depthStencilViewDesc, &m_DepthStencilViewPtr);
         if (FAILED(result))
             return result;
+
+        // 4. Create RenderTarget (RT) and RenderTargetView (RTV)
+        //=======================================================================================================
+
+        // Resource
+        result = m_SwapChainPtr->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&m_RenderTargetBufferPtr));
+        if (FAILED(result))
+            return result;
+
+        // View
+        result = m_DevicePtr->CreateRenderTargetView(m_RenderTargetBufferPtr, nullptr, &m_RenderTargetViewPtr);
+        if (FAILED(result))
+            return result;
+
         
         return S_FALSE;
     }
