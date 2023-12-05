@@ -59,15 +59,15 @@ namespace dae
 
         // Create DXGI factory
         //=======================================================================================================
-        IDXGIFactory* dxgiFactoryPtr = nullptr;
-        result = CreateDXGIFactory(__uuidof(IDXGIFactory1), reinterpret_cast<void**>(&dxgiFactoryPtr));
+        IDXGIFactory1* dxgiFactoryPtr = nullptr;
+        result = CreateDXGIFactory1(__uuidof(IDXGIFactory1), reinterpret_cast<void**>(&dxgiFactoryPtr));
 
         if (FAILED(result))
             return result;
 
         // 2. Create swap chain
         //=======================================================================================================
-        DXGI_SWAP_CHAIN_DESC swapChainDesc;
+        DXGI_SWAP_CHAIN_DESC swapChainDesc{};
         swapChainDesc.BufferDesc.Width                   = m_Width;
         swapChainDesc.BufferDesc.Height                  = m_Height;
         swapChainDesc.BufferDesc.RefreshRate.Numerator   = 1;
@@ -85,7 +85,7 @@ namespace dae
 
         // Get handle to window (HWND) from the SDL backbuffer
         //=======================================================================================================
-        SDL_SysWMinfo sysWMInfo;
+        SDL_SysWMinfo sysWMInfo{};
         SDL_GetVersion(&sysWMInfo.version);
         SDL_GetWindowWMInfo(m_WindowPtr, &sysWMInfo);
         swapChainDesc.OutputWindow = sysWMInfo.info.win.window;
@@ -98,7 +98,7 @@ namespace dae
 
         // 3. Create DepthStencil (DS) and DepthStencilView (DSV)
         //=======================================================================================================
-        D3D11_TEXTURE2D_DESC depthStencilDesc;
+        D3D11_TEXTURE2D_DESC depthStencilDesc{};
         depthStencilDesc.Width              = m_Width;
         depthStencilDesc.Height             = m_Height;
         depthStencilDesc.MipLevels          = 1;
@@ -113,7 +113,7 @@ namespace dae
 
         // View
         //=======================================================================================================
-        D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
+        D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
         depthStencilViewDesc.Format             = depthStencilDesc.Format;
         depthStencilViewDesc.ViewDimension      = D3D11_DSV_DIMENSION_TEXTURE2D;
         depthStencilViewDesc.Texture2D.MipSlice = 0;
@@ -154,8 +154,8 @@ namespace dae
         viewport.MaxDepth = 1.0f;
 
         m_DeviceContextPtr->RSSetViewports(1, &viewport);
-        
-        return S_FALSE;
+
+        return S_OK;
     }
 #pragma endregion
 
