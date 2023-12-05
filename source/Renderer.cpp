@@ -143,6 +143,17 @@ namespace dae
         //=======================================================================================================
         m_DeviceContextPtr->OMSetRenderTargets(1, &m_RenderTargetViewPtr, m_DepthStencilViewPtr);
 
+        // 6. Set viewport
+        //=======================================================================================================
+        D3D11_VIEWPORT viewport;
+        viewport.Width    = static_cast<float>(m_Width);
+        viewport.Height   = static_cast<float>(m_Height);
+        viewport.TopLeftX = 0.0f;
+        viewport.TopLeftY = 0.0f;
+        viewport.MinDepth = 0.0f;
+        viewport.MaxDepth = 1.0f;
+
+        m_DeviceContextPtr->RSSetViewports(1, &viewport);
         
         return S_FALSE;
     }
