@@ -27,16 +27,17 @@ namespace dae
         HRESULT InitializeDirectX();
 
     private:
-        SDL_Window* m_WindowPtr {nullptr};
+        SDL_Window* m_WindowPtr = nullptr;
 
-        int m_Width  {0};
-        int m_Height {0};
+        int m_Width  = 0;
+        int m_Height = 0;
 
-        bool m_IsInitialized{false};
+        bool m_IsInitialized = false;
         
         // DIRECTX
-        ID3D11Device*        m_DevicePtr        {nullptr};
-        ID3D11DeviceContext* m_DeviceContextPtr {nullptr};
+        ID3D11Device*        m_DevicePtr        = nullptr;
+        ID3D11DeviceContext* m_DeviceContextPtr = nullptr;
+        IDXGISwapChain*      m_SwapChainPtr     = nullptr;
         
     };
 }
