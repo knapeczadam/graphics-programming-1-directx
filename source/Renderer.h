@@ -20,6 +20,10 @@ namespace dae
         void Render() const;
 
     private:
+        // --- Week 1 ---
+        void Render_W1_TODO_0() const;
+
+    private:
         SDL_Window* m_WindowPtr {nullptr};
 
         int m_Width  {0};

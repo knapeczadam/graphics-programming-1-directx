@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "Renderer.h"
+#include "SceneSelector.h"
 
 namespace dae
 {
+#pragma region Initialization
     Renderer::Renderer(SDL_Window* windowPtr) :
         m_WindowPtr(windowPtr)
     {
@@ -21,24 +23,39 @@ namespace dae
             std::cout << "DirectX initialization failed!\n";
         }
     }
-
-    Renderer::~Renderer()
-    {
-    }
-
-    void Renderer::Update(const Timer* timerPtr)
-    {
-    }
-
-
-    void Renderer::Render() const
-    {
-        if (!m_IsInitialized)
-            return;
-    }
-
+    
     HRESULT Renderer::InitializeDirectX()
     {
         return S_FALSE;
     }
+#pragma endregion
+
+#pragma region Cleanup
+    Renderer::~Renderer()
+    {
+    }
+#pragma endregion
+
+#pragma region Update & Render
+    void Renderer::Update(const Timer* timerPtr)
+    {
+    }
+
+    void Renderer::Render() const
+    {
+        if (not m_IsInitialized) return;
+
+#if W1
+#if TODO_0
+        Render_W1_TODO_0();
+#endif
+#endif
+    }
+#pragma endregion
+
+#pragma region Week 1
+    void Renderer::Render_W1_TODO_0() const
+    {
+    }
+#pragma endregion
 }
