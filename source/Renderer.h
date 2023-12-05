@@ -40,6 +40,7 @@ namespace dae
         IDXGISwapChain*         m_SwapChainPtr          = nullptr;
         ID3D11Texture2D*        m_DepthStencilBufferPtr = nullptr;
         ID3D11DepthStencilView* m_DepthStencilViewPtr   = nullptr;
-        
+        ID3D11Resource*         m_RenderTargetBufferPtr = nullptr;
+        ID3D11RenderTargetView* m_RenderTargetViewPtr   = nullptr;
     };
 }

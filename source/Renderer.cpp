@@ -139,6 +139,10 @@ namespace dae
         if (FAILED(result))
             return result;
 
+        // 5. Bind RTV and DSV to Output Merger Stage
+        //=======================================================================================================
+        m_DeviceContextPtr->OMSetRenderTargets(1, &m_RenderTargetViewPtr, m_DepthStencilViewPtr);
+
         
         return S_FALSE;
     }
