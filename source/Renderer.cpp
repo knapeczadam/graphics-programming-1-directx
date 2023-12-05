@@ -95,7 +95,36 @@ namespace dae
         result = dxgiFactoryPtr->CreateSwapChain(m_DevicePtr, &swapChainDesc, &m_SwapChainPtr);
         if (FAILED(result))
             return result;
-        
+
+        // 3. Create DepthStencil (DS) and DepthStencilView (DSV)
+        //=======================================================================================================
+        D3D11_TEXTURE2D_DESC depthStencilDesc;
+        depthStencilDesc.Width              = m_Width;
+        depthStencilDesc.Height             = m_Height;
+        depthStencilDesc.MipLevels          = 1;
+        depthStencilDesc.ArraySize          = 1;
+        depthStencilDesc.Format             = DXGI_FORMAT_D24_UNORM_S8_UINT;
+        depthStencilDesc.SampleDesc.Count   = 1;
+        depthStencilDesc.SampleDesc.Quality = 0;
+        depthStencilDesc.Usage              = D3D11_USAGE_DEFAULT;
+        depthStencilDesc.BindFlags          = D3D11_BIND_DEPTH_STENCIL;
+        depthStencilDesc.CPUAccessFlags     = 0;
+        depthStencilDesc.MiscFlags          = 0;
+
+        // View
+        //=======================================================================================================
+        D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
+        depthStencilViewDesc.Format             = depthStencilDesc.Format;
+        depthStencilViewDesc.ViewDimension      = D3D11_DSV_DIMENSION_TEXTURE2D;
+        depthStencilViewDesc.Texture2D.MipSlice = 0;
+
+        result = m_DevicePtr->CreateTexture2D(&depthStencilDesc, nullptr, &m_DepthStencilBufferPtr);
+        if (FAILED(result))
+            return result;
+
+        result = m_DevicePtr->CreateDepthStencilView(m_DepthStencilBufferPtr, &depthStencilViewDesc, &m_DepthStencilViewPtr);
+        if (FAILED(result))
+            return result;
         
         return S_FALSE;
     }

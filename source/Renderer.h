@@ -35,9 +35,11 @@ namespace dae
         bool m_IsInitialized = false;
         
         // DIRECTX
-        ID3D11Device*        m_DevicePtr        = nullptr;
-        ID3D11DeviceContext* m_DeviceContextPtr = nullptr;
-        IDXGISwapChain*      m_SwapChainPtr     = nullptr;
+        ID3D11Device*           m_DevicePtr             = nullptr;
+        ID3D11DeviceContext*    m_DeviceContextPtr      = nullptr;
+        IDXGISwapChain*         m_SwapChainPtr          = nullptr;
+        ID3D11Texture2D*        m_DepthStencilBufferPtr = nullptr;
+        ID3D11DepthStencilView* m_DepthStencilViewPtr   = nullptr;
         
     };
 }
