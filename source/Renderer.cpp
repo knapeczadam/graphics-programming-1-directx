@@ -57,6 +57,14 @@ namespace dae
         if (FAILED(result))
             return result;
 
+        // Create DXGI factory
+        //=======================================================================================================
+        IDXGIFactory* dxgiFactoryPtr{nullptr};
+        result = CreateDXGIFactory(__uuidof(IDXGIFactory1), reinterpret_cast<void**>(&dxgiFactoryPtr));
+
+        if (FAILED(result))
+            return result;
+
         return S_FALSE;
     }
 #pragma endregion
