@@ -5,6 +5,9 @@ struct SDL_Surface;
 
 namespace dae
 {
+    // Forward declarations
+    class Mesh;
+    
     class Renderer final
     {
     public:
@@ -43,5 +46,7 @@ namespace dae
         ID3D11DepthStencilView* m_DepthStencilViewPtr   = nullptr;
         ID3D11Resource*         m_RenderTargetBufferPtr = nullptr;
         ID3D11RenderTargetView* m_RenderTargetViewPtr   = nullptr;
+
+        Mesh* m_MeshPtr = nullptr;
     };
 }

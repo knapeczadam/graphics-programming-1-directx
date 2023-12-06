@@ -8,8 +8,21 @@
 #include <d3dcompiler.h>
 #include <d3dx11effect.h>
 
+#include "Mesh.h"
+
 namespace dae
 {
+#pragma region Global Variables
+    std::vector<Vertex> vertices
+    {
+        {{ 0.0f,  0.5f, 0.5f}, {1.0f, 0.0f, 0.0f}},
+        {{ 0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
+        {{-0.5f, -0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}}
+    };
+
+    std::vector<uint32_t> indices{0, 1, 2};
+#pragma endregion
+    
 #pragma region Initialization
     Renderer::Renderer(SDL_Window* windowPtr) :
         m_WindowPtr(windowPtr)
@@ -28,6 +41,8 @@ namespace dae
         {
             std::cout << "DirectX initialization failed!\n";
         }
+
+        m_MeshPtr = new Mesh(m_DevicePtr, vertices, indices);
     }
     
     HRESULT Renderer::InitializeDirectX()
@@ -184,6 +199,8 @@ namespace dae
         }
         if (m_DevicePtr)      m_DevicePtr->Release();
         if (m_DXGIFactoryPtr) m_DXGIFactoryPtr->Release();
+
+        delete m_MeshPtr;
     }
 #pragma endregion
 
@@ -219,6 +236,7 @@ namespace dae
 #pragma region Week 1
     void Renderer::Render_W1_TODO_0() const
     {
+        m_MeshPtr->Render();
     }
 #pragma endregion
 }
