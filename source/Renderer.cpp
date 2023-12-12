@@ -281,10 +281,10 @@ namespace dae
 #if W2
 #if TODO_0
         m_Camera.Update(timerPtr);
-        m_MeshPtr->UpdateMatrices(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
+        m_MeshPtr->SetMatrix(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
 #elif TODO_1
         m_Camera.Update(timerPtr);
-        m_MeshPtr->UpdateMatrices(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
+        m_MeshPtr->SetMatrix(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
 #endif
 #endif
     }

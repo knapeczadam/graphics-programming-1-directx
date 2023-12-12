@@ -1,7 +1,8 @@
 //-----------------------------------------------------------------------------
 // Global Variables
 //-----------------------------------------------------------------------------
-float4x4 gWorldViewProj : WorldViewProjection;
+float4x4  gWorldViewProj : WorldViewProjection;
+Texture2D gDiffuseMap    : DiffuseMap;
 
 //---------------------------------------------------------------------------
 // Input/Output Structs

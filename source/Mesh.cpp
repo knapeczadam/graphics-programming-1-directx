@@ -3,6 +3,7 @@
 #include "Mesh.h"
 #include "Effect.h"
 #include "SceneSelector.h"
+#include "Texture.h"
 
 #include <cassert>
 
@@ -21,6 +22,7 @@ namespace dae
             assert(false and "Failed to create technique!");
 
         InitializeMatrix();
+        InitializeTextures();
 
 
         m_DevicePtr->GetImmediateContext(&m_DeviceContextPtr);
@@ -138,12 +140,30 @@ namespace dae
 #endif
     }
 
+    void Mesh::InitializeTextures()
+    {
+        // --- WEEK 2 ---
+#if W2
+#if TODO_1
+        m_DiffuseMapVariablePtr = m_EffectPtr->GetVariableByName("gDiffuseMap")->AsShaderResource();
+        if (not m_DiffuseMapVariablePtr->IsValid())
+            assert(false and "Failed to create texture variable!");
+#endif
+#endif
+    }
+
     Mesh::~Mesh()
     {
-        if (m_VertexBufferPtr) m_VertexBufferPtr->Release();
-        if (m_InputLayoutPtr)  m_InputLayoutPtr->Release();
-        if (m_IndexBufferPtr)  m_IndexBufferPtr->Release();
+        if (m_VertexBufferPtr)              m_VertexBufferPtr->Release();
+        if (m_InputLayoutPtr)               m_InputLayoutPtr->Release();
+        if (m_IndexBufferPtr)               m_IndexBufferPtr->Release();
 
+        // TODO: should we release the technique?
+        if (m_TechniquePtr)                 m_TechniquePtr->Release();
+        
+        if (m_WorldViewProjectionMatrixPtr) m_WorldViewProjectionMatrixPtr->Release();
+        if (m_DiffuseMapVariablePtr)        m_DiffuseMapVariablePtr->Release();
+        
         delete m_EffectPtr;
     }
 
@@ -179,15 +199,21 @@ namespace dae
         }
     }
 
-    void Mesh::UpdateMatrices(const Matrix& viewMatrix, const Matrix& projectionMatrix) const
+    void Mesh::SetMatrix(const Matrix& viewMatrix, const Matrix& projectionMatrix) const
     {
         const Matrix worldViewProjectionMatrix = viewMatrix * projectionMatrix;
         m_WorldViewProjectionMatrixPtr->SetMatrix(reinterpret_cast<const float*>(&worldViewProjectionMatrix));
     }
 
-    void Mesh::UpdateMatrices(const Matrix& worldMatrix, const Matrix& viewMatrix, const Matrix& projectionMatrix) const
+    void Mesh::SetMatrix(const Matrix& worldMatrix, const Matrix& viewMatrix, const Matrix& projectionMatrix) const
     {
         const Matrix worldViewProjectionMatrix = worldMatrix * viewMatrix * projectionMatrix;
         m_WorldViewProjectionMatrixPtr->SetMatrix(reinterpret_cast<const float*>(&worldViewProjectionMatrix));
+    }
+
+    void Mesh::SetDiffuseMap(const Texture* diffuseTexturePtr) const
+    {
+        if (diffuseTexturePtr)
+            m_DiffuseMapVariablePtr->SetResource(diffuseTexturePtr->GetSRV());
     }
 }

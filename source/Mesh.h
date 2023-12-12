@@ -4,6 +4,7 @@ namespace dae
 {
     // Forward declarations
     class Effect;
+    class Texture;
     
     struct Vertex
     {
@@ -19,14 +20,17 @@ namespace dae
         ~Mesh();
 
         void Render() const;
-        void UpdateMatrices(const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
-        void UpdateMatrices(const Matrix& worldMatrix, const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
+        void SetMatrix(const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
+        void SetMatrix(const Matrix& worldMatrix, const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
+        void SetDiffuseMap(const Texture* diffuseTexturePtr) const;
 
     private:
         void InitializeEffect();
         void InitializeMatrix();
+        void InitializeTextures();
 
     private:
+        // From Renderer
         ID3D11Device*        m_DevicePtr        = nullptr;
         ID3D11DeviceContext* m_DeviceContextPtr = nullptr;
         
@@ -34,9 +38,13 @@ namespace dae
         ID3D11InputLayout*      m_InputLayoutPtr  = nullptr;
         ID3D11Buffer*           m_IndexBufferPtr  = nullptr;
 
-        Effect*                      m_EffectPtr                    = nullptr;
-        ID3DX11EffectTechnique*      m_TechniquePtr                 = nullptr;
-        ID3DX11EffectMatrixVariable* m_WorldViewProjectionMatrixPtr = nullptr;
+        // From Effect
+        Effect*                              m_EffectPtr                    = nullptr;
+        
+        ID3DX11EffectTechnique*              m_TechniquePtr                 = nullptr;
+        
+        ID3DX11EffectMatrixVariable*         m_WorldViewProjectionMatrixPtr = nullptr;
+        ID3DX11EffectShaderResourceVariable* m_DiffuseMapVariablePtr        = nullptr;
         
         std::vector<Vertex> m_Vertices;
         std::vector<uint32_t> m_Indices;
