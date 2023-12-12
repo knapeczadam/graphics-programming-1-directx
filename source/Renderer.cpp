@@ -18,21 +18,30 @@
 namespace dae
 {
 #pragma region Global Variables
-    const std::vector<Vertex> vertices_ndc
+    const std::vector<Vertex> triangle_vertices_ndc
     {
         {{ 0.0f,  0.5f, 0.5f}, {1.0f, 0.0f, 0.0f}},
         {{ 0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
         {{-0.5f, -0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}}
     };
     
-    const std::vector<Vertex> vertices_world
+    const std::vector<Vertex> triangle_vertices_world
     {
         {{ 0.0f,  3.0f, 2.0f},{1.0f, 0.0f, 0.0f}, {}},
         {{ 3.0f, -3.0f, 2.0f},{0.0f, 0.0f, 1.0f}, {}},
         {{-3.0f, -3.0f, 2.0f},{0.0f, 1.0f, 0.0f}, {}}
     };
+
+    const std::vector<Vertex> quad_vertices_world
+    {
+        Vertex{{-3,  3, -2}, {}, {0, 0}},
+        Vertex{{ 3,  3, -2}, {}, {1, 0}},
+        Vertex{{-3, -3, -2}, {}, {0, 1}},
+        Vertex{{ 3, -3, -2}, {}, {1, 1}}
+    };
     
-    std::vector<uint32_t>   indices{0, 1, 2};
+    std::vector<uint32_t> triangle_indices{0, 1, 2};
+    std::vector<uint32_t> quad_indices{0, 1, 2, 2, 1, 3};
 #pragma endregion
     
 #pragma region Initialization
@@ -209,15 +218,15 @@ namespace dae
         // --- WEEK 1 ---
 #if W1
 #if TODO_0
-        m_MeshPtr = new Mesh(m_DevicePtr, vertices_ndc, indices);
+        m_MeshPtr = new Mesh(m_DevicePtr, triangle_vertices_ndc, triangle_indices);
 #endif
         
         // --- WEEK 2 ---
 #elif W2
 #if TODO_0
-        m_MeshPtr = new Mesh(m_DevicePtr, vertices_world, indices);
+        m_MeshPtr = new Mesh(m_DevicePtr, triangle_vertices_world, triangle_indices);
 #elif TODO_1
-        m_MeshPtr = new Mesh(m_DevicePtr, vertices_world, indices);
+        m_MeshPtr = new Mesh(m_DevicePtr, quad_vertices_world, quad_indices);
 #endif
 #endif
     }
@@ -228,6 +237,7 @@ namespace dae
 #if W2
 #if TODO_1
         m_TexturePtr = Texture::LoadFromFile(m_UVGrid2TexturePath, m_DevicePtr);
+        m_MeshPtr->SetDiffuseMap(m_TexturePtr);
 #endif
 #endif
     }
