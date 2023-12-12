@@ -26,13 +26,12 @@ namespace dae
     
     const std::vector<Vertex> vertices_world
     {
-        {{ 0.0f,  3.0f, 2.0f},{1.0f, 0.0f, 0.0f}},
-        {{ 3.0f, -3.0f, 2.0f},{0.0f, 0.0f, 1.0f}},
-        {{-3.0f, -3.0f, 2.0f},{0.0f, 1.0f, 0.0f}}
+        {{ 0.0f,  3.0f, 2.0f},{1.0f, 0.0f, 0.0f}, {}},
+        {{ 3.0f, -3.0f, 2.0f},{0.0f, 0.0f, 1.0f}, {}},
+        {{-3.0f, -3.0f, 2.0f},{0.0f, 1.0f, 0.0f}, {}}
     };
     
     std::vector<uint32_t>   indices{0, 1, 2};
-    std::vector<Vertex_Out> vertices_out;
 #pragma endregion
     
 #pragma region Initialization

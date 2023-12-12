@@ -7,14 +7,9 @@ namespace dae
     
     struct Vertex
     {
-        Vector3 position;
-        ColorRGB color;
-    };
-
-    struct Vertex_Out
-    {
-        Vector4 position;
-        ColorRGB color;
+        Vector3  position = {0.0f,0.0f, 0.0f};
+        ColorRGB color    = colors::White;
+        Vector2  uv       = {0.0f, 1.0f};
     };
 
     class Mesh

@@ -27,7 +27,12 @@ namespace dae
 
         // Create Vertex Layout
         //=======================================================================================================
+#if W2 and TODO_1
+        static constexpr uint32_t numElements{3};
+#else
         static constexpr uint32_t numElements{2};
+#endif
+        
         D3D11_INPUT_ELEMENT_DESC vertexDesc[numElements]{};
 
         vertexDesc[0].SemanticName      = "POSITION";
@@ -39,6 +44,15 @@ namespace dae
         vertexDesc[1].Format            = DXGI_FORMAT_R32G32B32_FLOAT;
         vertexDesc[1].AlignedByteOffset = 12;
         vertexDesc[1].InputSlotClass    = D3D11_INPUT_PER_VERTEX_DATA;
+        
+#if W2
+#if TODO_1
+        vertexDesc[2].SemanticName      = "TEXCOORD";
+        vertexDesc[2].Format            = DXGI_FORMAT_R32G32_FLOAT;
+        vertexDesc[2].AlignedByteOffset = 24;
+        vertexDesc[2].InputSlotClass    = D3D11_INPUT_PER_VERTEX_DATA;
+#endif
+#endif
         
         // Create Input Layout
         //=======================================================================================================

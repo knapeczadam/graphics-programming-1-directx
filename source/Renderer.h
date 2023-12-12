@@ -11,7 +11,6 @@ namespace dae
 {
     // Forward declarations
     struct Vertex;
-    struct Vertex_Out;
     
     class Mesh;
     
