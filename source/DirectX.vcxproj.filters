@@ -8,6 +8,9 @@
     <Filter Include="Misc">
       <UniqueIdentifier>{72056cb6-72a2-42b7-b05e-376f1ddd957e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DirectX">
+      <UniqueIdentifier>{2c31d1ca-a4c4-42fa-a6a7-dcfbd0252289}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderer.h" />
@@ -37,9 +40,18 @@
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="SceneSelector.h" />
-    <ClInclude Include="Effect.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Camera.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -60,12 +72,17 @@
       <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Camera.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
     <ClCompile Include="Effect.cpp">
-      <Filter>Math</Filter>
+      <Filter>DirectX</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Math</Filter>
+      <Filter>DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
 </Project>
