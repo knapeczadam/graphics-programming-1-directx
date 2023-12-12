@@ -9,7 +9,8 @@ namespace dae
     #define W3 0
 
     #define TODO_0 0
-    #define TODO_1 1
+    #define TODO_1 0
+    #define TODO_2 1
 
     #define CUSTOM_PATH 0
 }
