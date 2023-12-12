@@ -33,5 +33,7 @@ namespace dae
         Vector4& operator+=(const Vector4& v);
         float& operator[](int index);
         float  operator[](int index)  const;
+        
+        friend std::ostream& operator<<(std::ostream& os, const Vector4& v);
     };
 }

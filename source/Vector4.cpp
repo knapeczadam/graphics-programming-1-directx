@@ -103,5 +103,13 @@ namespace dae
         if (index == 2)return z;
         return w;
     }
+    
+    std::ostream& operator<<(std::ostream& os, const Vector4& v)
+    {
+        os << std::fixed;
+        os << "Vector4(" << v.x << ",\t" << v.y << ",\t" << v.z << ",\t" << v.w << ")";
+        os.unsetf(std::ios_base::fixed);
+        return os;
+    }
 #pragma endregion
 }

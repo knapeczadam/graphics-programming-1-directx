@@ -57,6 +57,8 @@ namespace dae
         Vector4  operator[](int  index)  const;
         Matrix   operator*(const Matrix& m)     const;
         const Matrix& operator*=(const Matrix& m);
+        
+        friend std::ostream& operator<<(std::ostream& os, const Matrix& m);
 
     private:
         //Row-Major Matrix

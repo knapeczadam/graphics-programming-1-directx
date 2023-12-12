@@ -303,5 +303,15 @@ namespace dae
 
         return *this;
     }
+    
+    std::ostream& operator<<(std::ostream& os, const Matrix& m)
+    {
+        os << "Matrix4x4: " << '\n';
+        os << m[0] << '\n';
+        os << m[1] << '\n';
+        os << m[2] << '\n';
+        os << m[3] << '\n';
+        return os;
+    }
 #pragma endregion
 }
