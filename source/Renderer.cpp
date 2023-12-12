@@ -192,6 +192,9 @@ namespace dae
     
     void Renderer::InitializeCamera()
     {
+        const float aspectRatio{static_cast<float>(m_Width) / static_cast<float>(m_Height)};
+        m_Camera.SetAspectRatio(aspectRatio);
+        
         // --- WEEK 2 ---
 #if W2
 #if TODO_0
