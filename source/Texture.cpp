@@ -70,14 +70,14 @@ namespace dae
             SDL_FreeSurface(m_SurfacePtr);
             m_SurfacePtr = nullptr;
         }
-
-        if (m_SRVPtr)      m_ResourcePtr->Release();
-        if (m_ResourcePtr) m_ResourcePtr->Release();
     }
 
     Texture::~Texture()
     {
         FreeSurface();
+
+        if (m_SRVPtr)      m_ResourcePtr->Release();
+        if (m_ResourcePtr) m_ResourcePtr->Release();
     }
 
     Texture* Texture::LoadFromFile(const std::string& path)
