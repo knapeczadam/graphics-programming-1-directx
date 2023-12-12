@@ -17,7 +17,7 @@
 namespace dae
 {
 #pragma region Global Variables
-    std::vector<Vertex> vertices
+    const std::vector<Vertex> vertices_ndc
     {
         {{ 0.0f,  0.5f, 0.5f}, {1.0f, 0.0f, 0.0f}},
         {{ 0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
@@ -218,13 +218,13 @@ namespace dae
         // --- WEEK 1 ---
 #if W1
 #if TODO_0
-        m_MeshPtr = new Mesh(m_DevicePtr, vertices, indices);
+        m_MeshPtr = new Mesh(m_DevicePtr, vertices_ndc, indices);
 #endif
         
         // --- WEEK 2 ---
 #elif W2
 #if TODO_0
-        m_MeshPtr = new Mesh(m_DevicePtr, vertices_out, indices);
+        m_MeshPtr = new Mesh(m_DevicePtr, vertices_world, indices);
 #endif
 #endif
     }
@@ -273,6 +273,7 @@ namespace dae
 #if W2
 #if TODO_0
         m_Camera.Update(timerPtr);
+        m_MeshPtr->UpdateMatrices( m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
 #endif
 #endif
     }
@@ -303,25 +304,6 @@ namespace dae
         //=======================================================================================================
         m_SwapChainPtr->Present(0, 0);
     }
-
-
-#pragma endregion
-
-#pragma region Transformations
-    void Renderer::TransformFromWorldToProjection(const std::vector<Vertex>& vertices_in, std::vector<Vertex_Out>& vertices_out) const
-    {
-        for (size_t i{0}; i < vertices_in.size(); ++i)
-        {
-            const Vertex& vertex_in = vertices_in[i];
-            Vertex_Out& vertex_out = vertices_out[i];
-
-            // MODEL/OBJECT
-            const Vector4 positionIn{vertex_in.position.x, vertex_in.position.y, vertex_in.position.z, 1.0f};
-            // WORLD -> VIEW -> PROJECTION
-            const Vector4 projectedPos = (m_Camera.m_InverseViewMatrix * m_Camera.m_ProjectionMatrix).TransformPoint(positionIn);
-            vertices_out[i].position = projectedPos;
-        }
-    }
 #pragma endregion
 
 #pragma region Week 1
@@ -334,7 +316,7 @@ namespace dae
 #pragma region Week 2
     void Renderer::Render_W2_TODO_0() const
     {
-        TransformFromWorldToProjection(vertices_world, vertices_out);
+        m_MeshPtr->Render();
     }
 #pragma endregion
 }

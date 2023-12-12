@@ -36,9 +36,6 @@ namespace dae
         void InitializeMesh();
         void InitializeTextures();
 
-        // Vertex Transformation
-        void TransformFromWorldToProjection(const std::vector<Vertex>& vertices_in, std::vector<Vertex_Out>& vertices_out) const;
-        
         // --- Week 1 ---
         void Render_W1_TODO_0() const;
 

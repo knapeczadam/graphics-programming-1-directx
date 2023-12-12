@@ -21,10 +21,15 @@ namespace dae
     {
     public:
         Mesh(ID3D11Device* devicePtr, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices);
-        Mesh(ID3D11Device* devicePtr, const std::vector<Vertex_Out>& vertices, const std::vector<uint32_t>& indices);
         ~Mesh();
 
         void Render() const;
+        void UpdateMatrices(const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
+        void UpdateMatrices(const Matrix& worldMatrix, const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
+
+    private:
+        void InitializeEffect();
+        void InitializeMatrix();
 
     private:
         ID3D11Device*        m_DevicePtr        = nullptr;

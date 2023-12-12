@@ -1,6 +1,8 @@
 #include "pch.h"
+
 #include "Mesh.h"
 #include "Effect.h"
+#include "SceneSelector.h"
 
 #include <cassert>
 
@@ -11,15 +13,14 @@ namespace dae
           m_Vertices{vertices},
           m_Indices{indices}
     {
-        m_EffectPtr = new Effect(m_DevicePtr, L"Resources/PosCol3D.fx");
+        InitializeEffect();
+        
         m_TechniquePtr = m_EffectPtr->GetTechniqueByName("DefaultTechnique");
         
         if (not m_TechniquePtr->IsValid())
             assert(false and "Failed to create technique!");
 
-        m_WorldViewProjectionMatrixPtr = m_EffectPtr->GetVariableByName("gWorldViewProj")->AsMatrix();
-        if (not m_WorldViewProjectionMatrixPtr->IsValid())
-            assert(false and "Failed to create matrix variable!");
+        InitializeMatrix();
 
 
         m_DevicePtr->GetImmediateContext(&m_DeviceContextPtr);
@@ -88,10 +89,33 @@ namespace dae
         if (FAILED(result))
             assert(false and "Failed to create index buffer!");
     }
-
-    Mesh::Mesh(ID3D11Device* devicePtr, const std::vector<Vertex_Out>& vertices, const std::vector<uint32_t>& indices)
+    
+    void Mesh::InitializeEffect()
     {
+        // --- WEEK 1 ---
+#if W1
+#if TODO_0
+        m_EffectPtr = new Effect(m_DevicePtr, L"Resources/PosCol3D_W1_TODO_0.fx");
+#endif
         
+        // --- WEEK 2 ---
+#elif W2
+#if TODO_0
+        m_EffectPtr = new Effect(m_DevicePtr, L"Resources/PosCol3D_W2_TODO_0.fx");
+#endif
+#endif
+    }
+
+    void Mesh::InitializeMatrix()
+    {
+        // --- WEEK 2 ---
+#if W2
+#if TODO_0
+        m_WorldViewProjectionMatrixPtr = m_EffectPtr->GetVariableByName("gWorldViewProj")->AsMatrix();
+        if (not m_WorldViewProjectionMatrixPtr->IsValid())
+            assert(false and "Failed to create matrix variable!");
+#endif
+#endif
     }
 
     Mesh::~Mesh()
@@ -133,5 +157,17 @@ namespace dae
             m_TechniquePtr->GetPassByIndex(p)->Apply(0, m_DeviceContextPtr);
             m_DeviceContextPtr->DrawIndexed(m_NumIndices, 0, 0);
         }
+    }
+
+    void Mesh::UpdateMatrices(const Matrix& viewMatrix, const Matrix& projectionMatrix) const
+    {
+        const Matrix worldViewProjectionMatrix = viewMatrix * projectionMatrix;
+        m_WorldViewProjectionMatrixPtr->SetMatrix(reinterpret_cast<const float*>(&worldViewProjectionMatrix));
+    }
+
+    void Mesh::UpdateMatrices(const Matrix& worldMatrix, const Matrix& viewMatrix, const Matrix& projectionMatrix) const
+    {
+        const Matrix worldViewProjectionMatrix = worldMatrix * viewMatrix * projectionMatrix;
+        m_WorldViewProjectionMatrixPtr->SetMatrix(reinterpret_cast<const float*>(&worldViewProjectionMatrix));
     }
 }

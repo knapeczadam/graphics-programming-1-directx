@@ -24,11 +24,15 @@ namespace dae
         
         void CalculateViewMatrix();
         void CalculateProjectionMatrix();
+        
         inline float GetAspectRatio() const { return m_AspectRatio; }
         inline void SetAspectRatio(float aspect_ratio) { m_AspectRatio = aspect_ratio; }
         inline Vector3 GetPosition() const { return m_Origin; }
-        inline Matrix GetViewMatrix() const { return m_ViewMatrix; }
-        inline Matrix GetProjectionMatrix() const { return m_ProjectionMatrix; }
+
+        inline Matrix GetWorldMatrix()       const { return m_WorldMatrix;       }
+        inline Matrix GetViewMatrix()        const { return m_ViewMatrix;        }
+        inline Matrix GetInverseViewMatrix() const { return m_InverseViewMatrix; }
+        inline Matrix GetProjectionMatrix()  const { return m_ProjectionMatrix;  }
 
     private:
         float CalculateFOV(float angle) const;
@@ -36,12 +40,12 @@ namespace dae
         void MoveCamera(const uint8_t* pKeyboardState, float deltaTime);
         void RotateCamera(float deltaTime);
 
-    public:
+    private:
+        Matrix m_WorldMatrix       {};
         Matrix m_InverseViewMatrix {};
         Matrix m_ViewMatrix        {};
         Matrix m_ProjectionMatrix  {};
 
-    private:
         Vector3 m_Origin      {};
         float   m_FOVAngle    {0.0f};
         float   m_FOV         {0.0f};
