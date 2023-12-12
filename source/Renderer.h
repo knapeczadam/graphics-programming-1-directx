@@ -32,7 +32,6 @@ namespace dae
     private:
         // Initialization
         void InitializeCamera();
-        void InitializeOutputVertices();
         void InitializeMesh();
         void InitializeTextures();
 
@@ -41,6 +40,7 @@ namespace dae
 
         // --- Week 2 ---
         void Render_W2_TODO_0() const;
+        void Render_W2_TODO_1() const;
         
         // DIRECTX
         HRESULT InitializeDirectX();

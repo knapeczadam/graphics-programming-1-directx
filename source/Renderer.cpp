@@ -59,7 +59,6 @@ namespace dae
         //=======================================================================================================
         InitializeMesh();
         InitializeCamera();
-        InitializeOutputVertices();
         InitializeTextures();
     }
     
@@ -199,16 +198,8 @@ namespace dae
 #if W2
 #if TODO_0
         m_Camera.Initialize(45.0f, {0.0f, 0.0f, -10.0f});
-#endif
-#endif
-    }
-
-    void Renderer::InitializeOutputVertices()
-    {
-        // --- WEEK 2 ---
-#if W2
-#if TODO_0
-        vertices_out.resize(vertices_world.size());
+#elif TODO_1
+        m_Camera.Initialize(45.0f, {0.0f, 0.0f, -10.0f});
 #endif
 #endif
     }
@@ -224,6 +215,8 @@ namespace dae
         // --- WEEK 2 ---
 #elif W2
 #if TODO_0
+        m_MeshPtr = new Mesh(m_DevicePtr, vertices_world, indices);
+#elif TODO_1
         m_MeshPtr = new Mesh(m_DevicePtr, vertices_world, indices);
 #endif
 #endif
@@ -273,7 +266,10 @@ namespace dae
 #if W2
 #if TODO_0
         m_Camera.Update(timerPtr);
-        m_MeshPtr->UpdateMatrices( m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
+        m_MeshPtr->UpdateMatrices(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
+#elif TODO_1
+        m_Camera.Update(timerPtr);
+        m_MeshPtr->UpdateMatrices(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
 #endif
 #endif
     }
@@ -297,6 +293,8 @@ namespace dae
 #elif W2
 #if TODO_0
         Render_W2_TODO_0();
+#elif TODO_1
+        Render_W2_TODO_1();
 #endif
 #endif
         
@@ -315,6 +313,11 @@ namespace dae
 
 #pragma region Week 2
     void Renderer::Render_W2_TODO_0() const
+    {
+        m_MeshPtr->Render();
+    }
+
+    void Renderer::Render_W2_TODO_1() const
     {
         m_MeshPtr->Render();
     }

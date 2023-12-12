@@ -102,6 +102,8 @@ namespace dae
 #elif W2
 #if TODO_0
         m_EffectPtr = new Effect(m_DevicePtr, L"Resources/PosCol3D_W2_TODO_0.fx");
+#elif TODO_1
+        m_EffectPtr = new Effect(m_DevicePtr, L"Resources/PosCol3D_W2_TODO_1.fx");
 #endif
 #endif
     }
@@ -111,6 +113,10 @@ namespace dae
         // --- WEEK 2 ---
 #if W2
 #if TODO_0
+        m_WorldViewProjectionMatrixPtr = m_EffectPtr->GetVariableByName("gWorldViewProj")->AsMatrix();
+        if (not m_WorldViewProjectionMatrixPtr->IsValid())
+            assert(false and "Failed to create matrix variable!");
+#elif TODO_1
         m_WorldViewProjectionMatrixPtr = m_EffectPtr->GetVariableByName("gWorldViewProj")->AsMatrix();
         if (not m_WorldViewProjectionMatrixPtr->IsValid())
             assert(false and "Failed to create matrix variable!");
