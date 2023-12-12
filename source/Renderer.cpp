@@ -54,9 +54,10 @@ namespace dae
             std::cout << "DirectX initialization failed!\n";
         }
 
-        m_MeshPtr = new Mesh(m_DevicePtr, vertices, indices);
         
         // General initialization
+        //=======================================================================================================
+        InitializeMesh();
         InitializeCamera();
         InitializeOutputVertices();
         InitializeTextures();
@@ -209,6 +210,22 @@ namespace dae
 #endif
     }
 
+    void Renderer::InitializeMesh()
+    {
+        // --- WEEK 1 ---
+#if W1
+#if TODO_0
+        m_MeshPtr = new Mesh(m_DevicePtr, vertices, indices);
+#endif
+        
+        // --- WEEK 2 ---
+#elif W2
+#if TODO_0
+        m_MeshPtr = new Mesh(m_DevicePtr, vertices_out, indices);
+#endif
+#endif
+    }
+
     void Renderer::InitializeTextures()
     {
         
@@ -249,6 +266,12 @@ namespace dae
 #pragma region Update & Render
     void Renderer::Update(const Timer* timerPtr)
     {
+        // --- WEEK 2 ---
+#if W2
+#if TODO_0
+        m_Camera.Update(timerPtr);
+#endif
+#endif
     }
 
     void Renderer::Render() const

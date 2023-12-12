@@ -13,7 +13,7 @@ namespace dae
         Camera(const Vector3& _origin, float _fovAngle);
         
         void Initialize(float _fovAngle = 90.0f, Vector3 _origin = {0.0f, 0.0f, 0.0f}, float nearPlane = 1.0f, float farPlane = 100.0f);
-        void Update(Timer* pTimer);
+        void Update(const Timer* pTimer);
 
         float GetFOV() const;
         void Scroll(SDL_MouseWheelEvent wheel);
@@ -27,6 +27,8 @@ namespace dae
         inline float GetAspectRatio() const { return m_AspectRatio; }
         inline void SetAspectRatio(float aspect_ratio) { m_AspectRatio = aspect_ratio; }
         inline Vector3 GetPosition() const { return m_Origin; }
+        inline Matrix GetViewMatrix() const { return m_ViewMatrix; }
+        inline Matrix GetProjectionMatrix() const { return m_ProjectionMatrix; }
 
     private:
         float CalculateFOV(float angle) const;

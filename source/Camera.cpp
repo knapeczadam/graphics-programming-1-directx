@@ -19,7 +19,7 @@ namespace dae
         m_FarPlane = _farPlane;
     }
 
-    void Camera::Update(Timer* pTimer)
+    void Camera::Update(const Timer* pTimer)
     {
         const float deltaTime = pTimer->GetElapsed();
 

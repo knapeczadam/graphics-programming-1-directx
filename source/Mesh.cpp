@@ -17,6 +17,11 @@ namespace dae
         if (not m_TechniquePtr->IsValid())
             assert(false and "Failed to create technique!");
 
+        m_WorldViewProjectionMatrixPtr = m_EffectPtr->GetVariableByName("gWorldViewProj")->AsMatrix();
+        if (not m_WorldViewProjectionMatrixPtr->IsValid())
+            assert(false and "Failed to create matrix variable!");
+
+
         m_DevicePtr->GetImmediateContext(&m_DeviceContextPtr);
 
         // Create Vertex Layout
@@ -82,6 +87,11 @@ namespace dae
 
         if (FAILED(result))
             assert(false and "Failed to create index buffer!");
+    }
+
+    Mesh::Mesh(ID3D11Device* devicePtr, const std::vector<Vertex_Out>& vertices, const std::vector<uint32_t>& indices)
+    {
+        
     }
 
     Mesh::~Mesh()

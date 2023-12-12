@@ -24,6 +24,11 @@ namespace dae
         return m_EffectPtr->GetTechniqueByName(name.c_str());
     }
 
+    ID3DX11EffectVariable* Effect::GetVariableByName(const std::string& name) const
+    {
+        return m_EffectPtr->GetVariableByName(name.c_str());
+    }
+
     ID3DX11Effect* Effect::LoadEffect(ID3D11Device* devicePtr, const std::wstring& assetFile)
     {
         HRESULT result;

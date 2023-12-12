@@ -33,6 +33,7 @@ namespace dae
         // Initialization
         void InitializeCamera();
         void InitializeOutputVertices();
+        void InitializeMesh();
         void InitializeTextures();
 
         // Vertex Transformation
