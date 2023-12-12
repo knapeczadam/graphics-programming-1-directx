@@ -25,6 +25,9 @@ namespace dae
     private:
         // --- Week 1 ---
         void Render_W1_TODO_0() const;
+
+        // --- Week 2 ---
+        void Render_W2_TODO_0() const;
         
         // DIRECTX
         HRESULT InitializeDirectX();

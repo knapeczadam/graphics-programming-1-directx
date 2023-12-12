@@ -19,6 +19,13 @@ namespace dae
         {{ 0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
         {{-0.5f, -0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}}
     };
+    
+    const std::vector<Vertex> vertices_world
+    {
+        {{ 0.0f,  3.0f, 2.0f},{1.0f, 0.0f, 0.0f}},
+        {{ 3.0f, -3.0f, 2.0f},{0.0f, 0.0f, 1.0f}},
+        {{-3.0f, -3.0f, 2.0f},{0.0f, 1.0f, 0.0f}}
+    };
 
     std::vector<uint32_t> indices{0, 1, 2};
 #pragma endregion
@@ -225,6 +232,10 @@ namespace dae
 #if TODO_0
         Render_W1_TODO_0();
 #endif
+#elif W2
+#if TODO_0
+        Render_W2_TODO_0();
+#endif
 #endif
         
         // 3. Present backbuffer (swap)
@@ -235,6 +246,13 @@ namespace dae
 
 #pragma region Week 1
     void Renderer::Render_W1_TODO_0() const
+    {
+        m_MeshPtr->Render();
+    }
+#pragma endregion
+
+#pragma region Week 2
+    void Renderer::Render_W2_TODO_0() const
     {
         m_MeshPtr->Render();
     }
