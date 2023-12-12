@@ -12,7 +12,7 @@ namespace dae
         Camera() = default;
         Camera(const Vector3& _origin, float _fovAngle);
         
-        void Initialize(float _fovAngle = 90.0f, Vector3 _origin = {0.0f, 0.0f, 0.0f}, float nearPlane = 10.0f, float farPlane = 20.0f);
+        void Initialize(float _fovAngle = 90.0f, Vector3 _origin = {0.0f, 0.0f, 0.0f}, float nearPlane = 1.0f, float farPlane = 100.0f);
         void Update(Timer* pTimer);
 
         float GetFOV() const;
@@ -35,9 +35,9 @@ namespace dae
         void RotateCamera(float deltaTime);
 
     public:
-        Matrix m_InverseViewMatrix    {};
-        Matrix m_ViewMatrix       {};
-        Matrix m_ProjectionMatrix {};
+        Matrix m_InverseViewMatrix {};
+        Matrix m_ViewMatrix        {};
+        Matrix m_ProjectionMatrix  {};
 
     private:
         Vector3 m_Origin      {};

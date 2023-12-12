@@ -1,11 +1,18 @@
 #pragma once
 
+// Project includes
+#include "Camera.h"
+#include "SceneSelector.h"
+
 struct SDL_Window;
 struct SDL_Surface;
 
 namespace dae
 {
     // Forward declarations
+    struct Vertex;
+    struct Vertex_Out;
+    
     class Mesh;
     
     class Renderer final
@@ -23,6 +30,14 @@ namespace dae
         void Render() const;
 
     private:
+        // Initialization
+        void InitializeCamera();
+        void InitializeOutputVertices();
+        void InitializeTextures();
+
+        // Vertex Transformation
+        void TransformFromWorldToProjection(const std::vector<Vertex>& vertices_in, std::vector<Vertex_Out>& vertices_out) const;
+        
         // --- Week 1 ---
         void Render_W1_TODO_0() const;
 
@@ -50,6 +65,7 @@ namespace dae
         ID3D11Resource*         m_RenderTargetBufferPtr = nullptr;
         ID3D11RenderTargetView* m_RenderTargetViewPtr   = nullptr;
 
-        Mesh* m_MeshPtr = nullptr;
+        Camera m_Camera  {};
+        Mesh*  m_MeshPtr = nullptr;
     };
 }

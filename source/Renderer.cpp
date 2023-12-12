@@ -1,6 +1,9 @@
 #include "pch.h"
+
+// Project includes
 #include "Renderer.h"
 #include "SceneSelector.h"
+#include "Mesh.h"
 
 // DirectX headers
 #include <dxgi.h>
@@ -8,7 +11,8 @@
 #include <d3dcompiler.h>
 #include <d3dx11effect.h>
 
-#include "Mesh.h"
+// Standard includes
+#include <cassert>
 
 namespace dae
 {
@@ -26,8 +30,9 @@ namespace dae
         {{ 3.0f, -3.0f, 2.0f},{0.0f, 0.0f, 1.0f}},
         {{-3.0f, -3.0f, 2.0f},{0.0f, 1.0f, 0.0f}}
     };
-
-    std::vector<uint32_t> indices{0, 1, 2};
+    
+    std::vector<uint32_t>   indices{0, 1, 2};
+    std::vector<Vertex_Out> vertices_out;
 #pragma endregion
     
 #pragma region Initialization
@@ -50,6 +55,11 @@ namespace dae
         }
 
         m_MeshPtr = new Mesh(m_DevicePtr, vertices, indices);
+        
+        // General initialization
+        InitializeCamera();
+        InitializeOutputVertices();
+        InitializeTextures();
     }
     
     HRESULT Renderer::InitializeDirectX()
@@ -178,6 +188,31 @@ namespace dae
 
         return S_OK;
     }
+    
+    void Renderer::InitializeCamera()
+    {
+        // --- WEEK 2 ---
+#if W2
+#if TODO_0
+        m_Camera.Initialize(45.0f, {0.0f, 0.0f, -10.0f});
+#endif
+#endif
+    }
+
+    void Renderer::InitializeOutputVertices()
+    {
+        // --- WEEK 2 ---
+#if W2
+#if TODO_0
+        vertices_out.resize(vertices_world.size());
+#endif
+#endif
+    }
+
+    void Renderer::InitializeTextures()
+    {
+        
+    }
 #pragma endregion
 
 #pragma region Cleanup
@@ -242,6 +277,25 @@ namespace dae
         //=======================================================================================================
         m_SwapChainPtr->Present(0, 0);
     }
+
+
+#pragma endregion
+
+#pragma region Transformations
+    void Renderer::TransformFromWorldToProjection(const std::vector<Vertex>& vertices_in, std::vector<Vertex_Out>& vertices_out) const
+    {
+        for (size_t i{0}; i < vertices_in.size(); ++i)
+        {
+            const Vertex& vertex_in = vertices_in[i];
+            Vertex_Out& vertex_out = vertices_out[i];
+
+            // MODEL/OBJECT
+            const Vector4 positionIn{vertex_in.position.x, vertex_in.position.y, vertex_in.position.z, 1.0f};
+            // WORLD -> VIEW -> PROJECTION
+            const Vector4 projectedPos = (m_Camera.m_InverseViewMatrix * m_Camera.m_ProjectionMatrix).TransformPoint(positionIn);
+            vertices_out[i].position = projectedPos;
+        }
+    }
 #pragma endregion
 
 #pragma region Week 1
@@ -254,7 +308,7 @@ namespace dae
 #pragma region Week 2
     void Renderer::Render_W2_TODO_0() const
     {
-        m_MeshPtr->Render();
+        TransformFromWorldToProjection(vertices_world, vertices_out);
     }
 #pragma endregion
 }

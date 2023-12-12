@@ -11,6 +11,12 @@ namespace dae
         ColorRGB color;
     };
 
+    struct Vertex_Out
+    {
+        Vector4 position;
+        ColorRGB color;
+    };
+
     class Mesh
     {
     public:
