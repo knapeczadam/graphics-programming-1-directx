@@ -341,6 +341,11 @@ namespace dae
     }
 #pragma endregion
 
+    void Renderer::CycleSamplerStates()
+    {
+        m_SamplerState = static_cast<SamplerState>((static_cast<int>(m_SamplerState) + 1) % static_cast<int>(SamplerState::COUNT));
+    }
+
 #pragma region Week 1
     void Renderer::Render_W1_TODO_0() const
     {
