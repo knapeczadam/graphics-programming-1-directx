@@ -11,6 +11,8 @@ namespace dae
 {
     // Forward declarations
     struct Vertex;
+
+    class Texture;
     
     class Mesh;
     
@@ -64,5 +66,29 @@ namespace dae
 
         Camera m_Camera  {};
         Mesh*  m_MeshPtr = nullptr;
+        
+        // Path
+#if CUSTOM_PATH
+        const std::string m_ResourcesPath         {"../_Resources/"};
+#else
+        const std::string m_ResourcesPath         {"Resources/"};
+#endif
+        const std::string m_DiffuseTexturePath    {m_ResourcesPath + "vehicle_diffuse.png"};
+        const std::string m_GlossinessTexturePath {m_ResourcesPath + "vehicle_gloss.png"};
+        const std::string m_NormalTexturePath     {m_ResourcesPath + "vehicle_normal.png"};
+        const std::string m_SpecularTexturePath   {m_ResourcesPath + "vehicle_specular.png"};
+        const std::string m_UVGrid2TexturePath    {m_ResourcesPath + "uv_grid_2.png"};
+        const std::string m_VehiclePath           {m_ResourcesPath + "vehicle.obj"};
+        
+        // General texture
+        Texture* m_TexturePtr = nullptr;
+
+        // Vehicle
+        Texture* m_DiffuseTexturePtr    = nullptr;
+        Texture* m_GlossinessTexturePtr = nullptr;
+        Texture* m_NormalTexturePtr     = nullptr;
+        Texture* m_SpecularTexturePtr   = nullptr;
+
+        
     };
 }

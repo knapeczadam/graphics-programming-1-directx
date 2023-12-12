@@ -12,15 +12,72 @@ namespace dae
         m_SurfacePtr{pSurface},
         m_SurfacePixelsPtr{(uint32_t*)pSurface->pixels}
     {
+        
     }
 
-    Texture::~Texture()
+    Texture::Texture(SDL_Surface* pSurface, ID3D11Device* devicePtr) :
+        m_SurfacePtr{pSurface},
+        m_SurfacePixelsPtr{(uint32_t*)pSurface->pixels}
+    {
+        DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        
+        D3D11_TEXTURE2D_DESC desc{};
+        desc.Width              = m_SurfacePtr->w;
+        desc.Height             = m_SurfacePtr->h;
+        desc.MipLevels          = 1;
+        desc.ArraySize          = 1;
+        desc.Format             = format;
+        desc.SampleDesc.Count   = 1;
+        desc.SampleDesc.Quality = 0;
+        desc.Usage              = D3D11_USAGE_DEFAULT;
+        desc.BindFlags          = D3D11_BIND_SHADER_RESOURCE;
+        desc.CPUAccessFlags     = 0;
+        desc.MiscFlags          = 0;
+
+        D3D11_SUBRESOURCE_DATA initData;
+        initData.pSysMem          = m_SurfacePtr->pixels;
+        initData.SysMemPitch      = static_cast<UINT>(m_SurfacePtr->pitch);
+        initData.SysMemSlicePitch = static_cast<UINT>(m_SurfacePtr->pitch * m_SurfacePtr->h);
+
+        HRESULT hr = devicePtr->CreateTexture2D(&desc, &initData, &m_ResourcePtr);
+        if (FAILED(hr))
+        {
+            std::cout << "Texture::Texture() failed: " << hr << '\n';
+            return;
+        }
+
+        D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc{};
+        SRVDesc.Format                    = format;
+        SRVDesc.ViewDimension             = D3D11_SRV_DIMENSION_TEXTURE2D;
+        SRVDesc.Texture2D.MipLevels       = desc.MipLevels;
+
+        hr = devicePtr->CreateShaderResourceView(m_ResourcePtr, &SRVDesc, &m_SRVPtr);
+        if (FAILED(hr))
+        {
+            std::cout << "Texture::Texture() failed: " << hr << '\n';
+            return;
+        }
+
+        // Clean up
+        //=======================================================================================================
+        FreeSurface();
+    }
+
+    void Texture::FreeSurface()
     {
         if (m_SurfacePtr)
         {
             SDL_FreeSurface(m_SurfacePtr);
             m_SurfacePtr = nullptr;
         }
+
+        if (m_SRVPtr)      m_ResourcePtr->Release();
+        if (m_ResourcePtr) m_ResourcePtr->Release();
+    }
+
+    Texture::~Texture()
+    {
+        FreeSurface();
     }
 
     Texture* Texture::LoadFromFile(const std::string& path)
@@ -32,6 +89,17 @@ namespace dae
             return nullptr;
         }
         return new Texture(pSurface);
+    }
+
+    Texture* Texture::LoadFromFile(const std::string& path, ID3D11Device* devicePtr)
+    {
+        SDL_Surface* pSurface = IMG_Load(path.c_str());
+        if (!pSurface)
+        {
+            std::cout << "Texture::LoadFromFile() failed: " << SDL_GetError() << std::endl;
+            return nullptr;
+        }
+        return new Texture(pSurface, devicePtr);
     }
 
     /**

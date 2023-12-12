@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "SceneSelector.h"
 #include "Mesh.h"
+#include "Texture.h"
 
 // DirectX headers
 #include <dxgi.h>
@@ -223,13 +224,20 @@ namespace dae
 
     void Renderer::InitializeTextures()
     {
-        
+        // --- WEEK 2 ---
+#if W2
+#if TODO_1
+        m_TexturePtr = Texture::LoadFromFile(m_UVGrid2TexturePath, m_DevicePtr);
+#endif
+#endif
     }
 #pragma endregion
 
 #pragma region Cleanup
     Renderer::~Renderer()
     {
+        // DirectX
+        //=======================================================================================================
         // Resources are released in reverse order of creation
         // 7. Render Target View
         // 6. Render Target Buffer
@@ -254,7 +262,15 @@ namespace dae
         if (m_DevicePtr)      m_DevicePtr->Release();
         if (m_DXGIFactoryPtr) m_DXGIFactoryPtr->Release();
 
+        // General
+        //=======================================================================================================
         delete m_MeshPtr;
+
+        delete m_TexturePtr;
+        delete m_DiffuseTexturePtr;
+        delete m_GlossinessTexturePtr;
+        delete m_NormalTexturePtr;
+        delete m_SpecularTexturePtr;
     }
 #pragma endregion
 
