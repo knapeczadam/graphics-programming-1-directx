@@ -219,6 +219,12 @@ namespace dae
 #elif TODO_3
         m_Camera.Initialize(45.0f, {0.0f, 0.0f, -50.0f});
 #endif
+        
+        // --- WEEK 3 ---
+#elif W3
+#if TODO_0
+        m_Camera.Initialize(45.0f, {0.0f, 0.0f, -50.0f});
+#endif
 #endif
     }
 
@@ -241,6 +247,12 @@ namespace dae
 #elif TODO_3
         m_MeshPtr = new Mesh(m_DevicePtr, vehicle_vertices, vehicle_indices);
 #endif
+        
+        // --- WEEK 3 ---
+#elif W3
+#if TODO_0
+        m_MeshPtr = new Mesh(m_DevicePtr, vehicle_vertices, vehicle_indices);
+#endif
 #endif
     }
 
@@ -258,6 +270,13 @@ namespace dae
         m_DiffuseTexturePtr = Texture::LoadFromFile(m_DiffuseTexturePath, m_DevicePtr);
         m_MeshPtr->SetDiffuseMap(m_DiffuseTexturePtr);
 #endif
+        
+        // --- WEEK 3 ---
+#elif W3
+#if TODO_0
+        m_DiffuseTexturePtr = Texture::LoadFromFile(m_DiffuseTexturePath, m_DevicePtr);
+        m_MeshPtr->SetDiffuseMap(m_DiffuseTexturePtr);
+#endif
 #endif
     }
 
@@ -265,6 +284,10 @@ namespace dae
     {
 #if W2
 #if TODO_3
+        Utils::ParseOBJ(m_VehiclePath, vehicle_vertices, vehicle_indices);
+#endif
+#elif W3
+#if TODO_0
         Utils::ParseOBJ(m_VehiclePath, vehicle_vertices, vehicle_indices);
 #endif
 #endif
@@ -330,12 +353,13 @@ namespace dae
 #elif TODO_3
         m_Camera.Update(timerPtr);
         m_MeshPtr->SetMatrix(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
-        
-        if (m_Rotate)
-        {
-            m_AccTime += timerPtr->GetElapsed();
-        }
-        m_MeshPtr->SetTime(m_AccTime);
+        Rotate(timerPtr->GetElapsed());
+#endif
+#elif W3
+#if TODO_0
+        m_Camera.Update(timerPtr);
+        m_MeshPtr->SetMatrix(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
+        Rotate(timerPtr->GetElapsed());
 #endif
 #endif
     }
@@ -352,10 +376,14 @@ namespace dae
 
         // 2. Set pipeline + invoke draw calls (= render)
         //=======================================================================================================
+        
+        // --- WEEK 1 ---
 #if W1
 #if TODO_0
         Render_W1_TODO_0();
 #endif
+        
+        // --- WEEK 2 ---
 #elif W2
 #if TODO_0
         Render_W2_TODO_0();
@@ -365,6 +393,12 @@ namespace dae
         Render_W2_TODO_2();
 #elif TODO_3
         Render_W2_TODO_3();
+#endif
+        
+        // --- WEEK 3 ---
+#elif W3
+#if TODO_0
+        Render_W3_TODO_0();
 #endif
 #endif
         
@@ -380,6 +414,15 @@ namespace dae
         m_SamplerState = static_cast<SamplerState>((static_cast<int>(m_SamplerState) + 1) % static_cast<int>(SamplerState::COUNT));
         m_MeshPtr->SetPassIdx(static_cast<UINT>(m_SamplerState));
         UpdateSamplerStateString();
+    }
+    
+    void Renderer::Rotate(float deltaTime)
+    {
+        if (m_Rotate)
+        {
+            m_AccTime += deltaTime;
+        }
+        m_MeshPtr->SetTime(m_AccTime);
     }
 
     void Renderer::ToggleRotation()
@@ -430,6 +473,13 @@ namespace dae
     }
 
     void Renderer::Render_W2_TODO_3() const
+    {
+        m_MeshPtr->Render();
+    }
+#pragma endregion
+
+#pragma region Week 3
+    void Renderer::Render_W3_TODO_0() const
     {
         m_MeshPtr->Render();
     }

@@ -29,9 +29,13 @@ namespace dae
 
         // Create Vertex Layout
         //=======================================================================================================
+        
+        // --- WEEK 1 ---
 #if W1
         static constexpr uint32_t numElements{2};
 #elif W2
+        
+        // --- WEEK 2 ---
 #if TODO_0
         static constexpr uint32_t numElements{2};
 #elif TODO_1
@@ -39,6 +43,12 @@ namespace dae
 #elif TODO_2
         static constexpr uint32_t numElements{3};
 #elif TODO_3
+        static constexpr uint32_t numElements{3};
+#endif
+        
+        // --- WEEK 3 ---
+#elif W3
+#if TODO_0
         static constexpr uint32_t numElements{3};
 #endif
 #endif
@@ -55,6 +65,7 @@ namespace dae
         vertexDesc[1].AlignedByteOffset = 12;
         vertexDesc[1].InputSlotClass    = D3D11_INPUT_PER_VERTEX_DATA;
         
+        // --- WEEK 2 ---
 #if W2
 #if TODO_1
         vertexDesc[2].SemanticName      = "TEXCOORD";
@@ -67,6 +78,15 @@ namespace dae
         vertexDesc[2].AlignedByteOffset = 24;
         vertexDesc[2].InputSlotClass    = D3D11_INPUT_PER_VERTEX_DATA;
 #elif TODO_3
+        vertexDesc[2].SemanticName      = "TEXCOORD";
+        vertexDesc[2].Format            = DXGI_FORMAT_R32G32_FLOAT;
+        vertexDesc[2].AlignedByteOffset = 24;
+        vertexDesc[2].InputSlotClass    = D3D11_INPUT_PER_VERTEX_DATA;
+#endif
+        
+        // --- WEEK 3 ---
+#elif W3
+#if TODO_0
         vertexDesc[2].SemanticName      = "TEXCOORD";
         vertexDesc[2].Format            = DXGI_FORMAT_R32G32_FLOAT;
         vertexDesc[2].AlignedByteOffset = 24;
@@ -143,6 +163,12 @@ namespace dae
 #elif TODO_3
         m_EffectPtr = new Effect(m_DevicePtr, L"Resources/PosCol3D_W2_TODO_3.fx");
 #endif
+        
+        // --- WEEK 3 ---
+#elif W3
+#if TODO_0
+        m_EffectPtr = new Effect(m_DevicePtr, L"Resources/PosCol3D_W3_TODO_0.fx");
+#endif
 #endif
     }
 
@@ -167,6 +193,14 @@ namespace dae
         if (not m_WorldViewProjectionMatrixPtr->IsValid())
             assert(false and "Failed to create matrix variable!");
 #endif
+        
+        // --- WEEK 3 ---
+#elif W3
+#if TODO_0
+        m_WorldViewProjectionMatrixPtr = m_EffectPtr->GetVariableByName("gWorldViewProj")->AsMatrix();
+        if (not m_WorldViewProjectionMatrixPtr->IsValid())
+            assert(false and "Failed to create matrix variable!");
+#endif
 #endif
     }
 
@@ -187,13 +221,30 @@ namespace dae
         if (not m_DiffuseMapVariablePtr->IsValid())
             assert(false and "Failed to create texture variable!");
 #endif
+        
+        // --- WEEK 3 ---
+#elif W3
+#if TODO_0
+        m_DiffuseMapVariablePtr = m_EffectPtr->GetVariableByName("gDiffuseMap")->AsShaderResource();
+        if (not m_DiffuseMapVariablePtr->IsValid())
+            assert(false and "Failed to create texture variable!");
+#endif
 #endif
     }
 
     void Mesh::InitializeScalars()
     {
+        // --- WEEK 2 ---
 #if W2
 #if TODO_3
+        m_TimeVariablePtr = m_EffectPtr->GetVariableByName("gTime")->AsScalar();
+        if (not m_TimeVariablePtr->IsValid())
+            assert(false and "Failed to create scalar variable!");
+#endif
+        
+        // --- WEEK 3 ---
+#elif W3
+#if TODO_0
         m_TimeVariablePtr = m_EffectPtr->GetVariableByName("gTime")->AsScalar();
         if (not m_TimeVariablePtr->IsValid())
             assert(false and "Failed to create scalar variable!");
@@ -203,6 +254,7 @@ namespace dae
 
     void Mesh::Draw() const
     {
+        // --- WEEK 1 ---
 #if W1
         D3DX11_TECHNIQUE_DESC techDesc{};
         m_TechniquePtr->GetDesc(&techDesc);
@@ -212,6 +264,8 @@ namespace dae
             m_TechniquePtr->GetPassByIndex(p)->Apply(0, m_DeviceContextPtr);
             m_DeviceContextPtr->DrawIndexed(m_NumIndices, 0, 0);
         }
+        
+        // --- WEEK 2 ---
 #elif W2
 #if TODO_0
         D3DX11_TECHNIQUE_DESC techDesc{};
@@ -234,6 +288,12 @@ namespace dae
 #elif TODO_2
         LoadPass();
 #elif TODO_3
+        LoadPass();
+#endif
+        
+        // --- WEEK 3 ---
+#elif W3
+#if TODO_0
         LoadPass();
 #endif
 #endif

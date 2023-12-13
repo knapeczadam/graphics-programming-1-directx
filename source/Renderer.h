@@ -52,6 +52,7 @@ namespace dae
 
         // Helper functions
         void UpdateSamplerStateString();
+        void Rotate(float deltaTime);
 
         // --- Week 1 ---
         void Render_W1_TODO_0() const;
@@ -62,6 +63,9 @@ namespace dae
         void Render_W2_TODO_2() const;
         void Render_W2_TODO_3() const;
         
+        // --- Week 3 ---
+        void Render_W3_TODO_0() const;
+       
         // DIRECTX
         HRESULT InitializeDirectX();
 

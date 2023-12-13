@@ -5,25 +5,31 @@
 namespace dae
 {
     #define W1 0
-    #define W2 1
-    #define W3 0
+    #define W2 0
+    #define W3 1
 
-    #define TODO_0 0
+    #define TODO_0 1
     #define TODO_1 0
     #define TODO_2 0
-    #define TODO_3 1
+    #define TODO_3 0
 
     #define CUSTOM_PATH 0
 }
 
 // --- WEEK 1 ---
 /*
+ * TODO_0: First triangle (NDC)
  */
 
 // --- WEEK 2 ---
 /*
+ * TODO_0: Triangle in world space, camera movement
+ * TODO_1: Quad - load texture
+ * TODO_2: Quad - multiple sampler states
+ * TODO_3: Vehicle - rotate object
  */
 
 // --- WEEK 3 ---
 /*
+ * TODO_0: Vehicle
  */
