@@ -10,6 +10,8 @@ Texture2D gGlossMap      : GlossMap;
 
 float     gTime          : Time;
 float3    gCameraPos     : CameraPos;
+bool      gUseNormalMap  : UseNormalMap;
+int       gShadingMode   : ShadingMode;
 
 #define PI 3.1415926535897932384626433832795
 
@@ -68,7 +70,7 @@ float4 ShadePixel(float3 normal, float3 tangent, float3 viewDir, float4 diffuseC
     normalColor = normalColor * 2.0f - 1.0f;
     
     // Transform normal from tangent-space to world-space
-    normal = mul(normalColor, tangentSpace);
+    normal = gUseNormalMap ? mul(normalColor, tangentSpace) : normal;
     
     // Ambient lighting
     float3 ambient = float3(0.03f, 0.03f, 0.03f);
@@ -89,7 +91,22 @@ float4 ShadePixel(float3 normal, float3 tangent, float3 viewDir, float4 diffuseC
     float cosAlpha = saturate(dot(reflectedLight, -viewDir));
     float phong =  specularColor * pow(cosAlpha, gloss * shininess);
     
-    color = (diffuse + phong + float4(ambient, 1.0f)) * float4(observedArea, 1.0f);
+    if (gShadingMode == 0)
+    {
+        color = float4(observedArea, 1.0f);
+    } 
+    else if (gShadingMode == 1)
+    {
+        color = diffuse * float4(observedArea, 1.0f);
+    }
+    else if (gShadingMode == 2)
+    {
+        color = phong * float4(observedArea, 1.0f);
+    }
+    else
+    {
+        color = (diffuse + phong + float4(ambient, 1.0f)) * float4(observedArea, 1.0f);
+    }
     return color;
 }
 

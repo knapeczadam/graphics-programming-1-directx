@@ -274,6 +274,14 @@ namespace dae
         m_CameraPositionVariablePtr = m_EffectPtr->GetVariableByName("gCameraPos")->AsVector();
         if (not m_CameraPositionVariablePtr->IsValid())
             assert(false and "Failed to create scalar variable!");
+
+        m_UseNormalMapVariablePtr = m_EffectPtr->GetVariableByName("gUseNormalMap")->AsScalar();
+        if (not m_UseNormalMapVariablePtr->IsValid())
+            assert(false and "Failed to create scalar variable!");
+
+        m_ShadingModeVariablePtr = m_EffectPtr->GetVariableByName("gShadingMode")->AsScalar();
+        if (not m_ShadingModeVariablePtr->IsValid())
+            assert(false and "Failed to create scalar variable!");
 #endif
 #endif
     }
@@ -430,6 +438,16 @@ namespace dae
     void Mesh::SetCameraPosition(const Vector3& viewDirection) const
     {
         m_CameraPositionVariablePtr->SetFloatVector(reinterpret_cast<const float*>(&viewDirection));
+    }
+
+    void Mesh::SetUseNormalMap(bool useNormalMap) const
+    {
+        m_UseNormalMapVariablePtr->SetBool(useNormalMap);
+    }
+
+    void Mesh::SetShadingMode(UINT shadingMode) const
+    {
+        m_ShadingModeVariablePtr->SetInt(shadingMode);
     }
 
 

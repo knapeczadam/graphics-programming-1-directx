@@ -33,6 +33,8 @@ namespace dae
         
         void SetTime(float time) const;
         void SetCameraPosition(const Vector3& viewDirection) const;
+        void SetUseNormalMap(bool useNormalMap) const;
+        void SetShadingMode(UINT shadingMode) const;
         
         inline void SetPassIdx(UINT passIdx) { m_PassIdx = passIdx; }
 
@@ -70,6 +72,8 @@ namespace dae
         // Scalar variables
         ID3DX11EffectScalarVariable*         m_TimeVariablePtr              = nullptr;
         ID3DX11EffectVectorVariable*         m_CameraPositionVariablePtr    = nullptr;
+        ID3DX11EffectScalarVariable*         m_UseNormalMapVariablePtr      = nullptr;
+        ID3DX11EffectScalarVariable*         m_ShadingModeVariablePtr       = nullptr;
         
         std::vector<Vertex> m_Vertices;
         std::vector<uint32_t> m_Indices;

@@ -416,14 +416,23 @@ namespace dae
     }
 #pragma endregion
 
-#pragma region Helper Functions
-    void Renderer::CycleSamplerStates()
+#pragma region Settings
+    void Renderer::CycleSamplerState()
     {
         m_SamplerState = static_cast<SamplerState>((static_cast<int>(m_SamplerState) + 1) % static_cast<int>(SamplerState::COUNT));
         m_MeshPtr->SetPassIdx(static_cast<UINT>(m_SamplerState));
         UpdateSamplerStateString();
     }
-    
+
+    void Renderer::CycleShadingMode()
+    {
+        m_CurrentShadingMode = static_cast<ShadingMode>(
+            (static_cast<int>(m_CurrentShadingMode) + 1) % static_cast<int>(ShadingMode::COUNT)
+            );
+        m_MeshPtr->SetShadingMode(static_cast<UINT>(m_CurrentShadingMode));
+        UpdateShadingModeString();
+    }
+
     void Renderer::Rotate(float deltaTime)
     {
         if (m_Rotate)
@@ -438,6 +447,14 @@ namespace dae
         m_Rotate = not m_Rotate;
     }
 
+    void Renderer::ToggleNormalVisibility()
+    {
+        m_UseNormalMap = not m_UseNormalMap;
+        m_MeshPtr->SetUseNormalMap(m_UseNormalMap);
+    }
+#pragma endregion
+
+#pragma region Helper Functions
     void Renderer::UpdateSamplerStateString()
     {
         switch (m_SamplerState)
@@ -453,7 +470,34 @@ namespace dae
                 break;
         }
         // TODO
-        std::cout << "Sampler state: " << m_SamplerStateString << std::endl;
+        std::cout << "Sampler state: " << m_SamplerStateString << '\n';
+    }
+
+    void Renderer::UpdateShadingModeString()
+    {
+        switch (m_CurrentShadingMode)
+        {
+        case ShadingMode::BoundingBox:
+            m_CurrentShadingModeString = "BOUNDING BOX";
+            break;
+        case ShadingMode::DepthBuffer:
+            m_CurrentShadingModeString = "DEPTH BUFFER";
+            break;
+        case ShadingMode::ObservedArea:
+            m_CurrentShadingModeString = "OBSERVED AREA";
+            break;
+        case ShadingMode::Diffuse:
+            m_CurrentShadingModeString = "DIFFUSE";
+            break;
+        case ShadingMode::Specular:
+            m_CurrentShadingModeString = "SPECULAR";
+            break;
+        case ShadingMode::Combined:
+            m_CurrentShadingModeString = "COMBINED";
+            break;
+        }
+        // TODO
+        std::cout << "Shading mode: " << m_CurrentShadingModeString << '\n';
     }
 #pragma endregion
 

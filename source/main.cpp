@@ -61,10 +61,16 @@ int main(int argc, char* args[])
                 switch (e.key.keysym.scancode)
                 {
                 case SDL_SCANCODE_F2:
-                    rendererPtr->CycleSamplerStates();
+                    rendererPtr->CycleSamplerState();
                     break;
-            case SDL_SCANCODE_F5:
-                rendererPtr->ToggleRotation();
+                case SDL_SCANCODE_F5:
+                    rendererPtr->ToggleRotation();
+                    break;
+                case SDL_SCANCODE_F6:
+                    rendererPtr->ToggleNormalVisibility();
+                    break;
+                case SDL_SCANCODE_F7:
+                    rendererPtr->CycleShadingMode();
                     break;
                 }
                 break;
@@ -82,7 +88,7 @@ int main(int argc, char* args[])
 
         //--------- Timer ---------
         timerPtr->Update();
-        
+
         printTimer += timerPtr->GetElapsed();
         if (printTimer >= 1.f)
         {

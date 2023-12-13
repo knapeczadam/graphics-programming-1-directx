@@ -28,6 +28,18 @@ namespace dae
             COUNT
         };
         
+        enum class ShadingMode
+        {
+            BoundingBox = -2,
+            DepthBuffer,
+            ObservedArea, // Lambert Cosine Law
+            Diffuse,
+            Specular, 
+            Combined, // (Diffuse + Specular) * ObservedArea
+
+            COUNT = 4
+        };
+        
     public:
         Renderer(SDL_Window* windowPtr);
         ~Renderer();
@@ -40,8 +52,11 @@ namespace dae
         void Update(const Timer* timerPtr);
         void Render() const;
 
-        void CycleSamplerStates();
+        // Settings
+        void CycleSamplerState();
+        void CycleShadingMode();
         void ToggleRotation();
+        void ToggleNormalVisibility();
 
         inline Camera& GetCamera() { return m_Camera; }
 
@@ -54,6 +69,7 @@ namespace dae
 
         // Helper functions
         void UpdateSamplerStateString();
+        void UpdateShadingModeString();
         void Rotate(float deltaTime);
 
         // --- Week 1 ---
@@ -115,9 +131,25 @@ namespace dae
         Texture* m_SpecularTexturePtr   = nullptr;
 
         SamplerState m_SamplerState = SamplerState::Point;
-        std::string  m_SamplerStateString {""};
+        std::string  m_SamplerStateString {"POINT"};
+
+        ShadingMode m_PreviousShadingMode      {ShadingMode::Combined};
+        ShadingMode m_CurrentShadingMode       {ShadingMode::Combined};
+        std::string m_CurrentShadingModeString {"COMBINED"};
 
         bool  m_Rotate  {true};
         float m_AccTime {0.0f};
+        
+        // Debug
+        bool m_UseNormalMap         {true};
+
+        // Lighting
+        float m_Ambient[3]        {0.03f, 0.03f, 0.03f}; // 8, 8, 8
+        float m_LightDirection[3] {0.577f,  -0.577f, 0.577f}; 
+        float m_LightIntensity    {1.0f};
+        float m_KD                {7.0f}; // Diffuse  reflection coefficient
+        float m_Shininess         {25.0f};
+        
+        float m_BackgroundColor[3] {0.3921f, 0.3921f, 0.3921f}; // 100, 100, 100
     };
 }
