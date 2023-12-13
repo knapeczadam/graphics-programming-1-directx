@@ -63,6 +63,9 @@ int main(int argc, char* args[])
                 case SDL_SCANCODE_F2:
                     rendererPtr->CycleSamplerStates();
                     break;
+            case SDL_SCANCODE_F5:
+                rendererPtr->ToggleRotation();
+                    break;
                 }
                 break;
             }

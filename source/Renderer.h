@@ -41,6 +41,7 @@ namespace dae
         void Render() const;
 
         void CycleSamplerStates();
+        void ToggleRotation();
 
     private:
         // Initialization
@@ -109,5 +110,8 @@ namespace dae
 
         SamplerState m_SamplerState = SamplerState::Point;
         std::string  m_SamplerStateString {""};
+
+        bool  m_Rotate  {true};
+        float m_AccTime {0.0f};
     };
 }

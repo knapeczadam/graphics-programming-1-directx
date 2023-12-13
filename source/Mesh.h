@@ -23,12 +23,14 @@ namespace dae
         void SetMatrix(const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
         void SetMatrix(const Matrix& worldMatrix, const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
         void SetDiffuseMap(const Texture* diffuseTexturePtr) const;
+        void SetTime(float time) const;
         inline void SetPassIdx(UINT passIdx) { m_PassIdx = passIdx; }
 
     private:
         void InitializeEffect();
         void InitializeMatrix();
         void InitializeTextures();
+        void InitializeScalars();
 
         void Draw()     const;
         void LoadPass() const;
@@ -49,6 +51,7 @@ namespace dae
         
         ID3DX11EffectMatrixVariable*         m_WorldViewProjectionMatrixPtr = nullptr;
         ID3DX11EffectShaderResourceVariable* m_DiffuseMapVariablePtr        = nullptr;
+        ID3DX11EffectScalarVariable*         m_TimeVariablePtr              = nullptr;
         
         std::vector<Vertex> m_Vertices;
         std::vector<uint32_t> m_Indices;

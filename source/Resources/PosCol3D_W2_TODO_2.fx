@@ -4,6 +4,9 @@
 float4x4  gWorldViewProj : WorldViewProjection;
 Texture2D gDiffuseMap    : DiffuseMap;
 
+//-----------------------------------------------------------------------------
+// Sampler States
+//---------------------------------------------------------------------------
 SamplerState samPoint
 {
     Filter = MIN_MAG_MIP_POINT; // or LINEAR, ANISOTROPIC, COMPARISON_MIN_MAG_MIP_POINT, etc.

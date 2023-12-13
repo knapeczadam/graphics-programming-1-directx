@@ -41,11 +41,11 @@ namespace dae
         Vertex{{ 3, -3, -2}, {}, {1, 1}}
     };
     
-    std::vector<uint32_t> triangle_indices{0, 1, 2};
-    std::vector<uint32_t> quad_indices{0, 1, 2, 2, 1, 3};
+    std::vector<uint32_t> triangle_indices {0, 1, 2};
+    std::vector<uint32_t> quad_indices     {0, 1,  2, 2, 1, 3};
 
-    std::vector<Vertex> vehicle_vertices{};
-    std::vector<uint32_t> vehicle_indices{};
+    std::vector<Vertex>   vehicle_vertices {};
+    std::vector<uint32_t> vehicle_indices  {};
 #pragma endregion
     
 #pragma region Initialization
@@ -330,6 +330,12 @@ namespace dae
 #elif TODO_3
         m_Camera.Update(timerPtr);
         m_MeshPtr->SetMatrix(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
+        
+        if (m_Rotate)
+        {
+            m_AccTime += timerPtr->GetElapsed();
+        }
+        m_MeshPtr->SetTime(m_AccTime);
 #endif
 #endif
     }
@@ -375,7 +381,12 @@ namespace dae
         m_MeshPtr->SetPassIdx(static_cast<UINT>(m_SamplerState));
         UpdateSamplerStateString();
     }
-    
+
+    void Renderer::ToggleRotation()
+    {
+        m_Rotate = not m_Rotate;
+    }
+
     void Renderer::UpdateSamplerStateString()
     {
         switch (m_SamplerState)

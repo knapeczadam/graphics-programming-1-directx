@@ -3,7 +3,11 @@
 //-----------------------------------------------------------------------------
 float4x4  gWorldViewProj : WorldViewProjection;
 Texture2D gDiffuseMap    : DiffuseMap;
+float     gTime          : Time;
 
+//---------------------------------------------------------------------------
+// Sampler States
+//---------------------------------------------------------------------------
 SamplerState samPoint
 {
     Filter = MIN_MAG_MIP_POINT; // or LINEAR, ANISOTROPIC, COMPARISON_MIN_MAG_MIP_POINT, etc.
@@ -24,6 +28,23 @@ SamplerState samAnisotropic
     AddressU = Wrap;
     AddressV = Wrap;
 };
+
+//---------------------------------------------------------------------------
+// Helper Functions
+//---------------------------------------------------------------------------
+float4x4 CreateRotation(float yaw)
+{
+    float4x4 rotation = (float4x4)0;
+    
+    rotation[0][0] = cos(yaw);
+    rotation[0][2] = sin(yaw);
+    rotation[1][1] = 1.0f;
+    rotation[2][0] = -sin(yaw);
+    rotation[2][2] = cos(yaw);
+    rotation[3][3] = 1.0f;
+    
+    return rotation;
+}
 
 //---------------------------------------------------------------------------
 // Input/Output Structs
@@ -49,6 +70,7 @@ VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
     
+    input.Position  = mul(input.Position, CreateRotation(gTime));
     output.Position = mul(float4(input.Position, 1.0f), gWorldViewProj);
     output.Color    = input.Color;
     output.Uv       = input.Uv;

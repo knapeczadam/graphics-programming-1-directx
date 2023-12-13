@@ -23,7 +23,7 @@ namespace dae
 
         InitializeMatrix();
         InitializeTextures();
-
+        InitializeScalars();
 
         m_DevicePtr->GetImmediateContext(&m_DeviceContextPtr);
 
@@ -190,6 +190,17 @@ namespace dae
 #endif
     }
 
+    void Mesh::InitializeScalars()
+    {
+#if W2
+#if TODO_3
+        m_TimeVariablePtr = m_EffectPtr->GetVariableByName("gTime")->AsScalar();
+        if (not m_TimeVariablePtr->IsValid())
+            assert(false and "Failed to create scalar variable!");
+#endif
+#endif
+    }
+
     void Mesh::Draw() const
     {
 #if W1
@@ -250,6 +261,7 @@ namespace dae
         
         if (m_WorldViewProjectionMatrixPtr) m_WorldViewProjectionMatrixPtr->Release();
         if (m_DiffuseMapVariablePtr)        m_DiffuseMapVariablePtr->Release();
+        if (m_TimeVariablePtr)              m_TimeVariablePtr->Release();
         
         delete m_EffectPtr;
     }
@@ -297,5 +309,12 @@ namespace dae
         if (diffuseTexturePtr)
             m_DiffuseMapVariablePtr->SetResource(diffuseTexturePtr->GetSRV());
     }
+
+    void Mesh::SetTime(float time) const
+    {
+        m_TimeVariablePtr->SetFloat(time);
+    }
+
+
 #pragma endregion
 }
