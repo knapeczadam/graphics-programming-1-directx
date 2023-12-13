@@ -52,6 +52,9 @@
     <ClInclude Include="Mesh.h">
       <Filter>DirectX</Filter>
     </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
