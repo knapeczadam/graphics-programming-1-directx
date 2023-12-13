@@ -365,14 +365,29 @@ namespace dae
         m_MeshPtr->SetMatrix(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
 #elif TODO_3
         m_Camera.Update(timerPtr);
+        
         m_MeshPtr->SetMatrix(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
+        m_MeshPtr->SetTime(m_AccTime);
+        
         Rotate(timerPtr->GetElapsed());
 #endif
 #elif W3
 #if TODO_0
         m_Camera.Update(timerPtr);
+        
         m_MeshPtr->SetMatrix(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
         m_MeshPtr->SetCameraPosition(m_Camera.GetPosition());
+        
+        m_MeshPtr->SetUseNormalMap(m_UseNormalMap);
+        m_MeshPtr->SetTime(m_AccTime);
+        m_MeshPtr->SetShadingMode(static_cast<UINT>(m_CurrentShadingMode));
+        
+        m_MeshPtr->SetAmbient(m_Ambient);
+        m_MeshPtr->SetLightDirection(m_LightDirection);
+        m_MeshPtr->SetLightIntensity(m_LightIntensity);
+        m_MeshPtr->SetKD(m_KD);
+        m_MeshPtr->SetShininess(m_Shininess);
+        
         Rotate(timerPtr->GetElapsed());
 #endif
 #endif
@@ -439,7 +454,6 @@ namespace dae
         m_CurrentShadingMode = static_cast<ShadingMode>(
             (static_cast<int>(m_CurrentShadingMode) + 1) % static_cast<int>(ShadingMode::COUNT)
             );
-        m_MeshPtr->SetShadingMode(static_cast<UINT>(m_CurrentShadingMode));
         UpdateShadingModeString();
     }
 
@@ -449,7 +463,6 @@ namespace dae
         {
             m_AccTime += deltaTime;
         }
-        m_MeshPtr->SetTime(m_AccTime);
     }
 
     void Renderer::ToggleRotation()

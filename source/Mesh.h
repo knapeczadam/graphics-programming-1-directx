@@ -25,16 +25,23 @@ namespace dae
         void Render() const;
         void SetMatrix(const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
         void SetMatrix(const Matrix& worldMatrix, const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
-        
+
+        // Texture variables
         void SetDiffuseMap(const Texture* diffuseTexturePtr) const;
         void SetNormalMap(const Texture* normalMapTexturePtr) const;
         void SetSpecularMap(const Texture* specularTexturePtr) const;
         void SetGlossinessMap(const Texture* glossinessTexturePtr) const;
-        
+
+        // Scalar variables
         void SetTime(float time) const;
         void SetCameraPosition(const Vector3& viewDirection) const;
         void SetUseNormalMap(bool useNormalMap) const;
         void SetShadingMode(UINT shadingMode) const;
+        void SetAmbient(float* ambient) const;
+        void SetLightDirection(float* lightDirection) const;
+        void SetLightIntensity(float lightIntensity) const;
+        void SetKD(float kd) const;
+        void SetShininess(float shininess) const;
         
         inline void SetPassIdx(UINT passIdx) { m_PassIdx = passIdx; }
 
@@ -74,6 +81,11 @@ namespace dae
         ID3DX11EffectVectorVariable*         m_CameraPositionVariablePtr    = nullptr;
         ID3DX11EffectScalarVariable*         m_UseNormalMapVariablePtr      = nullptr;
         ID3DX11EffectScalarVariable*         m_ShadingModeVariablePtr       = nullptr;
+        ID3DX11EffectVectorVariable*         m_AmbientVariablePtr           = nullptr;
+        ID3DX11EffectVectorVariable*         m_LightDirectionVariablePtr    = nullptr;
+        ID3DX11EffectScalarVariable*         m_LightIntensityVariablePtr    = nullptr;
+        ID3DX11EffectScalarVariable*         m_KDVariablePtr                = nullptr;
+        ID3DX11EffectScalarVariable*         m_ShininessVariablePtr         = nullptr;
         
         std::vector<Vertex> m_Vertices  {};
         std::vector<uint32_t> m_Indices {};

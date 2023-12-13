@@ -282,6 +282,26 @@ namespace dae
         m_ShadingModeVariablePtr = m_EffectPtr->GetVariableByName("gShadingMode")->AsScalar();
         if (not m_ShadingModeVariablePtr->IsValid())
             assert(false and "Failed to create scalar variable!");
+
+        m_AmbientVariablePtr = m_EffectPtr->GetVariableByName("gAmbientColor")->AsVector();
+        if (not m_AmbientVariablePtr->IsValid())
+            assert(false and "Failed to create scalar variable!");
+
+        m_LightDirectionVariablePtr = m_EffectPtr->GetVariableByName("gLightDir")->AsVector();
+        if (not m_LightDirectionVariablePtr->IsValid())
+            assert(false and "Failed to create scalar variable!");
+
+        m_LightIntensityVariablePtr = m_EffectPtr->GetVariableByName("gLightIntensity")->AsScalar();
+        if (not m_LightIntensityVariablePtr->IsValid())
+            assert(false and "Failed to create scalar variable!");
+
+        m_KDVariablePtr = m_EffectPtr->GetVariableByName("gKD")->AsScalar();
+        if (not m_KDVariablePtr->IsValid())
+            assert(false and "Failed to create scalar variable!");
+
+        m_ShininessVariablePtr = m_EffectPtr->GetVariableByName("gShininess")->AsScalar();
+        if (not m_ShininessVariablePtr->IsValid())
+            assert(false and "Failed to create scalar variable!");
 #endif
 #endif
     }
@@ -366,6 +386,11 @@ namespace dae
         if (m_CameraPositionVariablePtr)    m_CameraPositionVariablePtr->Release();
         if (m_UseNormalMapVariablePtr)      m_UseNormalMapVariablePtr->Release();
         if (m_ShadingModeVariablePtr)       m_ShadingModeVariablePtr->Release();
+        if (m_AmbientVariablePtr)           m_AmbientVariablePtr->Release();
+        if (m_LightDirectionVariablePtr)    m_LightDirectionVariablePtr->Release();
+        if (m_LightIntensityVariablePtr)    m_LightIntensityVariablePtr->Release();
+        if (m_KDVariablePtr)                m_KDVariablePtr->Release();
+        if (m_ShininessVariablePtr)         m_ShininessVariablePtr->Release();
         
         delete m_EffectPtr;
     }
@@ -450,6 +475,31 @@ namespace dae
     void Mesh::SetShadingMode(UINT shadingMode) const
     {
         m_ShadingModeVariablePtr->SetInt(shadingMode);
+    }
+
+    void Mesh::SetAmbient(float* ambient) const
+    {
+        m_AmbientVariablePtr->SetFloatVector(ambient);
+    }
+
+    void Mesh::SetLightDirection(float* lightDirection) const
+    {
+        m_LightDirectionVariablePtr->SetFloatVector(lightDirection);
+    }
+
+    void Mesh::SetLightIntensity(float lightIntensity) const
+    {
+        m_LightIntensityVariablePtr->SetFloat(lightIntensity);
+    }
+
+    void Mesh::SetKD(float kd) const
+    {
+        m_KDVariablePtr->SetFloat(kd);
+    }
+
+    void Mesh::SetShininess(float shininess) const
+    {
+        m_ShininessVariablePtr->SetFloat(shininess);
     }
 
 

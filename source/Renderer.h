@@ -138,8 +138,8 @@ namespace dae
         std::string  m_SamplerStateString ="POINT";
 
         ShadingMode m_PreviousShadingMode      = ShadingMode::Combined;
-        ShadingMode m_CurrentShadingMode       = ShadingMode::ObservedArea;
-        std::string m_CurrentShadingModeString = "OBSERVED AREA";
+        ShadingMode m_CurrentShadingMode       = ShadingMode::Combined;
+        std::string m_CurrentShadingModeString = "COMBINED";
 
         bool  m_Rotate  = true;
         float m_AccTime = 0.0f;
