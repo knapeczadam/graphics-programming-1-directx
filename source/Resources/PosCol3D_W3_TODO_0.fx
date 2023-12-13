@@ -174,12 +174,26 @@ float4 PS_Point(VS_OUTPUT input) : SV_TARGET
 
 float4 PS_Linear(VS_OUTPUT input) : SV_TARGET
 {
-    return gDiffuseMap.Sample(samLinear, input.Uv);
+    float3 viewDir = normalize(gCameraPos - input.Position.xyz);
+    
+    float4 diffuseColor  = gDiffuseMap.Sample(samLinear,  input.Uv);
+    float3 normalColor   = gNormalMap.Sample(samLinear,   input.Uv).rgb;
+    float4 specularColor = gSpecularMap.Sample(samLinear, input.Uv);
+    float  gloss         = gGlossMap.Sample(samLinear,    input.Uv).r;
+    
+    return ShadePixel(input.Normal, input.Tangent, viewDir, diffuseColor, normalColor, specularColor, gloss);
 }
 
 float4 PS_Anisotropic(VS_OUTPUT input) : SV_TARGET
 {
-    return gDiffuseMap.Sample(samAnisotropic, input.Uv);
+    float3 viewDir = normalize(gCameraPos - input.Position.xyz);
+    
+    float4 diffuseColor  = gDiffuseMap.Sample(samAnisotropic,  input.Uv);
+    float3 normalColor   = gNormalMap.Sample(samAnisotropic,   input.Uv).rgb;
+    float4 specularColor = gSpecularMap.Sample(samAnisotropic, input.Uv);
+    float  gloss         = gGlossMap.Sample(samAnisotropic,    input.Uv).r;
+    
+    return ShadePixel(input.Normal, input.Tangent, viewDir, diffuseColor, normalColor, specularColor, gloss);
 }
 
 //---------------------------------------------------------------------------
