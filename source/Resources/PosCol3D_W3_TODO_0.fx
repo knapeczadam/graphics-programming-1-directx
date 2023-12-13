@@ -54,9 +54,21 @@ float4x4 CreateRotation(float yaw)
     return rotation;
 }
 
-float4 ShadePixel(float3 normal, float3 viewDir, float4 diffuseColor, float4 specularColor, float gloss)
+float4 ShadePixel(float3 normal, float3 tangent, float3 viewDir, float4 diffuseColor, float3 normalColor, float4 specularColor, float gloss)
 {
     float4 color = (float4)0;
+    
+    // Binormal
+    float3 binormal = cross(normal, tangent);
+    
+    // Tangent-space transformation matrix
+    float3x3 tangentSpace = float3x3(tangent, binormal, normal);
+    
+    // Remap normal from [0, 1] to [-1, 1]
+    normalColor = normalColor * 2.0f - 1.0f;
+    
+    // Transform normal from tangent-space to world-space
+    normal = mul(normalColor, tangentSpace);
     
     // Ambient lighting
     float3 ambient = float3(0.03f, 0.03f, 0.03f);
@@ -99,6 +111,7 @@ struct VS_OUTPUT
     float3 Color    : COLOR;
     float2 Uv       : TEXCOORD;
     float3 Normal   : NORMAL;
+    float3 Tangent  : TANGENT;
 };
 
 //---------------------------------------------------------------------------
@@ -110,10 +123,15 @@ VS_OUTPUT VS(VS_INPUT input)
     
     input.Position  = mul(input.Position, CreateRotation(gTime));
     output.Position = mul(float4(input.Position, 1.0f), gWorldViewProj);
-    output.Color    = input.Color;
-    output.Uv       = input.Uv;
+    
     input.Normal    = mul(input.Normal, CreateRotation(gTime));
     output.Normal   = input.Normal;
+    
+    input.Tangent   = mul(input.Tangent, CreateRotation(gTime));
+    output.Tangent  = input.Tangent;
+    
+    output.Color    = input.Color;
+    output.Uv       = input.Uv;
 
     return output;
 }
@@ -125,11 +143,12 @@ float4 PS_Point(VS_OUTPUT input) : SV_TARGET
 {
     float3 viewDir = normalize(gCameraPos - input.Position.xyz);
     
-    float4 diffuseColor = gDiffuseMap.Sample(samPoint, input.Uv);
+    float4 diffuseColor  = gDiffuseMap.Sample(samPoint,  input.Uv);
+    float3 normalColor   = gNormalMap.Sample(samPoint,   input.Uv).rgb;
     float4 specularColor = gSpecularMap.Sample(samPoint, input.Uv);
-    float gloss = gGlossMap.Sample(samPoint, input.Uv).r;
+    float  gloss         = gGlossMap.Sample(samPoint,    input.Uv).r;
     
-    return ShadePixel(input.Normal, viewDir, diffuseColor, specularColor, gloss);
+    return ShadePixel(input.Normal, input.Tangent, viewDir, diffuseColor, normalColor, specularColor, gloss);
 }
 
 float4 PS_Linear(VS_OUTPUT input) : SV_TARGET
