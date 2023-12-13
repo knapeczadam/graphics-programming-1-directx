@@ -10,6 +10,8 @@ Texture2D gGlossMap      : GlossMap;
 
 float     gTime          : Time;
 
+#define PI 3.1415926535897932384626433832795
+
 //---------------------------------------------------------------------------
 // Sampler States
 //---------------------------------------------------------------------------
@@ -51,15 +53,21 @@ float4x4 CreateRotation(float yaw)
     return rotation;
 }
 
-float4 ShadePixel(float3 normal)
+float4 ShadePixel(float3 normal, float4 diffuseColor)
 {
     float4 color = (float4)0;
     
+    // Normalized light direction
     float3 lightDir = float3(0.577f, -0.577f, 0.577f);
     
-    color.rgb = saturate(dot(normal, -lightDir));
-    color.a   = 1.0f;
+    // Observed area
+    float3 observedArea = saturate(dot(normal, -lightDir));
     
+    // Diffuse lighting
+    float kd = 7.0f;
+    float4 diffuse = diffuseColor * kd / PI;
+    
+    color = diffuse * float4(observedArea, 1.0f);
     return color;
 }
 
@@ -105,8 +113,8 @@ VS_OUTPUT VS(VS_INPUT input)
 //---------------------------------------------------------------------------
 float4 PS_Point(VS_OUTPUT input) : SV_TARGET
 {
-//    return gDiffuseMap.Sample(samPoint, input.Uv);
-    return ShadePixel(input.Normal);
+    float4 diffuseColor = gDiffuseMap.Sample(samPoint, input.Uv);
+    return ShadePixel(input.Normal, diffuseColor);
 }
 
 float4 PS_Linear(VS_OUTPUT input) : SV_TARGET
