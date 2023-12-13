@@ -68,6 +68,9 @@ int main(int argc, char* args[])
                     break;
                 }
                 break;
+            case SDL_MOUSEWHEEL:
+                rendererPtr->GetCamera().Scroll(e.wheel);
+                break;
             }
         }
 

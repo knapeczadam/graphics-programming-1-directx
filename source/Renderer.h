@@ -43,6 +43,8 @@ namespace dae
         void CycleSamplerStates();
         void ToggleRotation();
 
+        inline Camera& GetCamera() { return m_Camera; }
+
     private:
         // Initialization
         void InitializeCamera();
