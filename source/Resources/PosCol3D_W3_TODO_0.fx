@@ -58,6 +58,9 @@ float4 ShadePixel(float3 normal, float3 viewDir, float4 diffuseColor, float4 spe
 {
     float4 color = (float4)0;
     
+    // Ambient lighting
+    float3 ambient = float3(0.03f, 0.03f, 0.03f);
+    
     // Normalized light direction
     float3 lightDir = float3(0.577f, -0.577f, 0.577f);
     
@@ -74,7 +77,7 @@ float4 ShadePixel(float3 normal, float3 viewDir, float4 diffuseColor, float4 spe
     float cosAlpha = saturate(dot(reflectedLight, -viewDir));
     float phong =  specularColor * pow(cosAlpha, gloss * shininess);
     
-    color = (diffuse + phong) * float4(observedArea, 1.0f);
+    color = (diffuse + phong + float4(ambient, 1.0f)) * float4(observedArea, 1.0f);
     return color;
 }
 
