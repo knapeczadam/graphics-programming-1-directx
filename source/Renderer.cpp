@@ -248,6 +248,7 @@ namespace dae
 #endif
 #endif
     }
+
 #pragma endregion
 
 #pragma region Cleanup
@@ -341,10 +342,32 @@ namespace dae
     }
 #pragma endregion
 
+#pragma region Helper Functions
     void Renderer::CycleSamplerStates()
     {
         m_SamplerState = static_cast<SamplerState>((static_cast<int>(m_SamplerState) + 1) % static_cast<int>(SamplerState::COUNT));
+        m_MeshPtr->SetPassIdx(static_cast<UINT>(m_SamplerState));
+        UpdateSamplerStateString();
     }
+    
+    void Renderer::UpdateSamplerStateString()
+    {
+        switch (m_SamplerState)
+        {
+            case SamplerState::Point:
+                m_SamplerStateString = "POINT";
+                break;
+            case SamplerState::Linear:
+                m_SamplerStateString = "LINEAR";
+                break;
+            case SamplerState::Anisotropic:
+                m_SamplerStateString = "ANISOTROPIC";
+                break;
+        }
+        // TODO
+        std::cout << "Sampler state: " << m_SamplerStateString << std::endl;
+    }
+#pragma endregion
 
 #pragma region Week 1
     void Renderer::Render_W1_TODO_0() const

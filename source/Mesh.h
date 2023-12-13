@@ -23,11 +23,15 @@ namespace dae
         void SetMatrix(const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
         void SetMatrix(const Matrix& worldMatrix, const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
         void SetDiffuseMap(const Texture* diffuseTexturePtr) const;
+        inline void SetPassIdx(UINT passIdx) { m_PassIdx = passIdx; }
 
     private:
         void InitializeEffect();
         void InitializeMatrix();
         void InitializeTextures();
+
+        void Draw()     const;
+        void LoadPass() const;
 
     private:
         // From Renderer
@@ -49,5 +53,7 @@ namespace dae
         std::vector<Vertex> m_Vertices;
         std::vector<uint32_t> m_Indices;
         uint32_t m_NumIndices = 0;
+
+        UINT m_PassIdx = 0;
     };
 }

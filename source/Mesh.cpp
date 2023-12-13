@@ -173,6 +173,53 @@ namespace dae
 #endif
     }
 
+    void Mesh::Draw() const
+    {
+#if W1
+        D3DX11_TECHNIQUE_DESC techDesc{};
+        m_TechniquePtr->GetDesc(&techDesc);
+        
+        for (UINT p = 0; p < techDesc.Passes; ++p)
+        {
+            m_TechniquePtr->GetPassByIndex(p)->Apply(0, m_DeviceContextPtr);
+            m_DeviceContextPtr->DrawIndexed(m_NumIndices, 0, 0);
+        }
+#elif W2
+#if TODO_0
+        D3DX11_TECHNIQUE_DESC techDesc{};
+        m_TechniquePtr->GetDesc(&techDesc);
+        
+        for (UINT p = 0; p < techDesc.Passes; ++p)
+        {
+            m_TechniquePtr->GetPassByIndex(p)->Apply(0, m_DeviceContextPtr);
+            m_DeviceContextPtr->DrawIndexed(m_NumIndices, 0, 0);
+        }
+#elif TODO_1
+        D3DX11_TECHNIQUE_DESC techDesc{};
+        m_TechniquePtr->GetDesc(&techDesc);
+        
+        for (UINT p = 0; p < techDesc.Passes; ++p)
+        {
+            m_TechniquePtr->GetPassByIndex(p)->Apply(0, m_DeviceContextPtr);
+            m_DeviceContextPtr->DrawIndexed(m_NumIndices, 0, 0);
+        }
+#elif TODO_2
+        LoadPass();
+#endif
+#endif
+    }
+
+    void Mesh::LoadPass() const
+    {
+        D3DX11_TECHNIQUE_DESC techDesc;
+        m_TechniquePtr->GetDesc(&techDesc);
+        if (m_PassIdx < techDesc.Passes)
+        {
+            m_TechniquePtr->GetPassByIndex(m_PassIdx)->Apply(0, m_DeviceContextPtr);
+            m_DeviceContextPtr->DrawIndexed(m_NumIndices, 0, 0);
+        }
+    }
+
     Mesh::~Mesh()
     {
         if (m_VertexBufferPtr)              m_VertexBufferPtr->Release();
@@ -210,16 +257,10 @@ namespace dae
 
         // 5. Draw
         //=======================================================================================================
-        D3DX11_TECHNIQUE_DESC techDesc{};
-        m_TechniquePtr->GetDesc(&techDesc);
-        
-        for (UINT p = 0; p < techDesc.Passes; ++p)
-        {
-            m_TechniquePtr->GetPassByIndex(p)->Apply(0, m_DeviceContextPtr);
-            m_DeviceContextPtr->DrawIndexed(m_NumIndices, 0, 0);
-        }
-    }
+        Draw();
+}
 
+#pragma region Setters
     void Mesh::SetMatrix(const Matrix& viewMatrix, const Matrix& projectionMatrix) const
     {
         const Matrix worldViewProjectionMatrix = viewMatrix * projectionMatrix;
@@ -237,5 +278,5 @@ namespace dae
         if (diffuseTexturePtr)
             m_DiffuseMapVariablePtr->SetResource(diffuseTexturePtr->GetSRV());
     }
-
+#pragma endregion
 }

@@ -48,6 +48,9 @@ namespace dae
         void InitializeMesh();
         void InitializeTextures();
 
+        // Helper functions
+        void UpdateSamplerStateString();
+
         // --- Week 1 ---
         void Render_W1_TODO_0() const;
 
@@ -103,5 +106,6 @@ namespace dae
         Texture* m_SpecularTexturePtr   = nullptr;
 
         SamplerState m_SamplerState = SamplerState::Point;
+        std::string  m_SamplerStateString {""};
     };
 }
