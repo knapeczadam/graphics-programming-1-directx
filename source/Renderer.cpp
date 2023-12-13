@@ -378,13 +378,13 @@ namespace dae
 #endif
     }
 
-    void Renderer::Render() const
+    void Renderer::Render()
     {
         if (not m_IsInitialized) return;
 
         // 1. Clear RTV and DSV
         //=======================================================================================================
-        const float clearColor[] = {0.0f, 0.0f, 0.3f, 1.0f};
+        const float clearColor[] = {m_BackgroundColor[0], m_BackgroundColor[1], m_BackgroundColor[2], 1.0f};
         m_DeviceContextPtr->ClearRenderTargetView(m_RenderTargetViewPtr, clearColor);
         m_DeviceContextPtr->ClearDepthStencilView(m_DepthStencilViewPtr, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
@@ -415,20 +415,13 @@ namespace dae
         Render_W3_TODO_0();
 #endif
 #endif
-        
-        // 3. Present backbuffer (swap)
-        //=======================================================================================================
-        ImGui::Begin("Settings", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
-                    ImGui::GetIO().Framerate);
-        ImGui::End();
-        
-        // Rendering
-        ImGui::Render();
-        // This line makes the object transparent
-        // m_DeviceContextPtr->OMSetRenderTargets(1, &m_RenderTargetViewPtr, nullptr);
-        ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
+        // 3. UI
+        //=======================================================================================================
+        RenderUI();
+        
+        // 4. Present backbuffer (swap)
+        //=======================================================================================================
         m_SwapChainPtr->Present(0, 0);
     }
 #pragma endregion
@@ -467,7 +460,76 @@ namespace dae
     void Renderer::ToggleNormalVisibility()
     {
         m_UseNormalMap = not m_UseNormalMap;
-        m_MeshPtr->SetUseNormalMap(m_UseNormalMap);
+    }
+#pragma endregion
+    
+#pragma region UI
+    void Renderer::CreateUI()
+    {
+        // ImGui Window
+        ImGui::Begin("Properties");
+        ImGui::Text("Shading  mode: %s", m_CurrentShadingModeString.c_str());
+        ImGui::Text("Sampler state: %s", m_SamplerStateString.c_str());
+        
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+
+        ImGui::ColorEdit3("Background color", m_BackgroundColor);
+
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+        
+        ImGui::Checkbox("Normal map", &m_UseNormalMap);
+        ImGui::Checkbox("Rotate", &m_Rotate);
+        
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+        
+        ImGui::ColorEdit3("Ambient", m_Ambient);
+        ImGui::SliderFloat3("Light direction", m_LightDirection, -1.0f, 1.0f);
+        ImGui::SliderFloat("Light intensity", &m_LightIntensity, 0.0f, 20.0f);
+        ImGui::SliderFloat("KD (Diffuse reflection coefficient)", &m_KD, 0.0f, 20.0f);
+        ImGui::SliderFloat("Shininess", &m_Shininess, 0.0f, 100.0f);
+        
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+
+        if (ImGui::Button("Take screenshot"))
+        {
+            // TakeScreenshot();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Start benchmark"))
+        {
+            // StartBenchmark();
+        }
+        
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+        
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
+                    ImGui::GetIO().Framerate);
+        ImGui::End();
+        
+        // Rendering
+        ImGui::Render();
+        // This line makes the object transparent
+        // m_DeviceContextPtr->OMSetRenderTargets(1, &m_RenderTargetViewPtr, nullptr);
+        ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    }
+
+    void Renderer::RenderUI()
+    {
+#if W3
+#if TODO_0
+        CreateUI();
+#endif
+#endif
     }
 #pragma endregion
 
@@ -486,8 +548,6 @@ namespace dae
                 m_SamplerStateString = "ANISOTROPIC";
                 break;
         }
-        // TODO
-        std::cout << "Sampler state: " << m_SamplerStateString << '\n';
     }
 
     void Renderer::UpdateShadingModeString()
@@ -513,8 +573,6 @@ namespace dae
             m_CurrentShadingModeString = "COMBINED";
             break;
         }
-        // TODO
-        std::cout << "Shading mode: " << m_CurrentShadingModeString << '\n';
     }
 #pragma endregion
 

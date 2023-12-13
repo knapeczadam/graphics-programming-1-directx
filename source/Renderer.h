@@ -50,7 +50,7 @@ namespace dae
         Renderer& operator=(Renderer&&) noexcept = delete;
 
         void Update(const Timer* timerPtr);
-        void Render() const;
+        void Render();
 
         // Settings
         void CycleSamplerState();
@@ -71,6 +71,10 @@ namespace dae
         void UpdateSamplerStateString();
         void UpdateShadingModeString();
         void Rotate(float deltaTime);
+
+        // UI
+        void CreateUI();
+        void RenderUI();
 
         // --- Week 1 ---
         void Render_W1_TODO_0() const;
