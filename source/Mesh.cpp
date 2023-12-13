@@ -49,7 +49,7 @@ namespace dae
         // --- WEEK 3 ---
 #elif W3
 #if TODO_0
-        static constexpr uint32_t numElements{3};
+        static constexpr uint32_t numElements{5};
 #endif
 #endif
         
@@ -91,6 +91,16 @@ namespace dae
         vertexDesc[2].Format            = DXGI_FORMAT_R32G32_FLOAT;
         vertexDesc[2].AlignedByteOffset = 24;
         vertexDesc[2].InputSlotClass    = D3D11_INPUT_PER_VERTEX_DATA;
+
+        vertexDesc[3].SemanticName      = "NORMAL";
+        vertexDesc[3].Format            = DXGI_FORMAT_R32G32B32_FLOAT;
+        vertexDesc[3].AlignedByteOffset = 32;
+        vertexDesc[3].InputSlotClass    = D3D11_INPUT_PER_VERTEX_DATA;
+
+        vertexDesc[4].SemanticName      = "TANGENT";
+        vertexDesc[4].Format            = DXGI_FORMAT_R32G32B32_FLOAT;
+        vertexDesc[4].AlignedByteOffset = 44;
+        vertexDesc[4].InputSlotClass    = D3D11_INPUT_PER_VERTEX_DATA;
 #endif
 #endif
         
