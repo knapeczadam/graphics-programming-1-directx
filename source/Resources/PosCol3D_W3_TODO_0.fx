@@ -9,6 +9,7 @@ Texture2D gSpecularMap   : SpecularMap;
 Texture2D gGlossMap      : GlossMap;
 
 float     gTime          : Time;
+float3    gCameraPos     : CameraPos;
 
 #define PI 3.1415926535897932384626433832795
 
@@ -53,7 +54,7 @@ float4x4 CreateRotation(float yaw)
     return rotation;
 }
 
-float4 ShadePixel(float3 normal, float4 diffuseColor)
+float4 ShadePixel(float3 normal, float3 viewDir, float4 diffuseColor, float4 specularColor, float gloss)
 {
     float4 color = (float4)0;
     
@@ -67,7 +68,13 @@ float4 ShadePixel(float3 normal, float4 diffuseColor)
     float kd = 7.0f;
     float4 diffuse = diffuseColor * kd / PI;
     
-    color = diffuse * float4(observedArea, 1.0f);
+    // Phong specular lighting
+    float shininess = 25.0f;
+    float3 reflectedLight = reflect(-lightDir, normal);
+    float cosAlpha = saturate(dot(reflectedLight, -viewDir));
+    float phong =  specularColor * pow(cosAlpha, gloss * shininess);
+    
+    color = (diffuse + phong) * float4(observedArea, 1.0f);
     return color;
 }
 
@@ -113,8 +120,13 @@ VS_OUTPUT VS(VS_INPUT input)
 //---------------------------------------------------------------------------
 float4 PS_Point(VS_OUTPUT input) : SV_TARGET
 {
+    float3 viewDir = normalize(gCameraPos - input.Position.xyz);
+    
     float4 diffuseColor = gDiffuseMap.Sample(samPoint, input.Uv);
-    return ShadePixel(input.Normal, diffuseColor);
+    float4 specularColor = gSpecularMap.Sample(samPoint, input.Uv);
+    float gloss = gGlossMap.Sample(samPoint, input.Uv).r;
+    
+    return ShadePixel(input.Normal, viewDir, diffuseColor, specularColor, gloss);
 }
 
 float4 PS_Linear(VS_OUTPUT input) : SV_TARGET

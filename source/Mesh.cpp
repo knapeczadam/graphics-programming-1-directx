@@ -270,6 +270,10 @@ namespace dae
         m_TimeVariablePtr = m_EffectPtr->GetVariableByName("gTime")->AsScalar();
         if (not m_TimeVariablePtr->IsValid())
             assert(false and "Failed to create scalar variable!");
+
+        m_CameraPositionVariablePtr = m_EffectPtr->GetVariableByName("gCameraPos")->AsVector();
+        if (not m_CameraPositionVariablePtr->IsValid())
+            assert(false and "Failed to create scalar variable!");
 #endif
 #endif
     }
@@ -351,6 +355,7 @@ namespace dae
 
         // Scalar variables
         if (m_TimeVariablePtr)              m_TimeVariablePtr->Release();
+        if (m_CameraPositionVariablePtr)     m_CameraPositionVariablePtr->Release();
         
         delete m_EffectPtr;
     }
@@ -420,6 +425,11 @@ namespace dae
     void Mesh::SetTime(float time) const
     {
         m_TimeVariablePtr->SetFloat(time);
+    }
+
+    void Mesh::SetCameraPosition(const Vector3& viewDirection) const
+    {
+        m_CameraPositionVariablePtr->SetFloatVector(reinterpret_cast<const float*>(&viewDirection));
     }
 
 

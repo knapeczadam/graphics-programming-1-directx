@@ -32,6 +32,8 @@ namespace dae
         void SetGlossinessMap(const Texture* glossinessTexturePtr) const;
         
         void SetTime(float time) const;
+        void SetCameraPosition(const Vector3& viewDirection) const;
+        
         inline void SetPassIdx(UINT passIdx) { m_PassIdx = passIdx; }
 
     private:
@@ -67,6 +69,7 @@ namespace dae
 
         // Scalar variables
         ID3DX11EffectScalarVariable*         m_TimeVariablePtr              = nullptr;
+        ID3DX11EffectVectorVariable*         m_CameraPositionVariablePtr    = nullptr;
         
         std::vector<Vertex> m_Vertices;
         std::vector<uint32_t> m_Indices;

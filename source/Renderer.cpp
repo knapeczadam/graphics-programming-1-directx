@@ -366,6 +366,7 @@ namespace dae
 #if TODO_0
         m_Camera.Update(timerPtr);
         m_MeshPtr->SetMatrix(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
+        m_MeshPtr->SetCameraPosition(m_Camera.GetPosition());
         Rotate(timerPtr->GetElapsed());
 #endif
 #endif
