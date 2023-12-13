@@ -1,4 +1,5 @@
 #pragma once
+#include "Renderer.h"
 
 namespace dae
 {
@@ -22,7 +23,12 @@ namespace dae
         void Render() const;
         void SetMatrix(const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
         void SetMatrix(const Matrix& worldMatrix, const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
+        
         void SetDiffuseMap(const Texture* diffuseTexturePtr) const;
+        void SetNormalMap(const Texture* normalMapTexturePtr) const;
+        void SetSpecularMap(const Texture* specularTexturePtr) const;
+        void SetGlossinessMap(const Texture* glossinessTexturePtr) const;
+        
         void SetTime(float time) const;
         inline void SetPassIdx(UINT passIdx) { m_PassIdx = passIdx; }
 
@@ -50,7 +56,14 @@ namespace dae
         ID3DX11EffectTechnique*              m_TechniquePtr                 = nullptr;
         
         ID3DX11EffectMatrixVariable*         m_WorldViewProjectionMatrixPtr = nullptr;
+
+        // Texture variables
         ID3DX11EffectShaderResourceVariable* m_DiffuseMapVariablePtr        = nullptr;
+        ID3DX11EffectShaderResourceVariable* m_NormalMapVariablePtr         = nullptr;
+        ID3DX11EffectShaderResourceVariable* m_SpecularMapVariablePtr       = nullptr;
+        ID3DX11EffectShaderResourceVariable* m_GlossinessMapVariablePtr     = nullptr;
+
+        // Scalar variables
         ID3DX11EffectScalarVariable*         m_TimeVariablePtr              = nullptr;
         
         std::vector<Vertex> m_Vertices;

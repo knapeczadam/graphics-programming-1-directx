@@ -274,8 +274,15 @@ namespace dae
         // --- WEEK 3 ---
 #elif W3
 #if TODO_0
-        m_DiffuseTexturePtr = Texture::LoadFromFile(m_DiffuseTexturePath, m_DevicePtr);
+        m_DiffuseTexturePtr    = Texture::LoadFromFile(m_DiffuseTexturePath,    m_DevicePtr);
+        m_NormalTexturePtr     = Texture::LoadFromFile(m_NormalTexturePath,     m_DevicePtr);
+        m_SpecularTexturePtr   = Texture::LoadFromFile(m_SpecularTexturePath,   m_DevicePtr);
+        m_GlossinessTexturePtr = Texture::LoadFromFile(m_GlossinessTexturePath, m_DevicePtr);
+        
         m_MeshPtr->SetDiffuseMap(m_DiffuseTexturePtr);
+        m_MeshPtr->SetNormalMap(m_NormalTexturePtr);
+        m_MeshPtr->SetSpecularMap(m_SpecularTexturePtr);
+        m_MeshPtr->SetGlossinessMap(m_GlossinessTexturePtr);
 #endif
 #endif
     }

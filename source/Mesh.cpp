@@ -193,7 +193,7 @@ namespace dae
         if (not m_WorldViewProjectionMatrixPtr->IsValid())
             assert(false and "Failed to create matrix variable!");
 #endif
-        
+
         // --- WEEK 3 ---
 #elif W3
 #if TODO_0
@@ -227,6 +227,18 @@ namespace dae
 #if TODO_0
         m_DiffuseMapVariablePtr = m_EffectPtr->GetVariableByName("gDiffuseMap")->AsShaderResource();
         if (not m_DiffuseMapVariablePtr->IsValid())
+            assert(false and "Failed to create texture variable!");
+        
+        m_NormalMapVariablePtr = m_EffectPtr->GetVariableByName("gNormalMap")->AsShaderResource();
+        if (not m_NormalMapVariablePtr->IsValid())
+            assert(false and "Failed to create texture variable!");
+
+        m_SpecularMapVariablePtr = m_EffectPtr->GetVariableByName("gSpecularMap")->AsShaderResource();
+        if (not m_SpecularMapVariablePtr->IsValid())
+            assert(false and "Failed to create texture variable!");
+
+        m_GlossinessMapVariablePtr = m_EffectPtr->GetVariableByName("gGlossMap")->AsShaderResource();
+        if (not m_GlossinessMapVariablePtr->IsValid())
             assert(false and "Failed to create texture variable!");
 #endif
 #endif
@@ -320,7 +332,14 @@ namespace dae
         if (m_TechniquePtr)                 m_TechniquePtr->Release();
         
         if (m_WorldViewProjectionMatrixPtr) m_WorldViewProjectionMatrixPtr->Release();
+
+        // Texture variables
         if (m_DiffuseMapVariablePtr)        m_DiffuseMapVariablePtr->Release();
+        if (m_NormalMapVariablePtr)         m_NormalMapVariablePtr->Release();
+        if (m_SpecularMapVariablePtr)       m_SpecularMapVariablePtr->Release();
+        if (m_GlossinessMapVariablePtr)     m_GlossinessMapVariablePtr->Release();
+
+        // Scalar variables
         if (m_TimeVariablePtr)              m_TimeVariablePtr->Release();
         
         delete m_EffectPtr;
@@ -349,7 +368,7 @@ namespace dae
         // 5. Draw
         //=======================================================================================================
         Draw();
-}
+    }
 
 #pragma region Setters
     void Mesh::SetMatrix(const Matrix& viewMatrix, const Matrix& projectionMatrix) const
@@ -368,6 +387,24 @@ namespace dae
     {
         if (diffuseTexturePtr)
             m_DiffuseMapVariablePtr->SetResource(diffuseTexturePtr->GetSRV());
+    }
+
+    void Mesh::SetNormalMap(const Texture* normalMapTexturePtr) const
+    {
+        if (normalMapTexturePtr)
+            m_NormalMapVariablePtr->SetResource(normalMapTexturePtr->GetSRV());
+    }
+
+    void Mesh::SetSpecularMap(const Texture* specularTexturePtr) const
+    {
+        if (specularTexturePtr)
+            m_SpecularMapVariablePtr->SetResource(specularTexturePtr->GetSRV());
+    }
+
+    void Mesh::SetGlossinessMap(const Texture* glossinessTexturePtr) const
+    {
+        if (glossinessTexturePtr)
+            m_GlossinessMapVariablePtr->SetResource(glossinessTexturePtr->GetSRV());
     }
 
     void Mesh::SetTime(float time) const

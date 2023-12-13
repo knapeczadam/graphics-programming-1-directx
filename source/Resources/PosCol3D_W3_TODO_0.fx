@@ -2,7 +2,12 @@
 // Global Variables
 //-----------------------------------------------------------------------------
 float4x4  gWorldViewProj : WorldViewProjection;
+
 Texture2D gDiffuseMap    : DiffuseMap;
+Texture2D gNormalMap     : NormalMap;
+Texture2D gSpecularMap   : SpecularMap;
+Texture2D gGlossMap      : GlossMap;
+
 float     gTime          : Time;
 
 //---------------------------------------------------------------------------
