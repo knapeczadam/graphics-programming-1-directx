@@ -47,6 +47,7 @@ namespace dae
         void InitializeCamera();
         void InitializeMesh();
         void InitializeTextures();
+        void InitializeObjects();
 
         // Helper functions
         void UpdateSamplerStateString();

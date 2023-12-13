@@ -5,6 +5,7 @@
 #include "SceneSelector.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "Utils.h"
 
 // DirectX headers
 #include <dxgi.h>
@@ -42,6 +43,9 @@ namespace dae
     
     std::vector<uint32_t> triangle_indices{0, 1, 2};
     std::vector<uint32_t> quad_indices{0, 1, 2, 2, 1, 3};
+
+    std::vector<Vertex> vehicle_vertices{};
+    std::vector<uint32_t> vehicle_indices{};
 #pragma endregion
     
 #pragma region Initialization
@@ -66,6 +70,7 @@ namespace dae
         
         // General initialization
         //=======================================================================================================
+        InitializeObjects();
         InitializeMesh();
         InitializeCamera();
         InitializeTextures();
@@ -212,7 +217,7 @@ namespace dae
 #elif TODO_2
         m_Camera.Initialize(45.0f, {0.0f, 0.0f, -10.0f});
 #elif TODO_3
-        m_Camera.Initialize(45.0f, {0.0f, 0.0f, -10.0f});
+        m_Camera.Initialize(45.0f, {0.0f, 0.0f, -50.0f});
 #endif
 #endif
     }
@@ -234,7 +239,7 @@ namespace dae
 #elif TODO_2
         m_MeshPtr = new Mesh(m_DevicePtr, quad_vertices_world, quad_indices);
 #elif TODO_3
-        m_MeshPtr = new Mesh(m_DevicePtr, quad_vertices_world, quad_indices);
+        m_MeshPtr = new Mesh(m_DevicePtr, vehicle_vertices, vehicle_indices);
 #endif
 #endif
     }
@@ -250,8 +255,17 @@ namespace dae
         m_TexturePtr = Texture::LoadFromFile(m_UVGrid2TexturePath, m_DevicePtr);
         m_MeshPtr->SetDiffuseMap(m_TexturePtr);
 #elif TODO_3
-        m_TexturePtr = Texture::LoadFromFile(m_UVGrid2TexturePath, m_DevicePtr);
-        m_MeshPtr->SetDiffuseMap(m_TexturePtr);
+        m_DiffuseTexturePtr = Texture::LoadFromFile(m_DiffuseTexturePath, m_DevicePtr);
+        m_MeshPtr->SetDiffuseMap(m_DiffuseTexturePtr);
+#endif
+#endif
+    }
+
+    void Renderer::InitializeObjects()
+    {
+#if W2
+#if TODO_3
+        Utils::ParseOBJ(m_VehiclePath, vehicle_vertices, vehicle_indices);
 #endif
 #endif
     }
