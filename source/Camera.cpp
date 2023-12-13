@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Camera.h"
 
+#include "imgui.h"
+
 namespace dae
 {
     Camera::Camera(const Vector3& _origin, float _fovAngle)
@@ -43,6 +45,12 @@ namespace dae
 
     void Camera::Scroll(SDL_MouseWheelEvent wheel)
     {
+        // Check whether the mouse is over the ImGui window
+        if (ImGui::GetIO().WantCaptureMouse)
+        {
+            return;
+        }
+        
         if (wheel.y > 0) // scroll up
         {
             m_Origin += m_Forward * m_ScrollSpeed;
@@ -108,6 +116,12 @@ namespace dae
 
     void Camera::RotateCamera(float deltaTime)
     {
+        // Check whether the mouse is over the ImGui window
+        if (ImGui::GetIO().WantCaptureMouse)
+        {
+            return;
+        }
+        
         int mouseX{}, mouseY{};
         const int threshold{1};
         
