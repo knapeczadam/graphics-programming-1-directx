@@ -75,8 +75,8 @@ namespace dae
         ID3DX11EffectScalarVariable*         m_UseNormalMapVariablePtr      = nullptr;
         ID3DX11EffectScalarVariable*         m_ShadingModeVariablePtr       = nullptr;
         
-        std::vector<Vertex> m_Vertices;
-        std::vector<uint32_t> m_Indices;
+        std::vector<Vertex> m_Vertices  {};
+        std::vector<uint32_t> m_Indices {};
         uint32_t m_NumIndices = 0;
 
         UINT m_PassIdx = 0;

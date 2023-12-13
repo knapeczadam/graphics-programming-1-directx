@@ -110,16 +110,16 @@ namespace dae
         
         // Path
 #if CUSTOM_PATH
-        const std::string m_ResourcesPath         {"../_Resources/"};
+        const std::string m_ResourcesPath         = "../_Resources/";
 #else
-        const std::string m_ResourcesPath         {"Resources/"};
+        const std::string m_ResourcesPath         = "Resources/";
 #endif
-        const std::string m_DiffuseTexturePath    {m_ResourcesPath + "vehicle_diffuse.png"};
-        const std::string m_GlossinessTexturePath {m_ResourcesPath + "vehicle_gloss.png"};
-        const std::string m_NormalTexturePath     {m_ResourcesPath + "vehicle_normal.png"};
-        const std::string m_SpecularTexturePath   {m_ResourcesPath + "vehicle_specular.png"};
-        const std::string m_UVGrid2TexturePath    {m_ResourcesPath + "uv_grid_2.png"};
-        const std::string m_VehiclePath           {m_ResourcesPath + "vehicle.obj"};
+        const std::string m_DiffuseTexturePath    = m_ResourcesPath + "vehicle_diffuse.png";
+        const std::string m_GlossinessTexturePath = m_ResourcesPath + "vehicle_gloss.png";
+        const std::string m_NormalTexturePath     = m_ResourcesPath + "vehicle_normal.png";
+        const std::string m_SpecularTexturePath   = m_ResourcesPath + "vehicle_specular.png";
+        const std::string m_UVGrid2TexturePath    = m_ResourcesPath + "uv_grid_2.png";
+        const std::string m_VehiclePath           = m_ResourcesPath + "vehicle.obj";
         
         // General texture
         Texture* m_TexturePtr = nullptr;
@@ -131,25 +131,25 @@ namespace dae
         Texture* m_SpecularTexturePtr   = nullptr;
 
         SamplerState m_SamplerState = SamplerState::Point;
-        std::string  m_SamplerStateString {"POINT"};
+        std::string  m_SamplerStateString ="POINT";
 
-        ShadingMode m_PreviousShadingMode      {ShadingMode::Combined};
-        ShadingMode m_CurrentShadingMode       {ShadingMode::Combined};
-        std::string m_CurrentShadingModeString {"COMBINED"};
+        ShadingMode m_PreviousShadingMode      = ShadingMode::Combined;
+        ShadingMode m_CurrentShadingMode       = ShadingMode::ObservedArea;
+        std::string m_CurrentShadingModeString = "OBSERVED AREA";
 
-        bool  m_Rotate  {true};
-        float m_AccTime {0.0f};
+        bool  m_Rotate  = true;
+        float m_AccTime = 0.0f;
         
         // Debug
-        bool m_UseNormalMap         {true};
+        bool m_UseNormalMap = true;
 
         // Lighting
-        float m_Ambient[3]        {0.03f, 0.03f, 0.03f}; // 8, 8, 8
-        float m_LightDirection[3] {0.577f,  -0.577f, 0.577f}; 
-        float m_LightIntensity    {1.0f};
-        float m_KD                {7.0f}; // Diffuse  reflection coefficient
-        float m_Shininess         {25.0f};
+        float m_Ambient[3]        = {0.03f, 0.03f, 0.03f}; // 8, 8, 8
+        float m_LightDirection[3] = {0.577f,  -0.577f, 0.577f}; 
+        float m_LightIntensity    = 1.0f;
+        float m_KD                = 7.0f; // Diffuse  reflection coefficient
+        float m_Shininess         = 25.0f;
         
-        float m_BackgroundColor[3] {0.3921f, 0.3921f, 0.3921f}; // 100, 100, 100
+        float m_BackgroundColor[3] = {0.3921f, 0.3921f, 0.3921f}; // 100, 100, 100
     };
 }

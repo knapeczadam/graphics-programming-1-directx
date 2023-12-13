@@ -363,7 +363,9 @@ namespace dae
 
         // Scalar variables
         if (m_TimeVariablePtr)              m_TimeVariablePtr->Release();
-        if (m_CameraPositionVariablePtr)     m_CameraPositionVariablePtr->Release();
+        if (m_CameraPositionVariablePtr)    m_CameraPositionVariablePtr->Release();
+        if (m_UseNormalMapVariablePtr)      m_UseNormalMapVariablePtr->Release();
+        if (m_ShadingModeVariablePtr)       m_ShadingModeVariablePtr->Release();
         
         delete m_EffectPtr;
     }
