@@ -28,9 +28,9 @@ namespace dae
     
     const std::vector<Vertex> triangle_vertices_world
     {
-        {{ 0.0f,  3.0f, 2.0f},{1.0f, 0.0f, 0.0f}, {}},
-        {{ 3.0f, -3.0f, 2.0f},{0.0f, 0.0f, 1.0f}, {}},
-        {{-3.0f, -3.0f, 2.0f},{0.0f, 1.0f, 0.0f}, {}}
+        {{ 0.0f,  3.0f, 2.0f},{1.0f, 0.0f, 0.0f}},
+        {{ 3.0f, -3.0f, 2.0f},{0.0f, 0.0f, 1.0f}},
+        {{-3.0f, -3.0f, 2.0f},{0.0f, 1.0f, 0.0f}}
     };
 
     const std::vector<Vertex> quad_vertices_world
