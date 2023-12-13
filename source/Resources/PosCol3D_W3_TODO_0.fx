@@ -1,17 +1,23 @@
 //-----------------------------------------------------------------------------
 // Global Variables
 //-----------------------------------------------------------------------------
-float4x4  gWorldViewProj : WorldViewProjection;
+float4x4  gWorldViewProj  : WorldViewProjection;
 
-Texture2D gDiffuseMap    : DiffuseMap;
-Texture2D gNormalMap     : NormalMap;
-Texture2D gSpecularMap   : SpecularMap;
-Texture2D gGlossMap      : GlossMap;
+Texture2D gDiffuseMap     : DiffuseMap;
+Texture2D gNormalMap      : NormalMap;
+Texture2D gSpecularMap    : SpecularMap;
+Texture2D gGlossMap       : GlossMap;
 
-float     gTime          : Time;
-float3    gCameraPos     : CameraPos;
-bool      gUseNormalMap  : UseNormalMap;
-int       gShadingMode   : ShadingMode;
+float     gTime           : Time;
+float3    gCameraPos      : CameraPos;
+bool      gUseNormalMap   : UseNormalMap;
+int       gShadingMode    : ShadingMode;
+
+float3    gAmbientColor   : AmbientColor;
+float3    gLightDir       : LightDir;
+float     gLightIntensity : LightIntensity;
+float     gKD             : KD;
+float     gShininess      : Shininess;
 
 #define PI 3.1415926535897932384626433832795
 
@@ -72,24 +78,22 @@ float4 ShadePixel(float3 normal, float3 tangent, float3 viewDir, float4 diffuseC
     // Transform normal from tangent-space to world-space
     normal = gUseNormalMap ? mul(normalColor, tangentSpace) : normal;
     
-    // Ambient lighting
-    float3 ambient = float3(0.03f, 0.03f, 0.03f);
+    // Light direction
+    float3 lightDir = normalize(gLightDir);
     
-    // Normalized light direction
-    float3 lightDir = float3(0.577f, -0.577f, 0.577f);
+    // Radiance (directional light)
+    float3 radiance = float3(1.0f, 1.0f, 1.0f) * gLightIntensity;
     
     // Observed area
     float3 observedArea = saturate(dot(normal, -lightDir));
     
     // Diffuse lighting
-    float kd = 7.0f;
-    float4 diffuse = diffuseColor * kd / PI;
+    float4 diffuse = diffuseColor * gKD / PI;
     
     // Phong specular lighting
-    float shininess = 25.0f;
     float3 reflectedLight = reflect(-lightDir, normal);
     float cosAlpha = saturate(dot(reflectedLight, -viewDir));
-    float phong =  specularColor * pow(cosAlpha, gloss * shininess);
+    float phong =  specularColor * pow(cosAlpha, gloss * gShininess);
     
     if (gShadingMode == 0)
     {
@@ -105,7 +109,7 @@ float4 ShadePixel(float3 normal, float3 tangent, float3 viewDir, float4 diffuseC
     }
     else
     {
-        color = (diffuse + phong + float4(ambient, 1.0f)) * float4(observedArea, 1.0f);
+        color = float4(radiance, 1.0f) * (diffuse + phong + float4(gAmbientColor, 1.0f)) * float4(observedArea, 1.0f);
     }
     return color;
 }
