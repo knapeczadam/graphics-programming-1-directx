@@ -13,6 +13,10 @@
 #include <d3dcompiler.h>
 #include <d3dx11effect.h>
 
+// ImGui includes
+#include "imgui.h"
+#include "imgui_impl_dx11.h"
+
 // Standard includes
 #include <cassert>
 
@@ -67,6 +71,8 @@ namespace dae
             std::cout << "DirectX initialization failed!\n";
         }
 
+        // Setup Platform/Renderer backends - Part 2
+        ImGui_ImplDX11_Init(m_DevicePtr, m_DeviceContextPtr);
         
         // General initialization
         //=======================================================================================================
@@ -412,6 +418,17 @@ namespace dae
         
         // 3. Present backbuffer (swap)
         //=======================================================================================================
+        ImGui::Begin("Settings", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
+                    ImGui::GetIO().Framerate);
+        ImGui::End();
+        
+        // Rendering
+        ImGui::Render();
+        // This line makes the object transparent
+        // m_DeviceContextPtr->OMSetRenderTargets(1, &m_RenderTargetViewPtr, nullptr);
+        ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
         m_SwapChainPtr->Present(0, 0);
     }
 #pragma endregion

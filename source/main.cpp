@@ -7,6 +7,11 @@
 #undef main
 #include "Renderer.h"
 
+// ImGui includes
+#include "imgui_impl_dx11.h"
+#include "imgui_impl_win32.h"
+#include "imgui_impl_sdl2.h"
+
 using namespace dae;
 
 void ShutDown(SDL_Window* windowPtr)
@@ -35,6 +40,24 @@ int main(int argc, char* args[])
 
     if (not windowPtr)
         return 1;
+    
+    // Setup Dear ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+    
+    // Setup Platform/Renderer backends - Part 1
+    SDL_SysWMinfo wmInfo;
+    SDL_VERSION(&wmInfo.version);
+    SDL_GetWindowWMInfo(windowPtr, &wmInfo);
+    HWND hwnd = wmInfo.info.win.window;
+    ImGui_ImplWin32_Init(hwnd);
+    // ImGui_ImplDX11_Init is called in Renderer constructor
 
     //Initialize "framework"
     const auto timerPtr    = new Timer();
@@ -52,6 +75,8 @@ int main(int argc, char* args[])
         SDL_Event e;
         while (SDL_PollEvent(&e))
         {
+            ImGui_ImplSDL2_ProcessEvent(&e);
+            
             switch (e.type)
             {
             case SDL_QUIT:
@@ -79,6 +104,12 @@ int main(int argc, char* args[])
                 break;
             }
         }
+        
+        // TODO: Assertion failed: (g.IO.DeltaTime > 0.0f || g.FrameCount == 0) && "Need a positive DeltaTime!"
+        // Start the Dear ImGui frame
+        ImGui_ImplDX11_NewFrame();
+        ImGui_ImplWin32_NewFrame();
+        ImGui::NewFrame();
 
         //--------- Update ---------
         rendererPtr->Update(timerPtr);
@@ -93,10 +124,15 @@ int main(int argc, char* args[])
         if (printTimer >= 1.f)
         {
             printTimer = 0.f;
-            std::cout << "dFPS: " << timerPtr->GetdFPS() << std::endl;
+            // std::cout << "dFPS: " << timerPtr->GetdFPS() << std::endl;
         }
     }
     timerPtr->Stop();
+    
+    // Cleanup
+    ImGui_ImplDX11_Shutdown();
+    ImGui_ImplWin32_Shutdown();
+    ImGui::DestroyContext();
 
     //Shutdown "framework"
     delete rendererPtr;
