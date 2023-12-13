@@ -51,6 +51,18 @@ float4x4 CreateRotation(float yaw)
     return rotation;
 }
 
+float4 ShadePixel(float3 normal)
+{
+    float4 color = (float4)0;
+    
+    float3 lightDir = float3(0.577f, -0.577f, 0.577f);
+    
+    color.rgb = saturate(dot(normal, -lightDir));
+    color.a   = 1.0f;
+    
+    return color;
+}
+
 //---------------------------------------------------------------------------
 // Input/Output Structs
 //---------------------------------------------------------------------------
@@ -68,6 +80,7 @@ struct VS_OUTPUT
     float4 Position : SV_POSITION;
     float3 Color    : COLOR;
     float2 Uv       : TEXCOORD;
+    float3 Normal   : NORMAL;
 };
 
 //---------------------------------------------------------------------------
@@ -81,6 +94,8 @@ VS_OUTPUT VS(VS_INPUT input)
     output.Position = mul(float4(input.Position, 1.0f), gWorldViewProj);
     output.Color    = input.Color;
     output.Uv       = input.Uv;
+    input.Normal    = mul(input.Normal, CreateRotation(gTime));
+    output.Normal   = input.Normal;
 
     return output;
 }
@@ -90,7 +105,8 @@ VS_OUTPUT VS(VS_INPUT input)
 //---------------------------------------------------------------------------
 float4 PS_Point(VS_OUTPUT input) : SV_TARGET
 {
-    return gDiffuseMap.Sample(samPoint, input.Uv);
+//    return gDiffuseMap.Sample(samPoint, input.Uv);
+    return ShadePixel(input.Normal);
 }
 
 float4 PS_Linear(VS_OUTPUT input) : SV_TARGET
