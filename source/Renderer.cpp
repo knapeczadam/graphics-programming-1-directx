@@ -211,6 +211,8 @@ namespace dae
         m_Camera.Initialize(45.0f, {0.0f, 0.0f, -10.0f});
 #elif TODO_2
         m_Camera.Initialize(45.0f, {0.0f, 0.0f, -10.0f});
+#elif TODO_3
+        m_Camera.Initialize(45.0f, {0.0f, 0.0f, -10.0f});
 #endif
 #endif
     }
@@ -231,6 +233,8 @@ namespace dae
         m_MeshPtr = new Mesh(m_DevicePtr, quad_vertices_world, quad_indices);
 #elif TODO_2
         m_MeshPtr = new Mesh(m_DevicePtr, quad_vertices_world, quad_indices);
+#elif TODO_3
+        m_MeshPtr = new Mesh(m_DevicePtr, quad_vertices_world, quad_indices);
 #endif
 #endif
     }
@@ -243,6 +247,9 @@ namespace dae
         m_TexturePtr = Texture::LoadFromFile(m_UVGrid2TexturePath, m_DevicePtr);
         m_MeshPtr->SetDiffuseMap(m_TexturePtr);
 #elif TODO_2
+        m_TexturePtr = Texture::LoadFromFile(m_UVGrid2TexturePath, m_DevicePtr);
+        m_MeshPtr->SetDiffuseMap(m_TexturePtr);
+#elif TODO_3
         m_TexturePtr = Texture::LoadFromFile(m_UVGrid2TexturePath, m_DevicePtr);
         m_MeshPtr->SetDiffuseMap(m_TexturePtr);
 #endif
@@ -306,6 +313,9 @@ namespace dae
 #elif TODO_2
         m_Camera.Update(timerPtr);
         m_MeshPtr->SetMatrix(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
+#elif TODO_3
+        m_Camera.Update(timerPtr);
+        m_MeshPtr->SetMatrix(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
 #endif
 #endif
     }
@@ -333,6 +343,8 @@ namespace dae
         Render_W2_TODO_1();
 #elif TODO_2
         Render_W2_TODO_2();
+#elif TODO_3
+        Render_W2_TODO_3();
 #endif
 #endif
         
@@ -388,6 +400,11 @@ namespace dae
     }
 
     void Renderer::Render_W2_TODO_2() const
+    {
+        m_MeshPtr->Render();
+    }
+
+    void Renderer::Render_W2_TODO_3() const
     {
         m_MeshPtr->Render();
     }

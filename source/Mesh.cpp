@@ -38,6 +38,8 @@ namespace dae
         static constexpr uint32_t numElements{3};
 #elif TODO_2
         static constexpr uint32_t numElements{3};
+#elif TODO_3
+        static constexpr uint32_t numElements{3};
 #endif
 #endif
         
@@ -60,6 +62,11 @@ namespace dae
         vertexDesc[2].AlignedByteOffset = 24;
         vertexDesc[2].InputSlotClass    = D3D11_INPUT_PER_VERTEX_DATA;
 #elif TODO_2
+        vertexDesc[2].SemanticName      = "TEXCOORD";
+        vertexDesc[2].Format            = DXGI_FORMAT_R32G32_FLOAT;
+        vertexDesc[2].AlignedByteOffset = 24;
+        vertexDesc[2].InputSlotClass    = D3D11_INPUT_PER_VERTEX_DATA;
+#elif TODO_3
         vertexDesc[2].SemanticName      = "TEXCOORD";
         vertexDesc[2].Format            = DXGI_FORMAT_R32G32_FLOAT;
         vertexDesc[2].AlignedByteOffset = 24;
@@ -133,6 +140,8 @@ namespace dae
         m_EffectPtr = new Effect(m_DevicePtr, L"Resources/PosCol3D_W2_TODO_1.fx");
 #elif TODO_2
         m_EffectPtr = new Effect(m_DevicePtr, L"Resources/PosCol3D_W2_TODO_2.fx");
+#elif TODO_3
+        m_EffectPtr = new Effect(m_DevicePtr, L"Resources/PosCol3D_W2_TODO_3.fx");
 #endif
 #endif
     }
@@ -153,6 +162,10 @@ namespace dae
         m_WorldViewProjectionMatrixPtr = m_EffectPtr->GetVariableByName("gWorldViewProj")->AsMatrix();
         if (not m_WorldViewProjectionMatrixPtr->IsValid())
             assert(false and "Failed to create matrix variable!");
+#elif TODO_3
+        m_WorldViewProjectionMatrixPtr = m_EffectPtr->GetVariableByName("gWorldViewProj")->AsMatrix();
+        if (not m_WorldViewProjectionMatrixPtr->IsValid())
+            assert(false and "Failed to create matrix variable!");
 #endif
 #endif
     }
@@ -166,6 +179,10 @@ namespace dae
         if (not m_DiffuseMapVariablePtr->IsValid())
             assert(false and "Failed to create texture variable!");
 #elif TODO_2
+        m_DiffuseMapVariablePtr = m_EffectPtr->GetVariableByName("gDiffuseMap")->AsShaderResource();
+        if (not m_DiffuseMapVariablePtr->IsValid())
+            assert(false and "Failed to create texture variable!");
+#elif TODO_3
         m_DiffuseMapVariablePtr = m_EffectPtr->GetVariableByName("gDiffuseMap")->AsShaderResource();
         if (not m_DiffuseMapVariablePtr->IsValid())
             assert(false and "Failed to create texture variable!");
@@ -204,6 +221,8 @@ namespace dae
             m_DeviceContextPtr->DrawIndexed(m_NumIndices, 0, 0);
         }
 #elif TODO_2
+        LoadPass();
+#elif TODO_3
         LoadPass();
 #endif
 #endif

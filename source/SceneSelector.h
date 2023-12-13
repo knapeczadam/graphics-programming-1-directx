@@ -10,7 +10,8 @@ namespace dae
 
     #define TODO_0 0
     #define TODO_1 0
-    #define TODO_2 1
+    #define TODO_2 0
+    #define TODO_3 1
 
     #define CUSTOM_PATH 0
 }

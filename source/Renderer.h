@@ -58,6 +58,7 @@ namespace dae
         void Render_W2_TODO_0() const;
         void Render_W2_TODO_1() const;
         void Render_W2_TODO_2() const;
+        void Render_W2_TODO_3() const;
         
         // DIRECTX
         HRESULT InitializeDirectX();
