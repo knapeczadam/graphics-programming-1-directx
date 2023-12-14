@@ -20,6 +20,22 @@ void ShutDown(SDL_Window* windowPtr)
     SDL_Quit();
 }
 
+void StartImGuiFrame()
+{
+    // Start the Dear ImGui frame
+    // Needs to be branched because of this:
+    // Assertion failed: (g.FrameCount == 0 || g.FrameCountEnded == g.FrameCount) && "Forgot to call Render() or EndFrame() at the end of the previous frame?",
+#if W3
+#if TODO_0
+        // Assertion failed: (g.IO.DeltaTime > 0.0f || g.FrameCount == 0) && "Need a positive DeltaTime!"
+        // Fixed imgui.cpp:9426
+        ImGui_ImplDX11_NewFrame();
+        ImGui_ImplWin32_NewFrame();
+        ImGui::NewFrame();
+#endif
+#endif
+}
+
 int main(int argc, char* args[])
 {
     //Unreferenced parameters
@@ -108,11 +124,7 @@ int main(int argc, char* args[])
             }
         }
         
-        // TODO: Assertion failed: (g.IO.DeltaTime > 0.0f || g.FrameCount == 0) && "Need a positive DeltaTime!"
-        // Start the Dear ImGui frame
-        ImGui_ImplDX11_NewFrame();
-        ImGui_ImplWin32_NewFrame();
-        ImGui::NewFrame();
+        StartImGuiFrame();
 
         //--------- Update ---------
         rendererPtr->Update(timerPtr);
