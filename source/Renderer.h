@@ -109,8 +109,9 @@ namespace dae
         ID3D11Resource*         m_RenderTargetBufferPtr = nullptr;
         ID3D11RenderTargetView* m_RenderTargetViewPtr   = nullptr;
 
-        Camera m_Camera  {};
-        Mesh*  m_MeshPtr = nullptr;
+        Camera m_Camera {};
+        Mesh*  m_MeshPtr   =   nullptr;
+        Mesh*  m_FireFXMeshPtr =   nullptr;
         
         // Path
 #if CUSTOM_PATH
@@ -123,7 +124,10 @@ namespace dae
         const std::string m_NormalTexturePath     = m_ResourcesPath + "vehicle_normal.png";
         const std::string m_SpecularTexturePath   = m_ResourcesPath + "vehicle_specular.png";
         const std::string m_UVGrid2TexturePath    = m_ResourcesPath + "uv_grid_2.png";
+        const std::string m_FireFXTexturePath     = m_ResourcesPath + "fireFX_diffuse.png";
+        
         const std::string m_VehiclePath           = m_ResourcesPath + "vehicle.obj";
+        const std::string m_FireFXPath            = m_ResourcesPath + "fireFX.obj";
         
         // General texture
         Texture* m_TexturePtr = nullptr;
@@ -133,6 +137,9 @@ namespace dae
         Texture* m_GlossinessTexturePtr = nullptr;
         Texture* m_NormalTexturePtr     = nullptr;
         Texture* m_SpecularTexturePtr   = nullptr;
+
+        // FireFX
+        Texture* m_FireFXTexturePtr = nullptr;
 
         SamplerState m_SamplerState = SamplerState::Point;
         std::string  m_SamplerStateString ="POINT";

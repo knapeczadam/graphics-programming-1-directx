@@ -50,6 +50,8 @@ namespace dae
 
     std::vector<Vertex>   vehicle_vertices {};
     std::vector<uint32_t> vehicle_indices  {};
+    std::vector<Vertex>   fireFx_vertices  {};
+    std::vector<uint32_t> fireFx_indices   {};
 #pragma endregion
     
 #pragma region Initialization
@@ -289,6 +291,8 @@ namespace dae
         m_MeshPtr->SetNormalMap(m_NormalTexturePtr);
         m_MeshPtr->SetSpecularMap(m_SpecularTexturePtr);
         m_MeshPtr->SetGlossinessMap(m_GlossinessTexturePtr);
+
+        m_FireFXTexturePtr = Texture::LoadFromFile(m_FireFXTexturePath, m_DevicePtr);
 #endif
 #endif
     }
@@ -302,6 +306,7 @@ namespace dae
 #elif W3
 #if TODO_0
         Utils::ParseOBJ(m_VehiclePath, vehicle_vertices, vehicle_indices);
+        Utils::ParseOBJ(m_FireFXPath, fireFx_vertices, fireFx_indices);
 #endif
 #endif
     }
@@ -340,12 +345,15 @@ namespace dae
         // General
         //=======================================================================================================
         delete m_MeshPtr;
+        delete m_FireFXMeshPtr;
 
+        // Textures
         delete m_TexturePtr;
         delete m_DiffuseTexturePtr;
         delete m_GlossinessTexturePtr;
         delete m_NormalTexturePtr;
         delete m_SpecularTexturePtr;
+        delete m_FireFXTexturePtr;
     }
 #pragma endregion
 
