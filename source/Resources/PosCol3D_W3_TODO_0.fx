@@ -48,11 +48,23 @@ SamplerState samAnisotropic
 //---------------------------------------------------------------------------
 // Blending States
 //---------------------------------------------------------------------------
-BlendState gBlendState
+BlendState gAlphaBlendState
 {
     BlendEnable[0]           = TRUE;
     SrcBlend                 = SRC_ALPHA;
     DestBlend                = INV_SRC_ALPHA;
+    BlendOp                  = ADD;
+    SrcBlendAlpha            = ONE;
+    DestBlendAlpha           = ZERO;
+    BlendOpAlpha             = ADD;
+    RenderTargetWriteMask[0] = 0x0F;
+};
+
+BlendState gNoBlendState
+{
+    BlendEnable[0]           = FALSE;
+    SrcBlend                 = ONE;
+    DestBlend                = ZERO;
     BlendOp                  = ADD;
     SrcBlendAlpha            = ONE;
     DestBlendAlpha           = ZERO;
@@ -65,7 +77,7 @@ BlendState gBlendState
 //---------------------------------------------------------------------------
 RasterizerState gRasterizerState
 {
-    FillMode = WIREFRAME; // or SOLID
+    FillMode = SOLID; // or SOLID
     CullMode = BACK; // or FRONT, NONE
 };
 
@@ -269,7 +281,16 @@ technique11 DefaultTechnique
         SetVertexShader( CompileShader( vs_5_0, VS_FireFX() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_5_0, PS_FireFX() ) );
-        SetBlendState( gBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF ); 
+        SetBlendState( gAlphaBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF ); 
+        SetRasterizerState( gRasterizerState );
+    }
+    
+    pass P4
+    {
+        SetVertexShader( CompileShader( vs_5_0, VS_FireFX() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_5_0, PS_FireFX() ) );
+        SetBlendState( gNoBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
         SetRasterizerState( gRasterizerState );
     }
 }

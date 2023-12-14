@@ -261,7 +261,7 @@ namespace dae
 #if TODO_0
         m_MeshPtr       = new Mesh(m_DevicePtr, vehicle_vertices, vehicle_indices);
         m_FireFXMeshPtr = new Mesh(m_DevicePtr, fireFx_vertices,  fireFx_indices);
-        m_FireFXMeshPtr->SetPassIdx(3);
+        m_FireFXMeshPtr->SetPassIdx(m_WithAlphaBlendingPassIdx);
 #endif
 #endif
     }
@@ -403,6 +403,7 @@ namespace dae
         // FireFX
         m_FireFXMeshPtr->SetMatrix(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
         m_FireFXMeshPtr->SetTime(m_AccTime);
+        m_FireFXMeshPtr->SetPassIdx(m_UseAlphaBlending ? m_WithAlphaBlendingPassIdx : m_WithoutAlphaBlendingPassIdx);
         
         Rotate(timerPtr->GetElapsed());
 #endif
@@ -490,6 +491,11 @@ namespace dae
     {
         m_UseNormalMap = not m_UseNormalMap;
     }
+
+    void Renderer::ToggleAlphaBlending()
+    {
+        m_UseAlphaBlending = not m_UseAlphaBlending;
+    }
 #pragma endregion
     
 #pragma region UI
@@ -512,6 +518,7 @@ namespace dae
         
         ImGui::Checkbox("Normal map", &m_UseNormalMap);
         ImGui::Checkbox("Rotate", &m_Rotate);
+        ImGui::Checkbox("Alpha blending", &m_UseAlphaBlending);
         
         ImGui::Spacing();
         ImGui::Separator();

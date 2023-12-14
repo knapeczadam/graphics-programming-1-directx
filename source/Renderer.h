@@ -57,6 +57,7 @@ namespace dae
         void CycleShadingMode();
         void ToggleRotation();
         void ToggleNormalVisibility();
+        void ToggleAlphaBlending();
 
         inline Camera& GetCamera() { return m_Camera; }
 
@@ -152,7 +153,11 @@ namespace dae
         float m_AccTime = 0.0f;
         
         // Debug
-        bool m_UseNormalMap = true;
+        bool m_UseNormalMap     = true;
+        bool m_UseAlphaBlending = false;
+
+        UINT m_WithAlphaBlendingPassIdx    = 3;
+        UINT m_WithoutAlphaBlendingPassIdx = 4;
 
         // Lighting
         float m_Ambient[3]        = {0.03f, 0.03f, 0.03f}; // 8, 8, 8

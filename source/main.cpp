@@ -88,6 +88,9 @@ int main(int argc, char* args[])
                 case SDL_SCANCODE_F2:
                     rendererPtr->CycleSamplerState();
                     break;
+                case SDL_SCANCODE_F3:
+                    rendererPtr->ToggleAlphaBlending();
+                    break;
                 case SDL_SCANCODE_F5:
                     rendererPtr->ToggleRotation();
                     break;
