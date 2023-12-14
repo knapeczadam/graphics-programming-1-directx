@@ -61,6 +61,15 @@ BlendState gBlendState
 };
 
 //---------------------------------------------------------------------------
+// Rasterizer States
+//---------------------------------------------------------------------------
+RasterizerState gRasterizerState
+{
+    FillMode = WIREFRAME; // or SOLID
+    CullMode = BACK; // or FRONT, NONE
+};
+
+//---------------------------------------------------------------------------
 // Helper Functions
 //---------------------------------------------------------------------------
 float4x4 CreateRotation(float yaw)
@@ -261,5 +270,6 @@ technique11 DefaultTechnique
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_5_0, PS_FireFX() ) );
         SetBlendState( gBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF ); 
+        SetRasterizerState( gRasterizerState );
     }
 }
