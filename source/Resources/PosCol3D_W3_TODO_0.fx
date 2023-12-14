@@ -77,8 +77,27 @@ BlendState gNoBlendState
 //---------------------------------------------------------------------------
 RasterizerState gRasterizerState
 {
-    FillMode = SOLID; // or SOLID
+    FillMode = SOLID; // or WIREFRAME
     CullMode = BACK; // or FRONT, NONE
+};
+
+//---------------------------------------------------------------------------
+// Depth/Stencil States
+//---------------------------------------------------------------------------
+DepthStencilState gDepthStencilState
+{
+    DepthEnable    = TRUE;  // or FALSE
+    DepthWriteMask = ZERO;  // or ALL
+    DepthFunc      = LESS;  // or GREATER, EQUAL, LESS_EQUAL, GREATER_EQUAL, NOT_EQUAL, NEVER, ALWAYS
+    StencilEnable  = FALSE; // or TRUE
+};
+
+DepthStencilState gNoDepthStencilState
+{
+    DepthEnable    = TRUE;
+    DepthWriteMask = ALL;
+    DepthFunc      = LESS;
+    StencilEnable  = FALSE;
 };
 
 //---------------------------------------------------------------------------
@@ -260,6 +279,7 @@ technique11 DefaultTechnique
         SetVertexShader( CompileShader( vs_5_0, VS() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_5_0, PS_Point() ) );
+        SetDepthStencilState( gNoDepthStencilState, 0 );
     }
     
     pass P1
@@ -267,6 +287,7 @@ technique11 DefaultTechnique
         SetVertexShader( CompileShader( vs_5_0, VS() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_5_0, PS_Linear() ) );
+        SetDepthStencilState( gNoDepthStencilState, 0 );
     }
     
     pass P2
@@ -274,6 +295,7 @@ technique11 DefaultTechnique
         SetVertexShader( CompileShader( vs_5_0, VS() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_5_0, PS_Anisotropic() ) );
+        SetDepthStencilState( gNoDepthStencilState, 0 );
     }
     
     pass P3
@@ -283,6 +305,7 @@ technique11 DefaultTechnique
         SetPixelShader( CompileShader( ps_5_0, PS_FireFX() ) );
         SetBlendState( gAlphaBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF ); 
         SetRasterizerState( gRasterizerState );
+        SetDepthStencilState( gDepthStencilState, 0 );
     }
     
     pass P4
@@ -292,5 +315,6 @@ technique11 DefaultTechnique
         SetPixelShader( CompileShader( ps_5_0, PS_FireFX() ) );
         SetBlendState( gNoBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
         SetRasterizerState( gRasterizerState );
+        SetDepthStencilState( gDepthStencilState, 0 );
     }
 }
