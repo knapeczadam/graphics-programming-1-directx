@@ -154,7 +154,7 @@ namespace dae
         
         // Debug
         bool m_UseNormalMap     = true;
-        bool m_UseAlphaBlending = false;
+        bool m_UseAlphaBlending = true;
 
         UINT m_WithAlphaBlendingPassIdx    = 3;
         UINT m_WithoutAlphaBlendingPassIdx = 4;
