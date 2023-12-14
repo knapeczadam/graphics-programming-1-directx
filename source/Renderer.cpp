@@ -503,8 +503,8 @@ namespace dae
     {
         // ImGui Window
         ImGui::Begin("Properties");
-        ImGui::Text("Shading  mode: %s", m_CurrentShadingModeString.c_str());
-        ImGui::Text("Sampler state: %s", m_SamplerStateString.c_str());
+        ImGui::Text("F2: Sampler state: %s", m_SamplerStateString.c_str());
+        ImGui::Text("F7: Shading  mode: %s", m_CurrentShadingModeString.c_str());
         
         ImGui::Spacing();
         ImGui::Separator();
@@ -516,9 +516,9 @@ namespace dae
         ImGui::Separator();
         ImGui::Spacing();
         
-        ImGui::Checkbox("Normal map", &m_UseNormalMap);
-        ImGui::Checkbox("Rotate", &m_Rotate);
-        ImGui::Checkbox("Alpha blending", &m_UseAlphaBlending);
+        ImGui::Checkbox("F3: Alpha blending", &m_UseAlphaBlending);
+        ImGui::Checkbox("F5: Rotate", &m_Rotate);
+        ImGui::Checkbox("F6: Normal map", &m_UseNormalMap);
         
         ImGui::Spacing();
         ImGui::Separator();
