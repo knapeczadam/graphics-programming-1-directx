@@ -259,7 +259,9 @@ namespace dae
         // --- WEEK 3 ---
 #elif W3
 #if TODO_0
-        m_MeshPtr = new Mesh(m_DevicePtr, vehicle_vertices, vehicle_indices);
+        m_MeshPtr       = new Mesh(m_DevicePtr, vehicle_vertices, vehicle_indices);
+        m_FireFXMeshPtr = new Mesh(m_DevicePtr, fireFx_vertices,  fireFx_indices);
+        m_FireFXMeshPtr->SetPassIdx(3);
 #endif
 #endif
     }
@@ -293,6 +295,7 @@ namespace dae
         m_MeshPtr->SetGlossinessMap(m_GlossinessTexturePtr);
 
         m_FireFXTexturePtr = Texture::LoadFromFile(m_FireFXTexturePath, m_DevicePtr);
+        m_FireFXMeshPtr->SetDiffuseMap(m_FireFXTexturePtr);
 #endif
 #endif
     }
@@ -382,7 +385,8 @@ namespace dae
 #elif W3
 #if TODO_0
         m_Camera.Update(timerPtr);
-        
+
+        // Vehicle
         m_MeshPtr->SetMatrix(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
         m_MeshPtr->SetCameraPosition(m_Camera.GetPosition());
         
@@ -395,6 +399,10 @@ namespace dae
         m_MeshPtr->SetLightIntensity(m_LightIntensity);
         m_MeshPtr->SetKD(m_KD);
         m_MeshPtr->SetShininess(m_Shininess);
+
+        // FireFX
+        m_FireFXMeshPtr->SetMatrix(m_Camera.GetInverseViewMatrix(), m_Camera.GetProjectionMatrix());
+        m_FireFXMeshPtr->SetTime(m_AccTime);
         
         Rotate(timerPtr->GetElapsed());
 #endif
@@ -630,6 +638,7 @@ namespace dae
     void Renderer::Render_W3_TODO_0() const
     {
         m_MeshPtr->Render();
+        m_FireFXMeshPtr->Render();
     }
 #pragma endregion
 }

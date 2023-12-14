@@ -157,6 +157,18 @@ VS_OUTPUT VS(VS_INPUT input)
     return output;
 }
 
+VS_OUTPUT VS_FireFX(VS_INPUT input)
+{
+    VS_OUTPUT output = (VS_OUTPUT)0;
+    
+    input.Position  = mul(input.Position, CreateRotation(gTime));
+    output.Position = mul(float4(input.Position, 1.0f), gWorldViewProj);
+    
+    output.Uv       = input.Uv;
+
+    return output;
+}
+
 //---------------------------------------------------------------------------
 // Pixel Shader
 //---------------------------------------------------------------------------
@@ -196,6 +208,12 @@ float4 PS_Anisotropic(VS_OUTPUT input) : SV_TARGET
     return ShadePixel(input.Normal, input.Tangent, viewDir, diffuseColor, normalColor, specularColor, gloss);
 }
 
+float4 PS_FireFX(VS_OUTPUT input) : SV_TARGET
+{
+    float4 color = gDiffuseMap.Sample(samPoint, input.Uv);
+    return color;
+}
+
 //---------------------------------------------------------------------------
 // Techniques
 //---------------------------------------------------------------------------
@@ -220,5 +238,12 @@ technique11 DefaultTechnique
         SetVertexShader( CompileShader( vs_5_0, VS() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_5_0, PS_Anisotropic() ) );
+    }
+    
+    pass P3
+    {
+        SetVertexShader( CompileShader( vs_5_0, VS_FireFX() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_5_0, PS_FireFX() ) );
     }
 }
