@@ -54,7 +54,7 @@ BlendState gAlphaBlendState
     SrcBlend                 = SRC_ALPHA;
     DestBlend                = INV_SRC_ALPHA;
     BlendOp                  = ADD;
-    SrcBlendAlpha            = ONE;
+    SrcBlendAlpha            = ZERO;
     DestBlendAlpha           = ZERO;
     BlendOpAlpha             = ADD;
     RenderTargetWriteMask[0] = 0x0F;
