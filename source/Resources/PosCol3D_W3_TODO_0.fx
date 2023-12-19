@@ -275,47 +275,61 @@ float4 PS_FireFX(VS_OUTPUT input) : SV_TARGET
 //---------------------------------------------------------------------------
 technique11 DefaultTechnique
 {
-    pass P0
+    //-----------------------------------------------------------------------
+    // Passes for the vehicle
+    //-----------------------------------------------------------------------
+    pass P0 // Point sampling
     {
+        SetDepthStencilState( gNoDepthStencilState, 0 );
+        SetBlendState( gNoBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        
         SetVertexShader( CompileShader( vs_5_0, VS() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_5_0, PS_Point() ) );
-        SetDepthStencilState( gNoDepthStencilState, 0 );
     }
     
-    pass P1
+    pass P1 // Linear sampling
     {
+        SetDepthStencilState( gNoDepthStencilState, 0 );
+        SetBlendState( gNoBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        
         SetVertexShader( CompileShader( vs_5_0, VS() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_5_0, PS_Linear() ) );
-        SetDepthStencilState( gNoDepthStencilState, 0 );
     }
     
-    pass P2
+    pass P2 // Anisotropic sampling
     {
+        SetDepthStencilState( gNoDepthStencilState, 0 );
+        SetBlendState( gNoBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        
         SetVertexShader( CompileShader( vs_5_0, VS() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_5_0, PS_Anisotropic() ) );
-        SetDepthStencilState( gNoDepthStencilState, 0 );
     }
     
-    pass P3
+    //-----------------------------------------------------------------------
+    // Passes for the fire
+    //-----------------------------------------------------------------------
+    pass P3 // With alpha blending
     {
-        SetVertexShader( CompileShader( vs_5_0, VS_FireFX() ) );
-        SetGeometryShader( NULL );
-        SetPixelShader( CompileShader( ps_5_0, PS_FireFX() ) );
+        SetRasterizerState( gRasterizerState );
+        SetDepthStencilState( gDepthStencilState, 0 );
         SetBlendState( gAlphaBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF ); 
-        SetRasterizerState( gRasterizerState );
-        SetDepthStencilState( gDepthStencilState, 0 );
-    }
-    
-    pass P4
-    {
+        
         SetVertexShader( CompileShader( vs_5_0, VS_FireFX() ) );
         SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_5_0, PS_FireFX() ) );
-        SetBlendState( gNoBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+    }
+    
+    pass P4 // Without alpha blending
+    {
         SetRasterizerState( gRasterizerState );
         SetDepthStencilState( gDepthStencilState, 0 );
+        SetBlendState( gNoBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        
+        SetVertexShader( CompileShader( vs_5_0, VS_FireFX() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_5_0, PS_FireFX() ) );
     }
 }
