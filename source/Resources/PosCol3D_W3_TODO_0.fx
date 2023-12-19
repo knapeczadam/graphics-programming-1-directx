@@ -77,8 +77,9 @@ BlendState gNoBlendState
 //---------------------------------------------------------------------------
 RasterizerState gRasterizerState
 {
-    FillMode = SOLID; // or WIREFRAME
-    CullMode = BACK; // or FRONT, NONE
+    FillMode              = SOLID; // or WIREFRAME
+    CullMode              = NONE;  // or FRONT, BACK
+    FrontCounterClockwise = FALSE; // or TRUE, FALSE by default
 };
 
 //---------------------------------------------------------------------------
