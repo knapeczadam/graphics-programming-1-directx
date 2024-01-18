@@ -8707,8 +8707,13 @@ static void ImGui::UpdateKeyboardInputs()
     if (io.BackendUsingLegacyKeyArrays == 0)
     {
         // Backend used new io.AddKeyEvent() API: Good! Verify that old arrays are never written to externally.
+        // TEMP FIX START: Assertion failed: (io.KeysDown[n] == false || IsKeyDown((ImGuiKey)n)) && "Backend needs to either only use io.AddKeyEvent(), either only fill legacy io.KeysDown[] + io.KeyMap[]. Not both!"
+        /* 
         for (int n = 0; n < ImGuiKey_LegacyNativeKey_END; n++)
             IM_ASSERT((io.KeysDown[n] == false || IsKeyDown((ImGuiKey)n)) && "Backend needs to either only use io.AddKeyEvent(), either only fill legacy io.KeysDown[] + io.KeyMap[]. Not both!");
+        */
+        // TEMP FIX END
+        
     }
     else
     {

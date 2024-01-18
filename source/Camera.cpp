@@ -96,21 +96,23 @@ namespace dae
 
     void Camera::MoveCamera(const uint8_t* pKeyboardState, float deltaTime)
     {
-        if (pKeyboardState[SDL_SCANCODE_A])
+        const float speedMultiplier = pKeyboardState[SDL_SCANCODE_LSHIFT] or pKeyboardState[SDL_SCANCODE_RSHIFT] ? 2.0f : 1.0f;
+        
+        if (pKeyboardState[SDL_SCANCODE_A] or pKeyboardState[SDL_SCANCODE_LEFT])
         {
-            m_Origin -= m_Right * deltaTime * m_Speed;
+            m_Origin -= m_Right * deltaTime * m_Speed * speedMultiplier;
         }
-        else if (pKeyboardState[SDL_SCANCODE_D])
+        else if (pKeyboardState[SDL_SCANCODE_D] or pKeyboardState[SDL_SCANCODE_RIGHT])
         {
-            m_Origin += m_Right * deltaTime * m_Speed;
+            m_Origin += m_Right * deltaTime * m_Speed * speedMultiplier;
         }
-        if (pKeyboardState[SDL_SCANCODE_W])
+        if (pKeyboardState[SDL_SCANCODE_W] or pKeyboardState[SDL_SCANCODE_UP])
         {
-            m_Origin += m_Forward * deltaTime * m_Speed;
+            m_Origin += m_Forward * deltaTime * m_Speed * speedMultiplier;
         }
-        else if (pKeyboardState[SDL_SCANCODE_S])
+        else if (pKeyboardState[SDL_SCANCODE_S] or pKeyboardState[SDL_SCANCODE_DOWN])
         {
-            m_Origin -= m_Forward * deltaTime * m_Speed;
+            m_Origin -= m_Forward * deltaTime * m_Speed * speedMultiplier;
         }
     }
 
