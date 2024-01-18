@@ -58,6 +58,7 @@ namespace dae
         void ToggleRotation();
         void ToggleNormalVisibility();
         void ToggleAlphaBlending();
+        void ToggleFireFX();
 
         inline Camera& GetCamera() { return m_Camera; }
 
@@ -155,6 +156,7 @@ namespace dae
         // Debug
         bool m_UseNormalMap     = true;
         bool m_UseAlphaBlending = true;
+        bool m_UseFireFX        = true;
 
         UINT m_WithAlphaBlendingPassIdx    = 3;
         UINT m_WithoutAlphaBlendingPassIdx = 4;

@@ -102,10 +102,13 @@ int main(int argc, char* args[])
                 switch (e.key.keysym.scancode)
                 {
                 case SDL_SCANCODE_F2:
-                    rendererPtr->CycleSamplerState();
+                    rendererPtr->ToggleAlphaBlending();
                     break;
                 case SDL_SCANCODE_F3:
-                    rendererPtr->ToggleAlphaBlending();
+                    rendererPtr->CycleShadingMode();
+                    break;
+                case SDL_SCANCODE_F4:
+                    rendererPtr->CycleSamplerState();
                     break;
                 case SDL_SCANCODE_F5:
                     rendererPtr->ToggleRotation();
@@ -114,7 +117,7 @@ int main(int argc, char* args[])
                     rendererPtr->ToggleNormalVisibility();
                     break;
                 case SDL_SCANCODE_F7:
-                    rendererPtr->CycleShadingMode();
+                    rendererPtr->ToggleFireFX(); 
                     break;
                 }
                 break;

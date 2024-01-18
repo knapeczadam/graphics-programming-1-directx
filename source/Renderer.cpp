@@ -496,6 +496,11 @@ namespace dae
     {
         m_UseAlphaBlending = not m_UseAlphaBlending;
     }
+
+    void Renderer::ToggleFireFX()
+    {
+        m_UseFireFX = not m_UseFireFX;
+    }
 #pragma endregion
     
 #pragma region UI
@@ -503,8 +508,8 @@ namespace dae
     {
         // ImGui Window
         ImGui::Begin("Properties");
-        ImGui::Text("F2: Sampler state: %s", m_SamplerStateString.c_str());
-        ImGui::Text("F7: Shading  mode: %s", m_CurrentShadingModeString.c_str());
+        ImGui::Text("F3: Shading  mode: %s", m_CurrentShadingModeString.c_str());
+        ImGui::Text("F4: Sampler state: %s", m_SamplerStateString.c_str());
         
         ImGui::Spacing();
         ImGui::Separator();
@@ -516,9 +521,10 @@ namespace dae
         ImGui::Separator();
         ImGui::Spacing();
         
-        ImGui::Checkbox("F3: Alpha blending", &m_UseAlphaBlending);
+        ImGui::Checkbox("F2: Alpha blending", &m_UseAlphaBlending);
         ImGui::Checkbox("F5: Rotate", &m_Rotate);
         ImGui::Checkbox("F6: Normal map", &m_UseNormalMap);
+        ImGui::Checkbox("F7: FireFX", &m_UseFireFX);
         
         ImGui::Spacing();
         ImGui::Separator();
@@ -645,7 +651,7 @@ namespace dae
     void Renderer::Render_W3_TODO_0() const
     {
         m_MeshPtr->Render();
-        m_FireFXMeshPtr->Render();
+        if (m_UseFireFX) m_FireFXMeshPtr->Render();
     }
 #pragma endregion
 }
