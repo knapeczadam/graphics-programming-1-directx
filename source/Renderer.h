@@ -55,7 +55,7 @@ namespace dae
     class Renderer final
     {
     public:
-        Renderer(SDL_Window* windowPtr);
+        Renderer(SDL_Window* windowPtr, Timer* timerPtr);
         ~Renderer();
 
         Renderer(const Renderer&)                = delete;
@@ -82,6 +82,7 @@ namespace dae
 
         bool UseFPSCounter() const { return m_UseFPSCounter; }
         
+        void TakeScreenshot() const;
 
         inline Camera& GetCamera() { return m_Camera; }
 
@@ -123,6 +124,7 @@ namespace dae
 
     private:
         SDL_Window* m_WindowPtr = nullptr;
+        Timer*      m_TimerPtr  = nullptr;
 
         int m_Width  = 0;
         int m_Height = 0;
@@ -194,6 +196,7 @@ namespace dae
         bool m_UseFPSCounter            = false;
         bool m_UseFrontCounterClockwise = false;
 
+        bool m_ShowUI = true;
 
         UINT m_WithAlphaBlendingPassIdx    = 3;
         UINT m_WithoutAlphaBlendingPassIdx = 4;

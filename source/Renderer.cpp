@@ -63,8 +63,9 @@ namespace dae
 #pragma endregion
     
 #pragma region Initialization
-    Renderer::Renderer(SDL_Window* windowPtr) :
-        m_WindowPtr(windowPtr)
+    Renderer::Renderer(SDL_Window* windowPtr, Timer* timerPtr)
+        : m_WindowPtr(windowPtr),
+          m_TimerPtr(timerPtr)
     {
         //Initialize
         SDL_GetWindowSize(windowPtr, &m_Width, &m_Height);
@@ -556,6 +557,60 @@ namespace dae
         std::string onOff = m_UseFrontCounterClockwise ? "ON" : "OFF";
         std::cout << GREEN_TEXT("**(HARDWARE) Front Counter Clockwise ") << MAGENTA_TEXT("" + onOff + "") << '\n';
     }
+
+    void Renderer::TakeScreenshot() const
+    {
+        // Get the back buffer
+        ID3D11Texture2D* pBackBuffer;
+        m_SwapChainPtr->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pBackBuffer));
+    
+        // Create a staging texture
+        D3D11_TEXTURE2D_DESC desc;
+        pBackBuffer->GetDesc(&desc);
+        desc.Usage = D3D11_USAGE_STAGING;
+        desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+        desc.BindFlags = 0;
+    
+        ID3D11Texture2D* pStagingTexture;
+        m_DevicePtr->CreateTexture2D(&desc, nullptr, &pStagingTexture);
+    
+        // Copy the back buffer to the staging texture
+        m_DeviceContextPtr->CopyResource(pStagingTexture, pBackBuffer);
+    
+        // Map the staging texture to access its data
+        D3D11_MAPPED_SUBRESOURCE mappedResource;
+        m_DeviceContextPtr->Map(pStagingTexture, 0, D3D11_MAP_READ, 0, &mappedResource);
+    
+        // Save the data to a BMP file using SDL2_image
+        SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
+            mappedResource.pData,
+            desc.Width,
+            desc.Height,
+            32, // Assuming 32-bit pixel format
+            mappedResource.RowPitch,
+            0x000000FF,
+            0x0000FF00,
+            0x00FF0000,
+            0x00000000
+        );
+    
+        bool error = SDL_SaveBMP(surface, "screenshot.bmp");
+    
+        SDL_FreeSurface(surface);
+        m_DeviceContextPtr->Unmap(pStagingTexture, 0);
+    
+        // Release resources
+        pStagingTexture->Release();
+        pBackBuffer->Release();
+
+        if (not error)
+        {
+            std::cout << GREEN_TEXT("**(HARDWARE) Screenshot taken!") << '\n';
+        }
+        else
+        {
+            std::cout << RED_TEXT("**(HARDWARE) Screenshot failed!") << '\n';
+        }
     }
 #pragma endregion
     
@@ -563,59 +618,70 @@ namespace dae
     void Renderer::CreateUI()
     {
         // ImGui Window
-        ImGui::Begin("Properties");
-        ImGui::Text("F3: Shading  mode: %s", m_CurrentShadingModeString.c_str());
-        ImGui::Text("F4: Sampler state: %s", m_SamplerStateString.c_str());
-        
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
-        ImGui::ColorEdit3("Background color", m_BackgroundColor);
-
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-        
-        ImGui::Checkbox("F2: Alpha blending", &m_UseAlphaBlending);
-        ImGui::Checkbox("F5: Rotate", &m_Rotate);
-        ImGui::Checkbox("F6: Normal map", &m_UseNormalMap);
-        ImGui::Checkbox("F7: FireFX", &m_UseFireFX);
-        
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-        
-        ImGui::ColorEdit3("Ambient", m_Ambient);
-        ImGui::SliderFloat3("Light direction", m_LightDirection, -1.0f, 1.0f);
-        ImGui::SliderFloat("Light intensity", &m_LightIntensity, 0.0f, 20.0f);
-        ImGui::SliderFloat("KD (Diffuse reflection coefficient)", &m_KD, 0.0f, 20.0f);
-        ImGui::SliderFloat("Shininess", &m_Shininess, 0.0f, 100.0f);
-        
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
-        if (ImGui::Button("Take screenshot"))
+        if (m_ShowUI)
         {
-            // TakeScreenshot();
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Start benchmark"))
-        {
-            // StartBenchmark();
-        }
+            ImGui::Begin("Properties", &m_ShowUI);
+            ImGui::Text("F3:  Shading  mode: %s", m_ShadingModeString.c_str());
+            ImGui::Text("F4:  Sampler state: %s", m_SamplerStateString.c_str());
+            ImGui::Text("F10: FillMode     : %s", m_FillModeString.c_str());
+            ImGui::Text("F11: CullMode     : %s", m_CullModeString.c_str());
         
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
+
+            ImGui::ColorEdit3("Background color", m_CurrentBackgroundColor);
+
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
         
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
-                    ImGui::GetIO().Framerate);
-        ImGui::End();
+            ImGui::Checkbox("F1: Front Counter Clockwise", &m_UseFrontCounterClockwise);
+            ImGui::Checkbox("F2: Alpha blending", &m_UseAlphaBlending);
+            ImGui::Checkbox("F5: Rotate", &m_Rotate);
+            ImGui::Checkbox("F6: Normal map", &m_UseNormalMap);
+            ImGui::Checkbox("F7: FireFX", &m_UseFireFX);
+            ImGui::Checkbox("F8: Uniform ClearColor", &m_UseClearColor);
+            ImGui::Checkbox("F9: FPS", &m_UseFPSCounter);
+        
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
+        
+            ImGui::ColorEdit3("Ambient", m_Ambient);
+            ImGui::SliderFloat3("Light direction", m_LightDirection, -1.0f, 1.0f);
+            ImGui::SliderFloat("Light intensity", &m_LightIntensity, 0.0f, 20.0f);
+            ImGui::SliderFloat("KD (Diffuse reflection coefficient)", &m_KD, 0.0f, 20.0f);
+            ImGui::SliderFloat("Shininess", &m_Shininess, 0.0f, 100.0f);
+        
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
+
+            if (ImGui::Button("Take screenshot"))
+            {
+                TakeScreenshot();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Start benchmark"))
+            {
+                m_TimerPtr->StartBenchmark();
+            }
+
+            if (m_UseFPSCounter)
+            {
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Spacing();
+
+                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            }
+        
+            ImGui::End();
+        }
+        ImGui::Render();
         
         // Rendering
-        ImGui::Render();
         // This line makes the object transparent
         // m_DeviceContextPtr->OMSetRenderTargets(1, &m_RenderTargetViewPtr, nullptr);
         ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -723,6 +789,7 @@ namespace dae
         std::cout << '\t' << YELLOW_TEXT("[F9]") << ONE_TAB << YELLOW_TEXT("Toggle Print FPS") << TWO_TABS << onOff << '\n';
         std::cout << '\t' << YELLOW_TEXT("[10]") << ONE_TAB << YELLOW_TEXT("Cycle FillMode") << THREE_TABS << YELLOW_TEXT("(SOLID/WIREFRAME)") << '\n';
         std::cout << '\t' << YELLOW_TEXT("[11]") << ONE_TAB << YELLOW_TEXT("Cycle CullMode") << THREE_TABS << YELLOW_TEXT("(NONE/FRONT/BACK)") << '\n';
+        std::cout << '\t' << YELLOW_TEXT("[12]") << ONE_TAB << YELLOW_TEXT("Take Screenshot") << '\n';
         std::cout << '\n';
         std::cout << '\n';
     }

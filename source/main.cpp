@@ -77,7 +77,7 @@ int main(int argc, char* args[])
 
     //Initialize "framework"
     const auto timerPtr    = new Timer();
-    const auto rendererPtr = new Renderer(windowPtr);
+    const auto rendererPtr = new Renderer(windowPtr, timerPtr);
 
     //Start loop
     timerPtr->Start();
@@ -101,6 +101,9 @@ int main(int argc, char* args[])
             case SDL_KEYUP:
                 switch (e.key.keysym.scancode)
                 {
+                case SDL_SCANCODE_F1:
+                    rendererPtr->ToggleFrontCounterClockwise();
+                    break;
                 case SDL_SCANCODE_F2:
                     rendererPtr->ToggleAlphaBlending();
                     break;
@@ -131,6 +134,8 @@ int main(int argc, char* args[])
                 case SDL_SCANCODE_F11:
                     rendererPtr->CycleCullMode(); 
                     break;
+                case SDL_SCANCODE_F12:
+                    rendererPtr->TakeScreenshot(); 
                     break;
                 }
                 break;
