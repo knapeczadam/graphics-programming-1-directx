@@ -100,19 +100,19 @@ namespace dae
         
         if (pKeyboardState[SDL_SCANCODE_A] or pKeyboardState[SDL_SCANCODE_LEFT])
         {
-            m_Origin -= m_Right * deltaTime * m_Speed * speedMultiplier;
+            m_Origin -= m_Right * deltaTime * m_KeyboardSpeed * speedMultiplier;
         }
         else if (pKeyboardState[SDL_SCANCODE_D] or pKeyboardState[SDL_SCANCODE_RIGHT])
         {
-            m_Origin += m_Right * deltaTime * m_Speed * speedMultiplier;
+            m_Origin += m_Right * deltaTime * m_KeyboardSpeed * speedMultiplier;
         }
         if (pKeyboardState[SDL_SCANCODE_W] or pKeyboardState[SDL_SCANCODE_UP])
         {
-            m_Origin += m_Forward * deltaTime * m_Speed * speedMultiplier;
+            m_Origin += m_Forward * deltaTime * m_KeyboardSpeed * speedMultiplier;
         }
         else if (pKeyboardState[SDL_SCANCODE_S] or pKeyboardState[SDL_SCANCODE_DOWN])
         {
-            m_Origin -= m_Forward * deltaTime * m_Speed * speedMultiplier;
+            m_Origin -= m_Forward * deltaTime * m_KeyboardSpeed * speedMultiplier;
         }
     }
 
@@ -137,11 +137,11 @@ namespace dae
         
         if (leftMouseButtonDown and rightMouseButtonDown)
         {
-            m_Origin += m_Up * static_cast<float>(mouseY * -1) * deltaTime * m_Speed;
+            m_Origin += m_Up * static_cast<float>(mouseY * -1) * deltaTime * m_MouseSpeed;
         }
         else if (leftMouseButtonDown)
         {
-            m_Origin += m_Forward * static_cast<float>(mouseY * -1) * deltaTime * m_Speed;
+            m_Origin += m_Forward * static_cast<float>(mouseY * -1) * deltaTime * m_MouseSpeed;
             m_TotalYaw += static_cast<float>(mouseX) * m_RotationSpeed * deltaTime;
         }
         else if (rightMouseButtonDown)

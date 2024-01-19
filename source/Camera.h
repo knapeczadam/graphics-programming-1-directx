@@ -60,8 +60,9 @@ namespace dae
         float  m_TotalPitch    {0.0f};
         float  m_TotalYaw      {0.0f};
         Matrix m_CameraToWorld {};
-        float  m_Speed         {20.0f};
-        float  m_RotationSpeed {100.0f};
+        float  m_KeyboardSpeed {50.0f};
+        float  m_MouseSpeed    {500.0f};
+        float  m_RotationSpeed {500.0f};
         float  m_ScrollSpeed   {5.0f};
     };
 }
