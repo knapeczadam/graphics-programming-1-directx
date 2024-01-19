@@ -140,6 +140,8 @@ namespace dae
         ID3D11DepthStencilView* m_DepthStencilViewPtr   = nullptr;
         ID3D11Resource*         m_RenderTargetBufferPtr = nullptr;
         ID3D11RenderTargetView* m_RenderTargetViewPtr   = nullptr;
+        
+        ID3D11Debug*            m_DebugPtr              = nullptr;
 
         Camera m_Camera {};
         Mesh*  m_MeshPtr   =   nullptr;

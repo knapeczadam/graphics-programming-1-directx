@@ -132,6 +132,10 @@ namespace dae
         if (FAILED(result))
             return result;
 
+        // Create debug interface
+        //=======================================================================================================
+        m_DevicePtr->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&m_DebugPtr));
+
         // 2. Create swap chain
         //=======================================================================================================
         DXGI_SWAP_CHAIN_DESC swapChainDesc{};
@@ -371,6 +375,15 @@ namespace dae
         delete m_NormalTexturePtr;
         delete m_SpecularTexturePtr;
         delete m_FireFXTexturePtr;
+
+        // DirectX Debug
+        //=======================================================================================================
+        if (m_DebugPtr)
+        {
+            m_DebugPtr->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY);
+            m_DebugPtr->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+            m_DebugPtr->Release();
+        }
     }
 #pragma endregion
 
