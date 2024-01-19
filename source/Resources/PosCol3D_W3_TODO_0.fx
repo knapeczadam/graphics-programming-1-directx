@@ -20,6 +20,8 @@ float     gKD             : KD;
 float     gShininess      : Shininess;
 
 #define PI 3.1415926535897932384626433832795
+#define DEG_TO_RAD 0.01745329251994329576923690768489
+#define ROTATION_ANGLE -45.0f 
 
 //---------------------------------------------------------------------------
 // Sampler States
@@ -198,13 +200,13 @@ VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
     
-    input.Position  = mul(input.Position, CreateRotation(gTime));
+    input.Position  = mul(input.Position, CreateRotation(ROTATION_ANGLE * DEG_TO_RAD * gTime));
     output.Position = mul(float4(input.Position, 1.0f), gWorldViewProj);
     
-    input.Normal    = mul(input.Normal, CreateRotation(gTime));
+    input.Normal    = mul(input.Normal, CreateRotation(ROTATION_ANGLE * DEG_TO_RAD * gTime));
     output.Normal   = input.Normal;
     
-    input.Tangent   = mul(input.Tangent, CreateRotation(gTime));
+    input.Tangent   = mul(input.Tangent, CreateRotation(ROTATION_ANGLE * DEG_TO_RAD * gTime));
     output.Tangent  = input.Tangent;
     
     output.Color    = input.Color;
@@ -217,7 +219,7 @@ VS_OUTPUT VS_FireFX(VS_INPUT input)
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
     
-    input.Position  = mul(input.Position, CreateRotation(gTime));
+    input.Position  = mul(input.Position, CreateRotation(ROTATION_ANGLE * DEG_TO_RAD * gTime));
     output.Position = mul(float4(input.Position, 1.0f), gWorldViewProj);
     
     output.Uv       = input.Uv;
