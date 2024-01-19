@@ -337,6 +337,11 @@ namespace dae
 #pragma region Cleanup
     Renderer::~Renderer()
     {
+        // General
+        //=======================================================================================================
+        delete m_MeshPtr;
+        delete m_FireFXMeshPtr;
+        
         // DirectX
         //=======================================================================================================
         // Resources are released in reverse order of creation
@@ -362,11 +367,6 @@ namespace dae
         }
         if (m_DevicePtr)      m_DevicePtr->Release();
         if (m_DXGIFactoryPtr) m_DXGIFactoryPtr->Release();
-
-        // General
-        //=======================================================================================================
-        delete m_MeshPtr;
-        delete m_FireFXMeshPtr;
 
         // Textures
         delete m_TexturePtr;
