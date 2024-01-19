@@ -119,6 +119,15 @@ int main(int argc, char* args[])
                 case SDL_SCANCODE_F7:
                     rendererPtr->ToggleFireFX(); 
                     break;
+                case SDL_SCANCODE_F8:
+                    rendererPtr->ToggleUniformClearColor(); 
+                    break;
+                case SDL_SCANCODE_F9:
+                    rendererPtr->ToggleFPSCounter(); 
+                    break;
+                case SDL_SCANCODE_F10:
+                    rendererPtr->CycleCullingMode(); 
+                    break;
                 }
                 break;
             case SDL_MOUSEWHEEL:

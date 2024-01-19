@@ -20,6 +20,14 @@
 // Standard includes
 #include <cassert>
 
+#define GREEN_TEXT(text) "\033[1;32m" text "\033[0m"
+#define MAGENTA_TEXT(text) "\033[1;35m" text "\033[0m"
+#define YELLOW_TEXT(text) "\033[1;33m" text "\033[0m"
+
+#define ONE_TAB "\t"
+#define TWO_TABS "\t\t"
+#define THREE_TABS "\t\t\t"
+
 namespace dae
 {
 #pragma region Global Variables
@@ -82,6 +90,10 @@ namespace dae
         InitializeMesh();
         InitializeCamera();
         InitializeTextures();
+
+        // Debug
+        //=======================================================================================================
+        PrintDebugInfo();
     }
     
     HRESULT Renderer::InitializeDirectX()
@@ -474,6 +486,12 @@ namespace dae
         UpdateShadingModeString();
     }
 
+    void Renderer::CycleCullingMode()
+    {
+        m_CullingMode = static_cast<CullingMode>((static_cast<int>(m_CullingMode) + 1) % static_cast<int>(CullingMode::COUNT));
+        UpdateCullingModeString();
+    }
+
     void Renderer::Rotate(float deltaTime)
     {
         if (m_Rotate)
@@ -485,21 +503,43 @@ namespace dae
     void Renderer::ToggleRotation()
     {
         m_Rotate = not m_Rotate;
+        std::string onOff = m_Rotate ? "ON" : "OFF";
+        std::cout << GREEN_TEXT("**(HARDWARE) Vehicle Rotation ") << GREEN_TEXT("" + onOff + "") << '\n';
     }
 
     void Renderer::ToggleNormalVisibility()
     {
         m_UseNormalMap = not m_UseNormalMap;
+        std::string onOff = m_UseNormalMap ? "ON" : "OFF";
+        std::cout << GREEN_TEXT("**(HARDWARE) NormalMap ") << GREEN_TEXT("" + onOff + "") << '\n';
     }
 
     void Renderer::ToggleAlphaBlending()
     {
         m_UseAlphaBlending = not m_UseAlphaBlending;
+        std::string onOff = m_UseAlphaBlending ? "ON" : "OFF";
+        std::cout << GREEN_TEXT("**(HARDWARE) Alpha Blending ") << GREEN_TEXT("" + onOff + "") << '\n';
     }
 
     void Renderer::ToggleFireFX()
     {
         m_UseFireFX = not m_UseFireFX;
+        std::string onOff = m_UseFireFX ? "ON" : "OFF";
+        std::cout << GREEN_TEXT("**(HARDWARE) FireFX ") << GREEN_TEXT("" + onOff + "") << '\n';
+    }
+
+    void Renderer::ToggleUniformClearColor()
+    {
+        m_UseClearColor = not m_UseClearColor;
+        std::string onOff = m_UseClearColor ? "ON" : "OFF";
+        std::cout << GREEN_TEXT("**(HARDWARE) Uniform ClearColor ") << GREEN_TEXT("" + onOff + "") << '\n';
+    }
+
+    void Renderer::ToggleFPSCounter()
+    {
+        m_UseFPSCounter = not m_UseFPSCounter;
+        std::string onOff = m_UseFPSCounter ? "ON" : "OFF";
+        std::cout << GREEN_TEXT("**(HARDWARE) Print FPS ") << GREEN_TEXT("" + onOff + "") << '\n';
     }
 #pragma endregion
     
@@ -590,6 +630,7 @@ namespace dae
                 m_SamplerStateString = "ANISOTROPIC";
                 break;
         }
+        std::cout << GREEN_TEXT("**(HARDWARE) Sampler State = ") << GREEN_TEXT("" + m_SamplerStateString + "") << '\n';
     }
 
     void Renderer::UpdateShadingModeString()
@@ -615,6 +656,43 @@ namespace dae
             m_CurrentShadingModeString = "COMBINED";
             break;
         }
+        std::cout << GREEN_TEXT("**(HARDWARE) Shading Mode = ") << GREEN_TEXT("" + m_CurrentShadingModeString + "") << '\n';
+    }
+
+    void Renderer::UpdateCullingModeString()
+    {
+        switch (m_CullingMode)
+        {
+        case CullingMode::Back:
+            m_CullingModeString = "BACK";
+            break;
+        case CullingMode::Front:
+            m_CullingModeString = "FRONT";
+            break;
+        case CullingMode::None:
+            m_CullingModeString = "NONE";
+            break;
+        }
+        std::cout << GREEN_TEXT("**(HARDWARE) CullMode = ") << GREEN_TEXT("" + m_CullingModeString + "") << '\n';
+    }
+#pragma endregion
+
+#pragma region Debug
+    void Renderer::PrintDebugInfo() const
+    {
+        const auto onOff = YELLOW_TEXT("(ON/OFF)");
+        std::cout << YELLOW_TEXT("[Key Bindings]") << '\n';
+        std::cout << '\t' << YELLOW_TEXT("[F2]") << ONE_TAB << YELLOW_TEXT("Alpha Blending") << THREE_TABS << onOff << '\n';
+        std::cout << '\t' << YELLOW_TEXT("[F3]") << ONE_TAB << YELLOW_TEXT("Cycle Shading Mode") << TWO_TABS << YELLOW_TEXT("(COMBINED/OBSERVED AREA/DIFFUSE/SPECULAR)") << '\n';
+        std::cout << '\t' << YELLOW_TEXT("[F4]") << ONE_TAB << YELLOW_TEXT("Cycle Sampler State") << TWO_TABS <<  YELLOW_TEXT("(POINT/LINEAR/ANISOTROPIC)") << '\n';
+        std::cout << '\t' << YELLOW_TEXT("[F5]") << ONE_TAB << YELLOW_TEXT("Toggle Vehicle Rotation") << TWO_TABS <<  onOff << '\n';
+        std::cout << '\t' << YELLOW_TEXT("[F6]") << ONE_TAB << YELLOW_TEXT("Toggle NormalMap") << TWO_TABS << onOff << '\n';
+        std::cout << '\t' << YELLOW_TEXT("[F7]") << ONE_TAB << YELLOW_TEXT("Toggle FireFX") << THREE_TABS << onOff << '\n';
+        std::cout << '\t' << YELLOW_TEXT("[F8]") << ONE_TAB << YELLOW_TEXT("Toggle Uniform ClearColor") << ONE_TAB << onOff << '\n';
+        std::cout << '\t' << YELLOW_TEXT("[F9]") << ONE_TAB << YELLOW_TEXT("Toggle Print FPS") << TWO_TABS << onOff << '\n';
+        std::cout << '\t' << YELLOW_TEXT("[10]") << ONE_TAB << YELLOW_TEXT("Cycle CullMode") << THREE_TABS << YELLOW_TEXT("(BACK/FRONT/NONE)") << '\n';
+        std::cout << '\n';
+        std::cout << '\n';
     }
 #pragma endregion
 

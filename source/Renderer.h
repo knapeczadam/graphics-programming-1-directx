@@ -39,6 +39,15 @@ namespace dae
 
             COUNT = 4
         };
+
+        enum class CullingMode
+        {
+            Back,
+            Front,
+            None,
+
+            COUNT = 3
+        };
         
     public:
         Renderer(SDL_Window* windowPtr);
@@ -55,10 +64,14 @@ namespace dae
         // Settings
         void CycleSamplerState();
         void CycleShadingMode();
+        void CycleCullingMode();
         void ToggleRotation();
         void ToggleNormalVisibility();
         void ToggleAlphaBlending();
         void ToggleFireFX();
+        void ToggleUniformClearColor();
+        void ToggleFPSCounter();
+        
 
         inline Camera& GetCamera() { return m_Camera; }
 
@@ -72,11 +85,15 @@ namespace dae
         // Helper functions
         void UpdateSamplerStateString();
         void UpdateShadingModeString();
+        void UpdateCullingModeString();
         void Rotate(float deltaTime);
 
         // UI
         void CreateUI();
         void RenderUI();
+
+        // Debug
+        void PrintDebugInfo() const;
 
         // --- Week 1 ---
         void Render_W1_TODO_0() const;
@@ -150,6 +167,9 @@ namespace dae
         ShadingMode m_CurrentShadingMode       = ShadingMode::Combined;
         std::string m_CurrentShadingModeString = "COMBINED";
 
+        CullingMode m_CullingMode = CullingMode::Back;
+        std::string m_CullingModeString = "BACK";
+
         bool  m_Rotate  = true;
         float m_AccTime = 0.0f;
         
@@ -157,6 +177,8 @@ namespace dae
         bool m_UseNormalMap     = true;
         bool m_UseAlphaBlending = true;
         bool m_UseFireFX        = true;
+        bool m_UseClearColor   = false;
+        bool m_UseFPSCounter   = false;
 
         UINT m_WithAlphaBlendingPassIdx    = 3;
         UINT m_WithoutAlphaBlendingPassIdx = 4;
