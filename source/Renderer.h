@@ -78,6 +78,8 @@ namespace dae
         void ToggleFireFX();
         void ToggleUniformClearColor();
         void ToggleFPSCounter();
+
+        bool UseFPSCounter() const { return m_UseFPSCounter; }
         
 
         inline Camera& GetCamera() { return m_Camera; }

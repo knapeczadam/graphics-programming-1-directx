@@ -152,10 +152,10 @@ int main(int argc, char* args[])
         timerPtr->Update();
 
         printTimer += timerPtr->GetElapsed();
-        if (printTimer >= 1.f)
+        if (rendererPtr->UseFPSCounter() and printTimer >= 1.f)
         {
             printTimer = 0.f;
-            // std::cout << "dFPS: " << timerPtr->GetdFPS() << std::endl;
+            std::cout << "dFPS: " << timerPtr->GetdFPS() << std::endl;
         }
     }
     timerPtr->Stop();
