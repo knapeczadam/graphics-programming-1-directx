@@ -472,7 +472,7 @@ namespace dae
         m_UseNormalMapVariablePtr->SetBool(useNormalMap);
     }
 
-    void Mesh::SetShadingMode(UINT shadingMode) const
+    void Mesh::SetShadingMode(int shadingMode) const
     {
         m_ShadingModeVariablePtr->SetInt(shadingMode);
     }
@@ -502,6 +502,48 @@ namespace dae
         m_ShininessVariablePtr->SetFloat(shininess);
     }
 
+    void Mesh::SetRasterizerState(FillMode fillMode, CullMode cullingMode, bool frontCounterClockwise) const
+    {
+        ID3D11RasterizerState* rasterizerStatePtr{};
+        m_DeviceContextPtr->RSGetState(&rasterizerStatePtr);
+        
+        D3D11_RASTERIZER_DESC rasterizerDesc{};
+        rasterizerDesc.FrontCounterClockwise = frontCounterClockwise ? TRUE : FALSE;
+        rasterizerDesc.DepthBias             = 0;
+        rasterizerDesc.DepthBiasClamp        = 0.0f;
+        rasterizerDesc.SlopeScaledDepthBias  = 0.0f;
+        rasterizerDesc.DepthClipEnable       = TRUE;
+        rasterizerDesc.ScissorEnable         = FALSE;
+        rasterizerDesc.MultisampleEnable     = FALSE;
+        rasterizerDesc.AntialiasedLineEnable = FALSE;
 
+        switch (fillMode)
+        {
+            case FillMode::Solid:
+                rasterizerDesc.FillMode = D3D11_FILL_SOLID;
+                break;
+            case FillMode::Wireframe:
+                rasterizerDesc.FillMode = D3D11_FILL_WIREFRAME;
+                break;
+        }
+        
+        switch (cullingMode)
+        {
+            case CullMode::None:
+                rasterizerDesc.CullMode = D3D11_CULL_NONE;
+                break;
+            case CullMode::Front:
+                rasterizerDesc.CullMode = D3D11_CULL_FRONT;
+                break;
+            case CullMode::Back:
+                rasterizerDesc.CullMode = D3D11_CULL_BACK;
+                break;
+        }
+        
+        m_DevicePtr->CreateRasterizerState(&rasterizerDesc, &rasterizerStatePtr);
+        m_DeviceContextPtr->RSSetState(rasterizerStatePtr);
+        
+        rasterizerStatePtr->Release();
+    }
 #pragma endregion
 }

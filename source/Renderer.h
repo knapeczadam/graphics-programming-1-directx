@@ -11,44 +11,49 @@ namespace dae
 {
     // Forward declarations
     struct Vertex;
-
     class Texture;
-    
     class Mesh;
+    
+    enum class SamplerState
+    {
+        Point,
+        Linear,
+        Anisotropic,
+
+        COUNT
+    };
+    
+    enum class ShadingMode
+    {
+        BoundingBox = -2,
+        DepthBuffer = -1,
+        ObservedArea = 0,// Lambert Cosine Law
+        Diffuse,
+        Specular, 
+        Combined, // (Diffuse + Specular) * ObservedArea
+
+        COUNT = 4
+    };
+
+    enum class CullMode
+    {
+        None,
+        Front,
+        Back,
+
+        COUNT
+    };
+
+    enum class FillMode
+    {
+        Solid,
+        Wireframe,
+
+        COUNT
+    };
     
     class Renderer final
     {
-    private:
-        enum class SamplerState
-        {
-            Point,
-            Linear,
-            Anisotropic,
-
-            COUNT
-        };
-        
-        enum class ShadingMode
-        {
-            BoundingBox = -2,
-            DepthBuffer,
-            ObservedArea, // Lambert Cosine Law
-            Diffuse,
-            Specular, 
-            Combined, // (Diffuse + Specular) * ObservedArea
-
-            COUNT = 4
-        };
-
-        enum class CullingMode
-        {
-            Back,
-            Front,
-            None,
-
-            COUNT = 3
-        };
-        
     public:
         Renderer(SDL_Window* windowPtr);
         ~Renderer();
@@ -64,7 +69,9 @@ namespace dae
         // Settings
         void CycleSamplerState();
         void CycleShadingMode();
-        void CycleCullingMode();
+        void CycleCullMode();
+        void CycleFillMode();
+        
         void ToggleRotation();
         void ToggleNormalVisibility();
         void ToggleAlphaBlending();
@@ -85,7 +92,8 @@ namespace dae
         // Helper functions
         void UpdateSamplerStateString();
         void UpdateShadingModeString();
-        void UpdateCullingModeString();
+        void UpdateCullModeString();
+        void UpdateFillModeString();
         void Rotate(float deltaTime);
 
         // UI
@@ -163,12 +171,14 @@ namespace dae
         SamplerState m_SamplerState = SamplerState::Point;
         std::string  m_SamplerStateString ="POINT";
 
-        ShadingMode m_PreviousShadingMode      = ShadingMode::Combined;
-        ShadingMode m_CurrentShadingMode       = ShadingMode::Combined;
-        std::string m_CurrentShadingModeString = "COMBINED";
+        ShadingMode m_ShadingMode       = ShadingMode::Combined;
+        std::string m_ShadingModeString = "COMBINED";
 
-        CullingMode m_CullingMode = CullingMode::Back;
-        std::string m_CullingModeString = "BACK";
+        CullMode m_CullMode = CullMode::None;
+        std::string m_CullModeString = "NONE";
+
+        FillMode m_FillMode = FillMode::Solid;
+        std::string m_FillModeString = "SOLID";
 
         bool  m_Rotate  = true;
         float m_AccTime = 0.0f;

@@ -36,12 +36,14 @@ namespace dae
         void SetTime(float time) const;
         void SetCameraPosition(const Vector3& viewDirection) const;
         void SetUseNormalMap(bool useNormalMap) const;
-        void SetShadingMode(UINT shadingMode) const;
+        void SetShadingMode(int shadingMode) const;
         void SetAmbient(float* ambient) const;
         void SetLightDirection(float* lightDirection) const;
         void SetLightIntensity(float lightIntensity) const;
         void SetKD(float kd) const;
         void SetShininess(float shininess) const;
+
+        void SetRasterizerState(FillMode fillMode, CullMode cullingMode, bool frontCounterClockwise) const;
         
         inline void SetPassIdx(UINT passIdx) { m_PassIdx = passIdx; }
 

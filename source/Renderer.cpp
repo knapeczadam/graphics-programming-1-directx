@@ -404,7 +404,7 @@ namespace dae
         
         m_MeshPtr->SetUseNormalMap(m_UseNormalMap);
         m_MeshPtr->SetTime(m_AccTime);
-        m_MeshPtr->SetShadingMode(static_cast<UINT>(m_CurrentShadingMode));
+        m_MeshPtr->SetShadingMode(static_cast<int>(m_ShadingMode));
         
         m_MeshPtr->SetAmbient(m_Ambient);
         m_MeshPtr->SetLightDirection(m_LightDirection);
@@ -480,16 +480,24 @@ namespace dae
 
     void Renderer::CycleShadingMode()
     {
-        m_CurrentShadingMode = static_cast<ShadingMode>(
-            (static_cast<int>(m_CurrentShadingMode) + 1) % static_cast<int>(ShadingMode::COUNT)
+        m_ShadingMode = static_cast<ShadingMode>(
+            (static_cast<int>(m_ShadingMode) + 1) % static_cast<int>(ShadingMode::COUNT)
             );
         UpdateShadingModeString();
     }
 
-    void Renderer::CycleCullingMode()
+    void Renderer::CycleCullMode()
     {
-        m_CullingMode = static_cast<CullingMode>((static_cast<int>(m_CullingMode) + 1) % static_cast<int>(CullingMode::COUNT));
-        UpdateCullingModeString();
+        m_CullMode = static_cast<CullMode>((static_cast<int>(m_CullMode) + 1) % static_cast<int>(CullMode::COUNT));
+        m_MeshPtr->SetRasterizerState(m_FillMode, m_CullMode, m_UseFrontCounterClockwise);
+        UpdateCullModeString();
+    }
+
+    void Renderer::CycleFillMode()
+    {
+        m_FillMode = static_cast<FillMode>((static_cast<int>(m_FillMode) + 1) % static_cast<int>(FillMode::COUNT));
+        m_MeshPtr->SetRasterizerState(m_FillMode, m_CullMode, m_UseFrontCounterClockwise);
+        UpdateFillModeString();
     }
 
     void Renderer::Rotate(float deltaTime)
@@ -635,45 +643,59 @@ namespace dae
 
     void Renderer::UpdateShadingModeString()
     {
-        switch (m_CurrentShadingMode)
+        switch (m_ShadingMode)
         {
         case ShadingMode::BoundingBox:
-            m_CurrentShadingModeString = "BOUNDING BOX";
+            m_ShadingModeString = "BOUNDING BOX";
             break;
         case ShadingMode::DepthBuffer:
-            m_CurrentShadingModeString = "DEPTH BUFFER";
+            m_ShadingModeString = "DEPTH BUFFER";
             break;
         case ShadingMode::ObservedArea:
-            m_CurrentShadingModeString = "OBSERVED AREA";
+            m_ShadingModeString = "OBSERVED AREA";
             break;
         case ShadingMode::Diffuse:
-            m_CurrentShadingModeString = "DIFFUSE";
+            m_ShadingModeString = "DIFFUSE";
             break;
         case ShadingMode::Specular:
-            m_CurrentShadingModeString = "SPECULAR";
+            m_ShadingModeString = "SPECULAR";
             break;
         case ShadingMode::Combined:
-            m_CurrentShadingModeString = "COMBINED";
+            m_ShadingModeString = "COMBINED";
             break;
         }
-        std::cout << GREEN_TEXT("**(HARDWARE) Shading Mode = ") << GREEN_TEXT("" + m_CurrentShadingModeString + "") << '\n';
+        std::cout << GREEN_TEXT("**(HARDWARE) Shading Mode = ") << MAGENTA_TEXT("" + m_ShadingModeString + "") << '\n';
     }
 
-    void Renderer::UpdateCullingModeString()
+    void Renderer::UpdateCullModeString()
     {
-        switch (m_CullingMode)
+        switch (m_CullMode)
         {
-        case CullingMode::Back:
-            m_CullingModeString = "BACK";
+        case CullMode::Back:
+            m_CullModeString = "BACK";
             break;
-        case CullingMode::Front:
-            m_CullingModeString = "FRONT";
+        case CullMode::Front:
+            m_CullModeString = "FRONT";
             break;
-        case CullingMode::None:
-            m_CullingModeString = "NONE";
+        case CullMode::None:
+            m_CullModeString = "NONE";
             break;
         }
-        std::cout << GREEN_TEXT("**(HARDWARE) CullMode = ") << GREEN_TEXT("" + m_CullingModeString + "") << '\n';
+        std::cout << GREEN_TEXT("**(HARDWARE) CullMode = ") << MAGENTA_TEXT("" + m_CullModeString + "") << '\n';
+    }
+
+    void Renderer::UpdateFillModeString()
+    {
+        switch (m_FillMode)
+        {
+            case FillMode::Solid:
+                m_FillModeString = "SOLID";
+                break;
+            case FillMode::Wireframe:
+                m_FillModeString = "WIREFRAME";
+                break;
+        }
+        std::cout << GREEN_TEXT("**(HARDWARE) FillMode = ") << MAGENTA_TEXT("" + m_FillModeString + "") << '\n';
     }
 #pragma endregion
 
@@ -690,7 +712,8 @@ namespace dae
         std::cout << '\t' << YELLOW_TEXT("[F7]") << ONE_TAB << YELLOW_TEXT("Toggle FireFX") << THREE_TABS << onOff << '\n';
         std::cout << '\t' << YELLOW_TEXT("[F8]") << ONE_TAB << YELLOW_TEXT("Toggle Uniform ClearColor") << ONE_TAB << onOff << '\n';
         std::cout << '\t' << YELLOW_TEXT("[F9]") << ONE_TAB << YELLOW_TEXT("Toggle Print FPS") << TWO_TABS << onOff << '\n';
-        std::cout << '\t' << YELLOW_TEXT("[10]") << ONE_TAB << YELLOW_TEXT("Cycle CullMode") << THREE_TABS << YELLOW_TEXT("(BACK/FRONT/NONE)") << '\n';
+        std::cout << '\t' << YELLOW_TEXT("[10]") << ONE_TAB << YELLOW_TEXT("Cycle FillMode") << THREE_TABS << YELLOW_TEXT("(SOLID/WIREFRAME)") << '\n';
+        std::cout << '\t' << YELLOW_TEXT("[11]") << ONE_TAB << YELLOW_TEXT("Cycle CullMode") << THREE_TABS << YELLOW_TEXT("(NONE/FRONT/BACK)") << '\n';
         std::cout << '\n';
         std::cout << '\n';
     }

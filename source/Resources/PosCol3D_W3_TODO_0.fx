@@ -313,7 +313,7 @@ technique11 DefaultTechnique
     //-----------------------------------------------------------------------
     pass P3 // With alpha blending
     {
-        SetRasterizerState( gRasterizerState );
+        // SetRasterizerState( gRasterizerState ); // Rasterizer State is controlled by Mesh::SetRasterizerState()
         SetDepthStencilState( gDepthStencilState, 0 );
         SetBlendState( gAlphaBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF ); 
         
@@ -324,7 +324,7 @@ technique11 DefaultTechnique
     
     pass P4 // Without alpha blending
     {
-        SetRasterizerState( gRasterizerState );
+        // SetRasterizerState( gRasterizerState ); // Rasterizer State is controlled by Mesh::SetRasterizerState()
         SetDepthStencilState( gDepthStencilState, 0 );
         SetBlendState( gNoBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
         

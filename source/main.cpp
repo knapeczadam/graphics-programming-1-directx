@@ -126,7 +126,11 @@ int main(int argc, char* args[])
                     rendererPtr->ToggleFPSCounter(); 
                     break;
                 case SDL_SCANCODE_F10:
-                    rendererPtr->CycleCullingMode(); 
+                    rendererPtr->CycleFillMode(); 
+                    break;
+                case SDL_SCANCODE_F11:
+                    rendererPtr->CycleCullMode(); 
+                    break;
                     break;
                 }
                 break;
