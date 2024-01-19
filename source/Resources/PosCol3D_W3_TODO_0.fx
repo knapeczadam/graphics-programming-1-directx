@@ -24,31 +24,31 @@ float     gShininess      : Shininess;
 #define ROTATION_ANGLE -45.0f 
 
 //---------------------------------------------------------------------------
-// Sampler States
+// Sampler States: https://learn.microsoft.com/en-us/windows/win32/api/d3d11/ns-d3d11-d3d11_sampler_desc
 //---------------------------------------------------------------------------
 SamplerState samPoint
 {
-    Filter = MIN_MAG_MIP_POINT; // or LINEAR, ANISOTROPIC, COMPARISON_MIN_MAG_MIP_POINT, etc.
-    AddressU = Wrap; // or Mirror, Clamp, Border, MirrorOnce
-    AddressV = Wrap; // or Mirror, Clamp, Border, MirrorOnce
+    Filter   = MIN_MAG_MIP_POINT; // MIN_MAG_MIP_POINT = 0, MIN_MAG_POINT_MIP_LINEAR = 0x1, MIN_POINT_MAG_LINEAR_MIP_POINT = 0x4, etc.,  MIN_MAG_MIP_LINEAR by default
+    AddressU = WRAP; // WRAP = 1, MIRROR = 2, CLAMP = 3, BORDER = 4, MIRROR_ONCE = 5, CLAMP by default
+    AddressV = Wrap; // WRAP = 1, MIRROR = 2, CLAMP = 3, BORDER = 4, MIRROR_ONCE = 5, CLAMP by default
 };
 
 SamplerState samLinear
 {
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Wrap;
-    AddressV = Wrap;
+    Filter   = MIN_MAG_MIP_LINEAR;
+    AddressU = WRAP;
+    AddressV = WRAP;
 };
 
 SamplerState samAnisotropic
 {
-    Filter = ANISOTROPIC;
-    AddressU = Wrap;
-    AddressV = Wrap;
+    Filter   = ANISOTROPIC;
+    AddressU = WRAP;
+    AddressV = WRAP;
 };
 
 //---------------------------------------------------------------------------
-// Blending States
+// Blending States: https://learn.microsoft.com/en-us/windows/win32/api/d3d11/ns-d3d11-d3d11_render_target_blend_desc
 //---------------------------------------------------------------------------
 BlendState gAlphaBlendState
 {
@@ -75,7 +75,7 @@ BlendState gNoBlendState
 };
 
 //---------------------------------------------------------------------------
-// Rasterizer States
+// Rasterizer States: https://learn.microsoft.com/en-us/windows/win32/api/d3d11/ns-d3d11-d3d11_rasterizer_desc
 //---------------------------------------------------------------------------
 RasterizerState gRasterizerState
 {
@@ -85,7 +85,7 @@ RasterizerState gRasterizerState
 };
 
 //---------------------------------------------------------------------------
-// Depth/Stencil States
+// Depth/Stencil States: https://learn.microsoft.com/en-us/windows/win32/api/d3d11/ns-d3d11-d3d11_depth_stencil_desc
 //---------------------------------------------------------------------------
 DepthStencilState gDepthStencilState
 {
@@ -173,7 +173,7 @@ float4 ShadePixel(float3 normal, float3 tangent, float3 viewDir, float4 diffuseC
 }
 
 //---------------------------------------------------------------------------
-// Input/Output Structs
+// Input/Output Structs: https://learn.microsoft.com/en-us/windows/win32/direct3dgetstarted/work-with-shaders-and-shader-resources
 //---------------------------------------------------------------------------
 struct VS_INPUT
 {
@@ -194,7 +194,7 @@ struct VS_OUTPUT
 };
 
 //---------------------------------------------------------------------------
-// Vertex Shader
+// Vertex Shader: https://learn.microsoft.com/en-us/windows/win32/direct3d11/vertex-shader-stage
 //---------------------------------------------------------------------------
 VS_OUTPUT VS(VS_INPUT input)
 {
@@ -228,7 +228,7 @@ VS_OUTPUT VS_FireFX(VS_INPUT input)
 }
 
 //---------------------------------------------------------------------------
-// Pixel Shader
+// Pixel Shader: https://learn.microsoft.com/en-us/windows/win32/direct3d11/pixel-shader-stage#the-pixel-shader
 //---------------------------------------------------------------------------
 float4 PS_Point(VS_OUTPUT input) : SV_TARGET
 {
@@ -273,7 +273,7 @@ float4 PS_FireFX(VS_OUTPUT input) : SV_TARGET
 }
 
 //---------------------------------------------------------------------------
-// Techniques
+// Techniques: https://learn.microsoft.com/en-us/windows/win32/direct3d11/d3d11-effect-technique-syntax
 //---------------------------------------------------------------------------
 technique11 DefaultTechnique
 {
