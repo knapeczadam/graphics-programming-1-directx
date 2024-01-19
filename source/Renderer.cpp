@@ -20,6 +20,7 @@
 // Standard includes
 #include <cassert>
 
+#define RED_TEXT(text) "\033[1;31m" text "\033[0m"
 #define GREEN_TEXT(text) "\033[1;32m" text "\033[0m"
 #define MAGENTA_TEXT(text) "\033[1;35m" text "\033[0m"
 #define YELLOW_TEXT(text) "\033[1;33m" text "\033[0m"
@@ -513,42 +514,42 @@ namespace dae
     {
         m_Rotate = not m_Rotate;
         std::string onOff = m_Rotate ? "ON" : "OFF";
-        std::cout << GREEN_TEXT("**(HARDWARE) Vehicle Rotation ") << GREEN_TEXT("" + onOff + "") << '\n';
+        std::cout << GREEN_TEXT("**(HARDWARE) Vehicle Rotation ") << MAGENTA_TEXT("" + onOff + "") << '\n';
     }
 
     void Renderer::ToggleNormalVisibility()
     {
         m_UseNormalMap = not m_UseNormalMap;
         std::string onOff = m_UseNormalMap ? "ON" : "OFF";
-        std::cout << GREEN_TEXT("**(HARDWARE) NormalMap ") << GREEN_TEXT("" + onOff + "") << '\n';
+        std::cout << GREEN_TEXT("**(HARDWARE) NormalMap ") << MAGENTA_TEXT("" + onOff + "") << '\n';
     }
 
     void Renderer::ToggleAlphaBlending()
     {
         m_UseAlphaBlending = not m_UseAlphaBlending;
         std::string onOff = m_UseAlphaBlending ? "ON" : "OFF";
-        std::cout << GREEN_TEXT("**(HARDWARE) Alpha Blending ") << GREEN_TEXT("" + onOff + "") << '\n';
+        std::cout << GREEN_TEXT("**(HARDWARE) Alpha Blending ") << MAGENTA_TEXT("" + onOff + "") << '\n';
     }
 
     void Renderer::ToggleFireFX()
     {
         m_UseFireFX = not m_UseFireFX;
         std::string onOff = m_UseFireFX ? "ON" : "OFF";
-        std::cout << GREEN_TEXT("**(HARDWARE) FireFX ") << GREEN_TEXT("" + onOff + "") << '\n';
+        std::cout << GREEN_TEXT("**(HARDWARE) FireFX ") << MAGENTA_TEXT("" + onOff + "") << '\n';
     }
 
     void Renderer::ToggleUniformClearColor()
     {
         m_UseClearColor = not m_UseClearColor;
         std::string onOff = m_UseClearColor ? "ON" : "OFF";
-        std::cout << GREEN_TEXT("**(HARDWARE) Uniform ClearColor ") << GREEN_TEXT("" + onOff + "") << '\n';
+        std::cout << GREEN_TEXT("**(HARDWARE) Uniform ClearColor ") << MAGENTA_TEXT("" + onOff + "") << '\n';
     }
 
     void Renderer::ToggleFPSCounter()
     {
         m_UseFPSCounter = not m_UseFPSCounter;
         std::string onOff = m_UseFPSCounter ? "ON" : "OFF";
-        std::cout << GREEN_TEXT("**(HARDWARE) Print FPS ") << GREEN_TEXT("" + onOff + "") << '\n';
+        std::cout << GREEN_TEXT("**(HARDWARE) Print FPS ") << MAGENTA_TEXT("" + onOff + "") << '\n';
     }
 
     void Renderer::ToggleFrontCounterClockwise()
@@ -712,7 +713,7 @@ namespace dae
                 m_SamplerStateString = "ANISOTROPIC";
                 break;
         }
-        std::cout << GREEN_TEXT("**(HARDWARE) Sampler State = ") << GREEN_TEXT("" + m_SamplerStateString + "") << '\n';
+        std::cout << GREEN_TEXT("**(HARDWARE) Sampler State = ") << MAGENTA_TEXT("" + m_SamplerStateString + "") << '\n';
     }
 
     void Renderer::UpdateShadingModeString()
