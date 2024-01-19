@@ -549,6 +549,14 @@ namespace dae
         std::string onOff = m_UseFPSCounter ? "ON" : "OFF";
         std::cout << GREEN_TEXT("**(HARDWARE) Print FPS ") << GREEN_TEXT("" + onOff + "") << '\n';
     }
+
+    void Renderer::ToggleFrontCounterClockwise()
+    {
+        m_UseFrontCounterClockwise = not m_UseFrontCounterClockwise;
+        std::string onOff = m_UseFrontCounterClockwise ? "ON" : "OFF";
+        std::cout << GREEN_TEXT("**(HARDWARE) Front Counter Clockwise ") << MAGENTA_TEXT("" + onOff + "") << '\n';
+    }
+    }
 #pragma endregion
     
 #pragma region UI
@@ -704,6 +712,7 @@ namespace dae
     {
         const auto onOff = YELLOW_TEXT("(ON/OFF)");
         std::cout << YELLOW_TEXT("[Key Bindings]") << '\n';
+        std::cout << '\t' << YELLOW_TEXT("[F1]") << ONE_TAB << YELLOW_TEXT("Front Counter Clockwise") << TWO_TABS << onOff << '\n';
         std::cout << '\t' << YELLOW_TEXT("[F2]") << ONE_TAB << YELLOW_TEXT("Alpha Blending") << THREE_TABS << onOff << '\n';
         std::cout << '\t' << YELLOW_TEXT("[F3]") << ONE_TAB << YELLOW_TEXT("Cycle Shading Mode") << TWO_TABS << YELLOW_TEXT("(COMBINED/OBSERVED AREA/DIFFUSE/SPECULAR)") << '\n';
         std::cout << '\t' << YELLOW_TEXT("[F4]") << ONE_TAB << YELLOW_TEXT("Cycle Sampler State") << TWO_TABS <<  YELLOW_TEXT("(POINT/LINEAR/ANISOTROPIC)") << '\n';

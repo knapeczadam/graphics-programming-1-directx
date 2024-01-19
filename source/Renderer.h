@@ -78,6 +78,7 @@ namespace dae
         void ToggleFireFX();
         void ToggleUniformClearColor();
         void ToggleFPSCounter();
+        void ToggleFrontCounterClockwise();
 
         bool UseFPSCounter() const { return m_UseFPSCounter; }
         
@@ -186,11 +187,13 @@ namespace dae
         float m_AccTime = 0.0f;
         
         // Debug
-        bool m_UseNormalMap     = true;
-        bool m_UseAlphaBlending = true;
-        bool m_UseFireFX        = true;
-        bool m_UseClearColor   = false;
-        bool m_UseFPSCounter   = false;
+        bool m_UseNormalMap             = true;
+        bool m_UseAlphaBlending         = true;
+        bool m_UseFireFX                = true;
+        bool m_UseClearColor            = false;
+        bool m_UseFPSCounter            = false;
+        bool m_UseFrontCounterClockwise = false;
+
 
         UINT m_WithAlphaBlendingPassIdx    = 3;
         UINT m_WithoutAlphaBlendingPassIdx = 4;
