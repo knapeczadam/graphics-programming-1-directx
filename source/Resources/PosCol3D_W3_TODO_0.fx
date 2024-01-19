@@ -50,13 +50,13 @@ SamplerState samAnisotropic
 //---------------------------------------------------------------------------
 BlendState gAlphaBlendState
 {
-    BlendEnable[0]           = TRUE;
-    SrcBlend                 = SRC_ALPHA;
-    DestBlend                = INV_SRC_ALPHA;
-    BlendOp                  = ADD;
-    SrcBlendAlpha            = ZERO;
-    DestBlendAlpha           = ZERO;
-    BlendOpAlpha             = ADD;
+    BlendEnable[0]           = TRUE;          // FALSE, FALSE by default
+    SrcBlend                 = SRC_ALPHA;     // ZERO = 1, ONE = 2, SRC_COLOR = 3, INV_SRC_COLOR = 4, SRC_ALPHA = 5, INV_SRC_ALPHA = 6, DEST_ALPHA = 7, INV_DEST_ALPHA = 8, DEST_COLOR = 9, INV_DEST_COLOR = 10, SRC_ALPHA_SAT = 11, BLEND_FACTOR = 14, INV_BLEND_FACTOR = 15, SRC1_COLOR = 16, INV_SRC1_COLOR = 17, SRC1_ALPHA = 18, INV_SRC1_ALPHA = 19, ONE by default
+    DestBlend                = INV_SRC_ALPHA; // ZERO = 1, ONE = 2, SRC_COLOR = 3, INV_SRC_COLOR = 4, SRC_ALPHA = 5, INV_SRC_ALPHA = 6, DEST_ALPHA = 7, INV_DEST_ALPHA = 8, DEST_COLOR = 9, INV_DEST_COLOR = 10, SRC_ALPHA_SAT = 11, BLEND_FACTOR = 14, INV_BLEND_FACTOR = 15, SRC1_COLOR = 16, INV_SRC1_COLOR = 17, SRC1_ALPHA = 18, INV_SRC1_ALPHA = 19, ZERO by default
+    BlendOp                  = ADD;           // ADD = 1, SUBTRACT = 2, REV_SUBTRACT = 3, MIN = 4, MAX = 5, ADD by default
+    SrcBlendAlpha            = ZERO;          // ZERO = 1, ONE = 2, SRC_COLOR = 3, INV_SRC_COLOR = 4, SRC_ALPHA = 5, INV_SRC_ALPHA = 6, DEST_ALPHA = 7, INV_DEST_ALPHA = 8, DEST_COLOR = 9, INV_DEST_COLOR = 10, SRC_ALPHA_SAT = 11, BLEND_FACTOR = 14, INV_BLEND_FACTOR = 15, SRC1_COLOR = 16, INV_SRC1_COLOR = 17, SRC1_ALPHA = 18, INV_SRC1_ALPHA = 19, ONE by default
+    DestBlendAlpha           = ZERO;          // ZERO = 1, ONE = 2, SRC_COLOR = 3, INV_SRC_COLOR = 4, SRC_ALPHA = 5, INV_SRC_ALPHA = 6, DEST_ALPHA = 7, INV_DEST_ALPHA = 8, DEST_COLOR = 9, INV_DEST_COLOR = 10, SRC_ALPHA_SAT = 11, BLEND_FACTOR = 14, INV_BLEND_FACTOR = 15, SRC1_COLOR = 16, INV_SRC1_COLOR = 17, SRC1_ALPHA = 18, INV_SRC1_ALPHA = 19, ZERO by default
+    BlendOpAlpha             = ADD;           // ADD = 1, SUBTRACT = 2, REV_SUBTRACT = 3, MIN = 4, MAX = 5, ADD by default
     RenderTargetWriteMask[0] = 0x0F;
 };
 
@@ -77,9 +77,9 @@ BlendState gNoBlendState
 //---------------------------------------------------------------------------
 RasterizerState gRasterizerState
 {
-    FillMode              = SOLID; // or WIREFRAME
-    CullMode              = NONE;  // or FRONT, BACK
-    FrontCounterClockwise = FALSE; // or TRUE, FALSE by default
+    FillMode              = SOLID; // WIREFRAME = 2, SOLID = 3, SOLID by default
+    CullMode              = NONE;  // NONE = 1, FRONT = 2, BACK = 3, BACK by default
+    FrontCounterClockwise = FALSE; // TRUE, FALSE by default
 };
 
 //---------------------------------------------------------------------------
@@ -87,10 +87,10 @@ RasterizerState gRasterizerState
 //---------------------------------------------------------------------------
 DepthStencilState gDepthStencilState
 {
-    DepthEnable    = TRUE;  // or FALSE
-    DepthWriteMask = ZERO;  // or ALL
-    DepthFunc      = LESS;  // or GREATER, EQUAL, LESS_EQUAL, GREATER_EQUAL, NOT_EQUAL, NEVER, ALWAYS
-    StencilEnable  = FALSE; // or TRUE
+    DepthEnable    = TRUE;  // FALSE, TRUE by default
+    DepthWriteMask = ZERO;  // ZERO = 0, ALL = 1, ALL by default
+    DepthFunc      = LESS;  // NEVER = 1, LESS = 2, EQUAL = 3, LEQUAL = 4, GREATER = 5, NOTEQUAL = 6, GEQUAL = 7, ALWAYS = 8, LESS by default
+    StencilEnable  = FALSE; // TRUE, FALSE by default
 };
 
 DepthStencilState gNoDepthStencilState
@@ -184,9 +184,9 @@ struct VS_INPUT
 
 struct VS_OUTPUT
 {
-    float4 Position : SV_POSITION;
+    float4 Position : SV_POSITION; // SV_POSITION is equivalent to SV_POSITION0
     float3 Color    : COLOR;
-    float2 Uv       : TEXCOORD;
+    float2 Uv       : TEXCOORD; // TEXCOORD is equivalent to TEXCOORD0
     float3 Normal   : NORMAL;
     float3 Tangent  : TANGENT;
 };
