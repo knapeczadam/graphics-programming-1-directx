@@ -370,9 +370,6 @@ namespace dae
         if (m_InputLayoutPtr)               m_InputLayoutPtr->Release();
         if (m_IndexBufferPtr)               m_IndexBufferPtr->Release();
 
-        // TODO: should we release the technique?
-        if (m_TechniquePtr)                 m_TechniquePtr->Release();
-        
         if (m_WorldViewProjectionMatrixPtr) m_WorldViewProjectionMatrixPtr->Release();
 
         // Texture variables

@@ -77,9 +77,7 @@ namespace dae
         FreeSurface();
 
         if (m_ResourcePtr) m_ResourcePtr->Release();
-        
-        // TODO: exception is thrown
-        // if (m_SRVPtr)      m_ResourcePtr->Release();
+        if (m_SRVPtr)      m_SRVPtr->Release();
     }
 
     Texture* Texture::LoadFromFile(const std::string& path)

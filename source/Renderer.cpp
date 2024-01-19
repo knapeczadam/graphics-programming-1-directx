@@ -380,8 +380,7 @@ namespace dae
         //=======================================================================================================
         if (m_DebugPtr)
         {
-            m_DebugPtr->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY);
-            m_DebugPtr->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+            m_DebugPtr->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY | D3D11_RLDO_DETAIL | D3D11_RLDO_IGNORE_INTERNAL);
             m_DebugPtr->Release();
         }
     }
