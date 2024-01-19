@@ -208,8 +208,7 @@ namespace dae
         float m_KD                = 7.0f; // Diffuse  reflection coefficient
         float m_Shininess         = 25.0f;
 
-        float m_ClearColor[4]              = {0.1f, 0.1f, 0.1f};
-        float m_PreviousBackgroundColor[3] = {0.39f, 0.59f, 0.93f};
-        float m_CurrentBackgroundColor[3]  = {0.39f, 0.59f, 0.93f};
+        const float m_ClearColor[3]       = {0.1f, 0.1f, 0.1f};
+        float m_CurrentBackgroundColor[3] = {0.39f, 0.59f, 0.93f};
     };
 }

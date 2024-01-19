@@ -430,7 +430,20 @@ namespace dae
 
         // 1. Clear RTV and DSV
         //=======================================================================================================
-        const float clearColor[] = {m_CurrentBackgroundColor[0], m_CurrentBackgroundColor[1], m_CurrentBackgroundColor[2], 1.0f};
+        float clearColor[] = {m_CurrentBackgroundColor[0], m_CurrentBackgroundColor[1], m_CurrentBackgroundColor[2], 1.0f};
+        if (m_UseClearColor)
+        {
+            clearColor[0] = m_ClearColor[0];
+            clearColor[1] = m_ClearColor[1];
+            clearColor[2] = m_ClearColor[2];
+        }
+        else
+        {
+            clearColor[0] = m_CurrentBackgroundColor[0];
+            clearColor[1] = m_CurrentBackgroundColor[1];
+            clearColor[2] = m_CurrentBackgroundColor[2];
+        }
+        
         m_DeviceContextPtr->ClearRenderTargetView(m_RenderTargetViewPtr, clearColor);
         m_DeviceContextPtr->ClearDepthStencilView(m_DepthStencilViewPtr, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
@@ -541,23 +554,6 @@ namespace dae
     void Renderer::ToggleUniformClearColor()
     {
         m_UseClearColor = not m_UseClearColor;
-        if (m_UseClearColor)
-        {
-            m_PreviousBackgroundColor[0] = m_CurrentBackgroundColor[0];
-            m_PreviousBackgroundColor[1] = m_CurrentBackgroundColor[1];
-            m_PreviousBackgroundColor[2] = m_CurrentBackgroundColor[2];
-
-            m_CurrentBackgroundColor[0] = m_ClearColor[0];
-            m_CurrentBackgroundColor[1] = m_ClearColor[1];
-            m_CurrentBackgroundColor[2] = m_ClearColor[2];
-        }
-        else
-        {
-            m_CurrentBackgroundColor[0] = m_PreviousBackgroundColor[0];
-            m_CurrentBackgroundColor[1] = m_PreviousBackgroundColor[1];
-            m_CurrentBackgroundColor[2] = m_PreviousBackgroundColor[2];
-        }
-        
         std::string onOff = m_UseClearColor ? "ON" : "OFF";
         std::cout << GREEN_TEXT("**(HARDWARE) Uniform ClearColor ") << MAGENTA_TEXT("" + onOff + "") << '\n';
     }
