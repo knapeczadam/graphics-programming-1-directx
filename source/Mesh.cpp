@@ -521,8 +521,7 @@ namespace dae
 
     void Mesh::SetRasterizerState(FillMode fillMode, CullMode cullingMode, bool frontCounterClockwise) const
     {
-        ID3D11RasterizerState* rasterizerStatePtr{};
-        m_DeviceContextPtr->RSGetState(&rasterizerStatePtr);
+        ID3D11RasterizerState* rasterizerStatePtr = nullptr;
         
         D3D11_RASTERIZER_DESC rasterizerDesc{};
         rasterizerDesc.FrontCounterClockwise = frontCounterClockwise ? TRUE : FALSE;
@@ -562,8 +561,11 @@ namespace dae
                 rasterizerDesc.CullMode = D3D11_CULL_BACK;
                 break;
         }
+
+        const HRESULT result = m_DevicePtr->CreateRasterizerState(&rasterizerDesc, &rasterizerStatePtr);
+        if (FAILED(result))
+            assert(false and "Failed to create rasterizer state!");
         
-        m_DevicePtr->CreateRasterizerState(&rasterizerDesc, &rasterizerStatePtr);
         m_DeviceContextPtr->RSSetState(rasterizerStatePtr);
         
         SAFE_RELEASE(rasterizerStatePtr)
