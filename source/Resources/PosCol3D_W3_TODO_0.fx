@@ -200,15 +200,14 @@ VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
     
-    input.Position  = mul(float4(input.Position, 1.0f), CreateRotationMatrix(ROTATION_ANGLE * DEG_TO_RAD * gTime)).xyz;
-    output.Position = mul(float4(input.Position, 1.0f), gWorldViewProj);
+    //-----------------------------------------------------------------------
+    float4x4 rotationMatrix = CreateRotationMatrix(ROTATION_ANGLE * DEG_TO_RAD * gTime);
+    float4x4 resultMatrix   = mul(rotationMatrix, gWorldViewProj);
+    //-----------------------------------------------------------------------
     
-    input.Normal    = mul(input.Normal, (float3x3) CreateRotationMatrix(ROTATION_ANGLE * DEG_TO_RAD * gTime));
-    output.Normal   = input.Normal;
-    
-    input.Tangent   = mul(input.Tangent, (float3x3) CreateRotationMatrix(ROTATION_ANGLE * DEG_TO_RAD * gTime));
-    output.Tangent  = input.Tangent;
-    
+    output.Position = mul(float4(input.Position, 1.0f), resultMatrix);
+    output.Normal   = mul(input.Normal, (float3x3) rotationMatrix);
+    output.Tangent  = mul(input.Tangent, (float3x3) rotationMatrix);
     output.Color    = input.Color;
     output.Uv       = input.Uv;
 
@@ -219,9 +218,12 @@ VS_OUTPUT VS_FireFX(VS_INPUT input)
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
     
-    input.Position  = mul(input.Position, CreateRotationMatrix(ROTATION_ANGLE * DEG_TO_RAD * gTime));
-    output.Position = mul(float4(input.Position, 1.0f), gWorldViewProj);
+    //-----------------------------------------------------------------------
+    float4x4 rotationMatrix = CreateRotationMatrix(ROTATION_ANGLE * DEG_TO_RAD * gTime);
+    float4x4 resultMatrix   = mul(rotationMatrix, gWorldViewProj);
+    //-----------------------------------------------------------------------
     
+    output.Position = mul(float4(input.Position, 1.0f), resultMatrix);
     output.Uv       = input.Uv;
 
     return output;
