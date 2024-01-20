@@ -32,7 +32,7 @@ SamplerState samAnisotropic
 //---------------------------------------------------------------------------
 // Helper Functions
 //---------------------------------------------------------------------------
-float4x4 CreateRotation(float yaw)
+float4x4 CreateRotationMatrix(float yaw)
 {
     float4x4 rotation = (float4x4)0;
     
@@ -70,7 +70,7 @@ VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
     
-    input.Position  = mul(float4(input.Position, 1.0f), CreateRotation(gTime)).xyz;
+    input.Position  = mul(float4(input.Position, 1.0f), CreateRotationMatrix(gTime)).xyz;
     output.Position = mul(float4(input.Position, 1.0f), gWorldViewProj);
     output.Color    = input.Color;
     output.Uv       = input.Uv;
