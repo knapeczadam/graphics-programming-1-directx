@@ -11,7 +11,6 @@ namespace dae
     Effect::~Effect()
     {
         SAFE_RELEASE(m_EffectPtr)
-        SAFE_RELEASE(m_EffectPtr)
     }
 
     ID3DX11EffectTechnique* Effect::GetTechniqueByIndex(int index) const

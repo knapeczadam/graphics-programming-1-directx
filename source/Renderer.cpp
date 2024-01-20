@@ -579,7 +579,12 @@ namespace dae
     {
         // Get the back buffer
         ID3D11Texture2D* pBackBuffer;
-        m_SwapChainPtr->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pBackBuffer));
+        HRESULT result = m_SwapChainPtr->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pBackBuffer));
+        if (FAILED(result) or not pBackBuffer)
+        {
+            std::cout << RED_TEXT("**(HARDWARE) Failed to get back the back buffer for screenshot!") << '\n';
+            return;
+        }
     
         // Create a staging texture
         D3D11_TEXTURE2D_DESC desc;
@@ -589,7 +594,12 @@ namespace dae
         desc.BindFlags = 0;
     
         ID3D11Texture2D* pStagingTexture;
-        m_DevicePtr->CreateTexture2D(&desc, nullptr, &pStagingTexture);
+        result = m_DevicePtr->CreateTexture2D(&desc, nullptr, &pStagingTexture);
+        if (FAILED(result) or not pStagingTexture)
+        {
+            std::cout << RED_TEXT("**(HARDWARE) Failed to create a staging texture for screenshot!") << '\n';
+            return;
+        }
     
         // Copy the back buffer to the staging texture
         m_DeviceContextPtr->CopyResource(pStagingTexture, pBackBuffer);

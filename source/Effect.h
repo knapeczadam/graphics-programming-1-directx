@@ -16,6 +16,5 @@ namespace dae
 
     private:
         ID3DX11Effect*          m_EffectPtr    = nullptr;
-        ID3DX11EffectTechnique* m_TechniquePtr = nullptr;
     };
 }
