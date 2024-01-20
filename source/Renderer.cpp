@@ -287,6 +287,8 @@ namespace dae
 #elif W3
 #if TODO_0
         m_MeshPtr       = new Mesh(m_DevicePtr, vehicle_vertices, vehicle_indices);
+        m_MeshPtr->SetRasterizerState(m_FillMode, m_CullMode, m_UseFrontCounterClockwise);
+        
         m_FireFXMeshPtr = new Mesh(m_DevicePtr, fireFx_vertices,  fireFx_indices);
         m_FireFXMeshPtr->SetPassIdx(m_WithAlphaBlendingPassIdx);
 #endif
