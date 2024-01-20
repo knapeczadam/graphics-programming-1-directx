@@ -120,9 +120,9 @@ float4x4 CreateRotation(float yaw)
     return rotation;
 }
 
-float4 ShadePixel(float3 normal, float3 tangent, float3 viewDir, float4 diffuseColor, float3 normalColor, float4 specularColor, float gloss)
+float4 ShadePixel(float3 normal, float3 tangent, float3 viewDir, float3 diffuseColor, float3 normalColor, float3 specularColor, float gloss)
 {
-    float4 color = (float4)0;
+    float3 color = (float3)0;
     
     // Binormal
     float3 binormal = cross(normal, tangent);
@@ -146,30 +146,30 @@ float4 ShadePixel(float3 normal, float3 tangent, float3 viewDir, float4 diffuseC
     float3 observedArea = saturate(dot(normal, -lightDir));
     
     // Diffuse lighting
-    float4 diffuse = diffuseColor * gKD / PI;
+    float3 diffuse = diffuseColor * gKD / PI;
     
     // Phong specular lighting
     float3 reflectedLight = reflect(-lightDir, normal);
     float cosAlpha        = saturate(dot(reflectedLight, -viewDir));
-    float4 phong          = specularColor * pow(cosAlpha, gloss * gShininess);
+    float3 phong          = specularColor * pow(cosAlpha, gloss * gShininess);
     
     if (gShadingMode == 0)
     {
-        color = float4(observedArea, 1.0f);
+        color = observedArea;
     } 
     else if (gShadingMode == 1)
     {
-        color = diffuse * float4(observedArea, 1.0f);
+        color = diffuse * observedArea;
     }
     else if (gShadingMode == 2)
     {
-        color = phong * float4(observedArea, 1.0f);
+        color = phong * observedArea;
     }
     else
     {
-        color = float4(radiance, 1.0f) * (diffuse + phong + float4(gAmbientColor, 1.0f)) * float4(observedArea, 1.0f);
+        color = radiance * (diffuse + phong + gAmbientColor) * observedArea;
     }
-    return color;
+    return float4(color, 1.0f);
 }
 
 //---------------------------------------------------------------------------
@@ -234,9 +234,9 @@ float4 PS_Point(VS_OUTPUT input) : SV_TARGET
 {
     float3 viewDir = normalize(gCameraPos - input.Position.xyz);
     
-    float4 diffuseColor  = gDiffuseMap.Sample(samPoint,  input.Uv);
+    float3 diffuseColor  = gDiffuseMap.Sample(samPoint,  input.Uv).rgb;
     float3 normalColor   = gNormalMap.Sample(samPoint,   input.Uv).rgb;
-    float4 specularColor = gSpecularMap.Sample(samPoint, input.Uv);
+    float3 specularColor = gSpecularMap.Sample(samPoint, input.Uv).rgb;
     float  gloss         = gGlossMap.Sample(samPoint,    input.Uv).r;
     
     return ShadePixel(input.Normal, input.Tangent, viewDir, diffuseColor, normalColor, specularColor, gloss);
@@ -246,9 +246,9 @@ float4 PS_Linear(VS_OUTPUT input) : SV_TARGET
 {
     float3 viewDir = normalize(gCameraPos - input.Position.xyz);
     
-    float4 diffuseColor  = gDiffuseMap.Sample(samLinear,  input.Uv);
+    float3 diffuseColor  = gDiffuseMap.Sample(samLinear,  input.Uv).rgb;
     float3 normalColor   = gNormalMap.Sample(samLinear,   input.Uv).rgb;
-    float4 specularColor = gSpecularMap.Sample(samLinear, input.Uv);
+    float3 specularColor = gSpecularMap.Sample(samLinear, input.Uv).rgb;
     float  gloss         = gGlossMap.Sample(samLinear,    input.Uv).r;
     
     return ShadePixel(input.Normal, input.Tangent, viewDir, diffuseColor, normalColor, specularColor, gloss);
@@ -258,9 +258,9 @@ float4 PS_Anisotropic(VS_OUTPUT input) : SV_TARGET
 {
     float3 viewDir = normalize(gCameraPos - input.Position.xyz);
     
-    float4 diffuseColor  = gDiffuseMap.Sample(samAnisotropic,  input.Uv);
+    float3 diffuseColor  = gDiffuseMap.Sample(samAnisotropic,  input.Uv).rgb;
     float3 normalColor   = gNormalMap.Sample(samAnisotropic,   input.Uv).rgb;
-    float4 specularColor = gSpecularMap.Sample(samAnisotropic, input.Uv);
+    float3 specularColor = gSpecularMap.Sample(samAnisotropic, input.Uv).rgb;
     float  gloss         = gGlossMap.Sample(samAnisotropic,    input.Uv).r;
     
     return ShadePixel(input.Normal, input.Tangent, viewDir, diffuseColor, normalColor, specularColor, gloss);
