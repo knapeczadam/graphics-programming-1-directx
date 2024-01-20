@@ -5,6 +5,9 @@ float4x4  gWorldViewProj : WorldViewProjection;
 Texture2D gDiffuseMap    : DiffuseMap;
 float     gTime          : Time;
 
+#define DEG_TO_RAD 0.01745329251994329576923690768489
+#define ROTATION_ANGLE -45.0f 
+
 //---------------------------------------------------------------------------
 // Sampler States
 //---------------------------------------------------------------------------
