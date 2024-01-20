@@ -150,8 +150,8 @@ float4 ShadePixel(float3 normal, float3 tangent, float3 viewDir, float4 diffuseC
     
     // Phong specular lighting
     float3 reflectedLight = reflect(-lightDir, normal);
-    float cosAlpha = saturate(dot(reflectedLight, -viewDir));
-    float phong =  specularColor * pow(cosAlpha, gloss * gShininess);
+    float cosAlpha        = saturate(dot(reflectedLight, -viewDir));
+    float4 phong          = specularColor * pow(cosAlpha, gloss * gShininess);
     
     if (gShadingMode == 0)
     {
