@@ -10,8 +10,8 @@ namespace dae
 
     Effect::~Effect()
     {
-        if (m_EffectPtr)    m_EffectPtr->Release();
-        if (m_TechniquePtr) m_TechniquePtr->Release();
+        SAFE_RELEASE(m_EffectPtr)
+        SAFE_RELEASE(m_EffectPtr)
     }
 
     ID3DX11EffectTechnique* Effect::GetTechniqueByIndex(int index) const
@@ -62,8 +62,7 @@ namespace dae
                     ss << errorsPtr[i];
 
                 OutputDebugStringW(ss.str().c_str());
-                errorBlobPtr->Release();
-                errorBlobPtr = nullptr;
+                SAFE_RELEASE(errorBlobPtr)
 
                 std::wcout << ss.str() << std::endl;
             }

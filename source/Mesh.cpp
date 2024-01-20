@@ -542,7 +542,7 @@ namespace dae
         m_DevicePtr->CreateRasterizerState(&rasterizerDesc, &rasterizerStatePtr);
         m_DeviceContextPtr->RSSetState(rasterizerStatePtr);
         
-        rasterizerStatePtr->Release();
+        SAFE_RELEASE(rasterizerStatePtr)
     }
 #pragma endregion
 }
