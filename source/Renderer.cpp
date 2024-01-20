@@ -67,11 +67,11 @@ namespace dae
         if (result == S_OK)
         {
             m_IsInitialized = true;
-            std::cout << "DirectX is initialized and ready!\n";
+            std::cout << GREEN_TEXT("DirectX is initialized and ready!") << '\n';
         }
         else
         {
-            std::cout << "DirectX initialization failed!\n";
+            std::cout << RED_TEXT("DirectX initialization failed!") << '\n';
         }
 
         // Setup Platform/Renderer backends - Part 2
@@ -121,7 +121,10 @@ namespace dae
         result = CreateDXGIFactory1(__uuidof(IDXGIFactory1), reinterpret_cast<void**>(&m_DXGIFactoryPtr));
 
         if (FAILED(result))
+        {
+            std::cout << RED_TEXT("Failed to create DXGI factory!\n");
             return result;
+        }
 
         // Create debug interface
         //=======================================================================================================
@@ -156,7 +159,10 @@ namespace dae
         //=======================================================================================================
         result = m_DXGIFactoryPtr->CreateSwapChain(m_DevicePtr, &swapChainDesc, &m_SwapChainPtr);
         if (FAILED(result))
+        {
+            std::cout << RED_TEXT("Failed to create swap chain!\n");
             return result;
+        }
 
         // 3. Create DepthStencil (DS) and DepthStencilView (DSV)
         //=======================================================================================================
@@ -182,11 +188,17 @@ namespace dae
 
         result = m_DevicePtr->CreateTexture2D(&depthStencilDesc, nullptr, &m_DepthStencilBufferPtr);
         if (FAILED(result))
+        {
+            std::cout << RED_TEXT("Failed to create depth stencil buffer!\n");
             return result;
+        }
 
         result = m_DevicePtr->CreateDepthStencilView(m_DepthStencilBufferPtr, &depthStencilViewDesc, &m_DepthStencilViewPtr);
         if (FAILED(result))
+        {
+            std::cout << RED_TEXT("Failed to create depth stencil view!\n");
             return result;
+        }
 
         // 4. Create RenderTarget (RT) and RenderTargetView (RTV)
         //=======================================================================================================
@@ -194,12 +206,18 @@ namespace dae
         // Resource
         result = m_SwapChainPtr->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&m_RenderTargetBufferPtr));
         if (FAILED(result))
+        {
+            std::cout << RED_TEXT("Failed to get back buffer!\n");
             return result;
+        }
 
         // View
         result = m_DevicePtr->CreateRenderTargetView(m_RenderTargetBufferPtr, nullptr, &m_RenderTargetViewPtr);
         if (FAILED(result))
+        {
+            std::cout << RED_TEXT("Failed to create render target view!\n");
             return result;
+        }
 
         // 5. Bind RTV and DSV to Output Merger Stage
         //=======================================================================================================
@@ -330,6 +348,14 @@ namespace dae
     {
         // General
         //=======================================================================================================
+        // Textures
+        delete m_TexturePtr;
+        delete m_DiffuseTexturePtr;
+        delete m_GlossinessTexturePtr;
+        delete m_NormalTexturePtr;
+        delete m_SpecularTexturePtr;
+        delete m_FireFXTexturePtr;
+
         delete m_MeshPtr;
         delete m_FireFXMeshPtr;
         
@@ -358,14 +384,6 @@ namespace dae
         }
         SAFE_RELEASE(m_DevicePtr)
         SAFE_RELEASE(m_DXGIFactoryPtr)
-
-        // Textures
-        delete m_TexturePtr;
-        delete m_DiffuseTexturePtr;
-        delete m_GlossinessTexturePtr;
-        delete m_NormalTexturePtr;
-        delete m_SpecularTexturePtr;
-        delete m_FireFXTexturePtr;
 
         // DirectX Debug
         //=======================================================================================================
@@ -425,6 +443,14 @@ namespace dae
         Rotate(timerPtr->GetElapsed());
 #endif
 #endif
+    }
+
+    void Renderer::Rotate(float deltaTime)
+    {
+        if (m_Rotate)
+        {
+            m_AccTime += deltaTime;
+        }
     }
 
     void Renderer::Render()
@@ -516,14 +542,6 @@ namespace dae
         m_FillMode = static_cast<FillMode>((static_cast<int>(m_FillMode) + 1) % static_cast<int>(FillMode::COUNT));
         m_MeshPtr->SetRasterizerState(m_FillMode, m_CullMode, m_UseFrontCounterClockwise);
         UpdateFillModeString();
-    }
-
-    void Renderer::Rotate(float deltaTime)
-    {
-        if (m_Rotate)
-        {
-            m_AccTime += deltaTime;
-        }
     }
 
     void Renderer::ToggleRotation()
@@ -648,10 +666,21 @@ namespace dae
         if (m_ShowUI)
         {
             ImGui::Begin("Properties", &m_ShowUI);
-            ImGui::Text("F3:  Shading  mode: %s", m_ShadingModeString.c_str());
-            ImGui::Text("F4:  Sampler state: %s", m_SamplerStateString.c_str());
-            ImGui::Text("F10: FillMode     : %s", m_FillModeString.c_str());
-            ImGui::Text("F11: CullMode     : %s", m_CullModeString.c_str());
+            
+            ImGui::Text("Camera");
+            ImGui::Spacing();
+            ImGui::Text("Position (WASD) : (%.1f, %.1f, %.1f)", m_Camera.GetPosition().x, m_Camera.GetPosition().y, m_Camera.GetPosition().z);
+            ImGui::Text("FOV (QE)        : %f", m_Camera.GetFOV());
+            ImGui::Text("Aspect Ratio    : %f",  m_Camera.GetAspectRatio());
+            
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
+            
+            ImGui::Text("F3:  Shading  mode : %s", m_ShadingModeString.c_str());
+            ImGui::Text("F4:  Sampler state : %s", m_SamplerStateString.c_str());
+            ImGui::Text("F10: FillMode      : %s", m_FillModeString.c_str());
+            ImGui::Text("F11: CullMode      : %s", m_CullModeString.c_str());
         
             ImGui::Spacing();
             ImGui::Separator();
@@ -746,12 +775,6 @@ namespace dae
     {
         switch (m_ShadingMode)
         {
-        case ShadingMode::BoundingBox:
-            m_ShadingModeString = "BOUNDING BOX";
-            break;
-        case ShadingMode::DepthBuffer:
-            m_ShadingModeString = "DEPTH BUFFER";
-            break;
         case ShadingMode::ObservedArea:
             m_ShadingModeString = "OBSERVED AREA";
             break;
@@ -804,7 +827,7 @@ namespace dae
     void Renderer::PrintDebugInfo() const
     {
         const auto onOff = YELLOW_TEXT("(ON/OFF)");
-        std::cout << YELLOW_TEXT("[Key Bindings]") << '\n';
+        std::cout << '\n' << YELLOW_TEXT("[Key Bindings]") << '\n';
         std::cout << '\t' << YELLOW_TEXT("[F1]") << ONE_TAB << YELLOW_TEXT("Front Counter Clockwise") << TWO_TABS << onOff << '\n';
         std::cout << '\t' << YELLOW_TEXT("[F2]") << ONE_TAB << YELLOW_TEXT("Alpha Blending") << THREE_TABS << onOff << '\n';
         std::cout << '\t' << YELLOW_TEXT("[F3]") << ONE_TAB << YELLOW_TEXT("Cycle Shading Mode") << TWO_TABS << YELLOW_TEXT("(COMBINED/OBSERVED AREA/DIFFUSE/SPECULAR)") << '\n';

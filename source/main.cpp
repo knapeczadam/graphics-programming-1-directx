@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#if defined(_DEBUG)
+#if defined(_DEBUG) or defined(DEBUG)
 #include "vld.h"
 #endif
 
@@ -101,6 +101,12 @@ int main(int argc, char* args[])
             case SDL_KEYUP:
                 switch (e.key.keysym.scancode)
                 {
+                case SDL_SCANCODE_Q:
+                    rendererPtr->GetCamera().IncreaseFOV();
+                    break;
+                case SDL_SCANCODE_E:
+                    rendererPtr->GetCamera().DecreaseFOV();
+                    break;
                 case SDL_SCANCODE_F1:
                     rendererPtr->ToggleFrontCounterClockwise();
                     break;

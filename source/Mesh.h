@@ -16,36 +16,41 @@ namespace dae
         Vector3  tangent  = {0.0f, 0.0f, 1.0f};
     };
 
-    class Mesh
+    class Mesh final
     {
     public:
         Mesh(ID3D11Device* devicePtr, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices);
         ~Mesh();
 
+        Mesh(const Mesh& other)                = delete;
+        Mesh(Mesh&& other) noexcept            = delete;
+        Mesh& operator=(const Mesh& other)     = delete;
+        Mesh& operator=(Mesh&& other) noexcept = delete;
+
         void Render() const;
-        void SetMatrix(const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
+        void SetMatrix(const Matrix& viewMatrix, const Matrix& projectionMatrix)                            const;
         void SetMatrix(const Matrix& worldMatrix, const Matrix& viewMatrix, const Matrix& projectionMatrix) const;
 
         // Texture variables
-        void SetDiffuseMap(const Texture* diffuseTexturePtr) const;
-        void SetNormalMap(const Texture* normalMapTexturePtr) const;
-        void SetSpecularMap(const Texture* specularTexturePtr) const;
+        void SetDiffuseMap(const Texture* diffuseTexturePtr)       const;
+        void SetNormalMap(const Texture* normalMapTexturePtr)      const;
+        void SetSpecularMap(const Texture* specularTexturePtr)     const;
         void SetGlossinessMap(const Texture* glossinessTexturePtr) const;
 
         // Scalar variables
-        void SetTime(float time) const;
+        void SetTime(float time)                             const;
         void SetCameraPosition(const Vector3& viewDirection) const;
-        void SetUseNormalMap(bool useNormalMap) const;
-        void SetShadingMode(int shadingMode) const;
-        void SetAmbient(float* ambient) const;
-        void SetLightDirection(float* lightDirection) const;
-        void SetLightIntensity(float lightIntensity) const;
-        void SetKD(float kd) const;
-        void SetShininess(float shininess) const;
+        void SetUseNormalMap(bool useNormalMap)              const;
+        void SetShadingMode(int shadingMode)                 const;
+        void SetAmbient(float* ambient)                      const;
+        void SetLightDirection(float* lightDirection)        const;
+        void SetLightIntensity(float lightIntensity)         const;
+        void SetKD(float kd)                                 const;
+        void SetShininess(float shininess)                   const;
 
         void SetRasterizerState(FillMode fillMode, CullMode cullingMode, bool frontCounterClockwise) const;
         
-        inline void SetPassIdx(UINT passIdx) { m_PassIdx = passIdx; }
+        void SetPassIdx(UINT passIdx) { m_PassIdx = passIdx; }
 
     private:
         void InitializeEffect();
@@ -58,19 +63,19 @@ namespace dae
 
     private:
         // From Renderer
-        ID3D11Device*        m_DevicePtr        = nullptr;
-        ID3D11DeviceContext* m_DeviceContextPtr = nullptr;
-        
-        ID3D11Buffer*           m_VertexBufferPtr = nullptr;
-        ID3D11InputLayout*      m_InputLayoutPtr  = nullptr;
-        ID3D11Buffer*           m_IndexBufferPtr  = nullptr;
+        ID3D11Device*                        m_DevicePtr                    = nullptr;
+        ID3D11DeviceContext*                 m_DeviceContextPtr             = nullptr;
 
         // From Effect
         Effect*                              m_EffectPtr                    = nullptr;
-        
+
+        // Shader variables
+        ID3D11Buffer*                        m_VertexBufferPtr              = nullptr;
+        ID3D11InputLayout*                   m_InputLayoutPtr               = nullptr;
+        ID3D11Buffer*                        m_IndexBufferPtr               = nullptr;
+
+        // Technique
         ID3DX11EffectTechnique*              m_TechniquePtr                 = nullptr;
-        
-        ID3DX11EffectMatrixVariable*         m_WorldViewProjectionMatrixPtr = nullptr;
 
         // Texture variables
         ID3DX11EffectShaderResourceVariable* m_DiffuseMapVariablePtr        = nullptr;
@@ -78,6 +83,9 @@ namespace dae
         ID3DX11EffectShaderResourceVariable* m_SpecularMapVariablePtr       = nullptr;
         ID3DX11EffectShaderResourceVariable* m_GlossinessMapVariablePtr     = nullptr;
 
+        // Matrix variables
+        ID3DX11EffectMatrixVariable*         m_WorldViewProjectionMatrixPtr = nullptr;
+        
         // Scalar variables
         ID3DX11EffectScalarVariable*         m_TimeVariablePtr              = nullptr;
         ID3DX11EffectVectorVariable*         m_CameraPositionVariablePtr    = nullptr;

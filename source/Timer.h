@@ -5,7 +5,7 @@
 
 namespace dae
 {
-    class Timer
+    class Timer final
     {
     public:
         Timer();

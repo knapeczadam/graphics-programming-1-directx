@@ -7,10 +7,16 @@ namespace dae
 {
     struct Vector2;
 
-    class Texture
+    class Texture final
     {
     public:
+        Texture() = default;
         ~Texture();
+
+        Texture(const Texture& other)                = delete;
+        Texture(Texture&& other) noexcept            = delete;
+        Texture& operator=(const Texture& other)     = delete;
+        Texture& operator=(Texture&& other) noexcept = delete;
 
         static Texture* LoadFromFile(const std::string& path);
         static Texture* LoadFromFile(const std::string& path, ID3D11Device* devicePtr);

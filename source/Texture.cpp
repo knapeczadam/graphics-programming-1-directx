@@ -1,8 +1,13 @@
 #include "pch.h"
 #include "Texture.h"
+
+// Project includes
 #include "Vector2.h"
+
+// SDL includes
 #include <SDL_image.h>
 
+// Standard includes
 #include <algorithm>
 #include <iostream>
 
@@ -42,7 +47,7 @@ namespace dae
         HRESULT hr = devicePtr->CreateTexture2D(&desc, &initData, &m_ResourcePtr);
         if (FAILED(hr))
         {
-            std::cout << "Texture::Texture() failed: " << hr << '\n';
+            std::cout << RED_TEXT("Texture::Texture() failed: ") << hr << '\n';
             return;
         }
 
@@ -54,7 +59,7 @@ namespace dae
         hr = devicePtr->CreateShaderResourceView(m_ResourcePtr, &SRVDesc, &m_SRVPtr);
         if (FAILED(hr))
         {
-            std::cout << "Texture::Texture() failed: " << hr << '\n';
+            std::cout << RED_TEXT("Texture::Texture() failed: ") << hr << '\n';
             return;
         }
 
@@ -85,7 +90,7 @@ namespace dae
         SDL_Surface* pSurface = IMG_Load(path.c_str());
         if (!pSurface)
         {
-            std::cout << "Texture::LoadFromFile() failed: " << SDL_GetError() << std::endl;
+            std::cout << RED_TEXT("Texture::LoadFromFile() failed: ") << SDL_GetError() << '\n';
             return nullptr;
         }
         return new Texture(pSurface);
@@ -96,7 +101,7 @@ namespace dae
         SDL_Surface* pSurface = IMG_Load(path.c_str());
         if (!pSurface)
         {
-            std::cout << "Texture::LoadFromFile() failed: " << SDL_GetError() << std::endl;
+            std::cout << RED_TEXT("Texture::LoadFromFile() failed: ") << SDL_GetError() << '\n';
             return nullptr;
         }
         return new Texture(pSurface, devicePtr);

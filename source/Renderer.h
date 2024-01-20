@@ -11,9 +11,10 @@ namespace dae
 {
     // Forward declarations
     struct Vertex;
-    class Texture;
-    class Mesh;
-    
+    class  Texture;
+    class  Mesh;
+
+#pragma region Enums
     enum class SamplerState
     {
         Point,
@@ -25,9 +26,7 @@ namespace dae
     
     enum class ShadingMode
     {
-        BoundingBox = -2,
-        DepthBuffer = -1,
-        ObservedArea = 0,// Lambert Cosine Law
+        ObservedArea, // Lambert Cosine Law
         Diffuse,
         Specular, 
         Combined, // (Diffuse + Specular) * ObservedArea
@@ -51,6 +50,7 @@ namespace dae
 
         COUNT
     };
+#pragma endregion
     
     class Renderer final
     {
@@ -64,6 +64,7 @@ namespace dae
         Renderer& operator=(Renderer&&) noexcept = delete;
 
         void Update(const Timer* timerPtr);
+        void Rotate(float deltaTime);
         void Render();
 
         // Settings
@@ -71,7 +72,7 @@ namespace dae
         void CycleShadingMode();
         void CycleCullMode();
         void CycleFillMode();
-        
+
         void ToggleRotation();
         void ToggleNormalVisibility();
         void ToggleAlphaBlending();
@@ -84,7 +85,7 @@ namespace dae
         
         void TakeScreenshot() const;
 
-        inline Camera& GetCamera() { return m_Camera; }
+        Camera& GetCamera() { return m_Camera; }
 
     private:
         // Initialization
@@ -98,7 +99,6 @@ namespace dae
         void UpdateShadingModeString();
         void UpdateCullModeString();
         void UpdateFillModeString();
-        void Rotate(float deltaTime);
 
         // UI
         void CreateUI();
@@ -140,12 +140,11 @@ namespace dae
         ID3D11DepthStencilView* m_DepthStencilViewPtr   = nullptr;
         ID3D11Resource*         m_RenderTargetBufferPtr = nullptr;
         ID3D11RenderTargetView* m_RenderTargetViewPtr   = nullptr;
-        
         ID3D11Debug*            m_DebugPtr              = nullptr;
 
         Camera m_Camera {};
-        Mesh*  m_MeshPtr   =   nullptr;
-        Mesh*  m_FireFXMeshPtr =   nullptr;
+        Mesh*  m_MeshPtr       = nullptr;
+        Mesh*  m_FireFXMeshPtr = nullptr;
         
         // Path
 #if CUSTOM_PATH
@@ -175,22 +174,21 @@ namespace dae
         // FireFX
         Texture* m_FireFXTexturePtr = nullptr;
 
+        // Enums
         SamplerState m_SamplerState = SamplerState::Point;
-        std::string  m_SamplerStateString ="POINT";
+        ShadingMode  m_ShadingMode  = ShadingMode::Combined;
+        CullMode     m_CullMode     = CullMode::None;
+        FillMode     m_FillMode     = FillMode::Solid;
+        
+        std::string m_SamplerStateString = "POINT";
+        std::string m_ShadingModeString  = "COMBINED";
+        std::string m_CullModeString     = "NONE";
+        std::string m_FillModeString     = "SOLID";
 
-        ShadingMode m_ShadingMode       = ShadingMode::Combined;
-        std::string m_ShadingModeString = "COMBINED";
-
-        CullMode m_CullMode = CullMode::None;
-        std::string m_CullModeString = "NONE";
-
-        FillMode m_FillMode = FillMode::Solid;
-        std::string m_FillModeString = "SOLID";
-
-        bool  m_Rotate  = true;
         float m_AccTime = 0.0f;
         
         // Debug
+        bool m_Rotate                   = true;
         bool m_UseNormalMap             = true;
         bool m_UseAlphaBlending         = true;
         bool m_UseFireFX                = true;
@@ -198,18 +196,21 @@ namespace dae
         bool m_UseFPSCounter            = false;
         bool m_UseFrontCounterClockwise = false;
 
+        // UI
         bool m_ShowUI = true;
 
+        // Passes
         UINT m_WithAlphaBlendingPassIdx    = 3;
         UINT m_WithoutAlphaBlendingPassIdx = 4;
 
         // Lighting
-        float m_Ambient[3]        = {0.03f, 0.03f, 0.03f}; // 8, 8, 8
-        float m_LightDirection[3] = {0.577f,  -0.577f, 0.577f}; 
+        float m_Ambient[3]        = {0.03f, 0.03f, 0.03f};
+        float m_LightDirection[3] = {0.577f, -0.577f, 0.577f}; 
         float m_LightIntensity    = 1.0f;
-        float m_KD                = 7.0f; // Diffuse  reflection coefficient
+        float m_KD                = 7.0f; // Diffuse reflection coefficient
         float m_Shininess         = 25.0f;
 
+        // Background color
         const float m_ClearColor[3]       = {0.1f, 0.1f, 0.1f};
         float m_CurrentBackgroundColor[3] = {0.39f, 0.59f, 0.93f};
     };

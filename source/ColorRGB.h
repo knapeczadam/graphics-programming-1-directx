@@ -7,8 +7,8 @@ namespace dae
     struct ColorRGB
     {
         ColorRGB() = default;
-        ColorRGB(float _r, float _g, float _b) : r(_r), g(_g), b(_b) { }
-        ColorRGB(float c) : r(c), g(c), b(c) { }
+        ColorRGB(float _r, float _g, float _b) : r{_r}, g{_g}, b{_b} { }
+        ColorRGB(float c) : r{c}, g{c}, b{c} { }
         
         ColorRGB(const ColorRGB& other)                = default;
         ColorRGB(ColorRGB&& other) noexcept            = default;
@@ -17,9 +17,9 @@ namespace dae
 
         ~ColorRGB() = default;
 
-        float r{};
-        float g{};
-        float b{};
+        float r = 0.0f;
+        float g = 0.0f;
+        float b = 0.0f;
 
         void MaxToOne()
         {
@@ -92,15 +92,15 @@ namespace dae
 
     namespace colors
     {
-        static ColorRGB Red{1, 0, 0};
-        static ColorRGB Blue{0, 0, 1};
-        static ColorRGB Green{0, 1, 0};
-        static ColorRGB Yellow{1, 1, 0};
-        static ColorRGB Cyan{0, 1, 1};
-        static ColorRGB Magenta{1, 0, 1};
-        static ColorRGB White{1, 1, 1};
-        static ColorRGB Black{0, 0, 0};
-        static ColorRGB Gray{0.5f, 0.5f, 0.5f};
-        static ColorRGB Dielectric{0.04f, 0.04f, 0.04f};
+        static ColorRGB Red        = {1, 0, 0};
+        static ColorRGB Blue       = {0, 0, 1};
+        static ColorRGB Green      = {0, 1, 0};
+        static ColorRGB Yellow     = {1, 1, 0};
+        static ColorRGB Cyan       = {0, 1, 1};
+        static ColorRGB Magenta    = {1, 0, 1};
+        static ColorRGB White      = {1, 1, 1};
+        static ColorRGB Black      = {0, 0, 0};
+        static ColorRGB Gray       = {0.5f, 0.5f, 0.5f};
+        static ColorRGB Dielectric = {0.04f, 0.04f, 0.04f};
     }
 }

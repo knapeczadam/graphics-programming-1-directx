@@ -3,6 +3,7 @@
 
 namespace dae
 {
+#pragma region Initialization & Cleanup
     Effect::Effect(ID3D11Device* devicePtr, const std::wstring& assetFile)
     {
         m_EffectPtr = LoadEffect(devicePtr, assetFile);
@@ -12,7 +13,9 @@ namespace dae
     {
         SAFE_RELEASE(m_EffectPtr)
     }
+#pragma endregion
 
+#pragma region Getters
     ID3DX11EffectTechnique* Effect::GetTechniqueByIndex(int index) const
     {
         return m_EffectPtr->GetTechniqueByIndex(index);
@@ -27,7 +30,9 @@ namespace dae
     {
         return m_EffectPtr->GetVariableByName(name.c_str());
     }
+#pragma endregion
 
+#pragma region Static Functions
     ID3DX11Effect* Effect::LoadEffect(ID3D11Device* devicePtr, const std::wstring& assetFile)
     {
         HRESULT result;
@@ -63,17 +68,20 @@ namespace dae
                 OutputDebugStringW(ss.str().c_str());
                 SAFE_RELEASE(errorBlobPtr)
 
-                std::wcout << ss.str() << std::endl;
+                std::wcout << ss.str() << '\n';
             }
             else
             {
                 std::wstringstream ss;
                 ss << "EffectLoader: Failed to CreateEffectFromFile!\nPath: " << assetFile;
-                std::wcout << ss.str() << std::endl;
+                // std::wcout << ss.str() << '\n';
+                auto wstr = ss.str();
+                std::wcout << RED_TEXT(L"" + wstr + L"") << '\n';
                 return nullptr;
             }
         }
 
         return effectPtr;
     }
+#pragma endregion
 }

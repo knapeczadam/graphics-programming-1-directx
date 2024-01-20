@@ -5,9 +5,10 @@
 
 namespace dae
 {
+#pragma region Initialization
     Camera::Camera(const Vector3& _origin, float _fovAngle)
         : m_Origin{_origin}
-          , m_FOVAngle{_fovAngle}
+        , m_FOVAngle{_fovAngle}
     {
     }
 
@@ -20,7 +21,9 @@ namespace dae
         m_NearPlane = _nearPlane;
         m_FarPlane = _farPlane;
     }
+#pragma endregion
 
+#pragma region Update
     void Camera::Update(const Timer* pTimer)
     {
         const float deltaTime = pTimer->GetElapsed();
@@ -37,12 +40,39 @@ namespace dae
         CalculateProjectionMatrix();
         //Try to optimize this - should only be called once or when fov/aspectRatio changes
     }
+#pragma endregion
 
+#pragma region FOV
     float Camera::GetFOV() const
     {
         return CalculateFOV(m_FOVAngle);
     }
+    
+    void Camera::IncreaseFOV()
+    {
+        ++m_FOVAngle;
+        CalculateFOV();
+    }
 
+    void Camera::DecreaseFOV()
+    {
+        --m_FOVAngle;
+        CalculateFOV();
+    }
+
+    float Camera::CalculateFOV(float angle) const
+    {
+        const float halfAlpha{(angle * 0.5f) * TO_RADIANS};
+        return std::tanf(halfAlpha);
+    }
+
+    void Camera::CalculateFOV()
+    {
+        m_FOV = CalculateFOV(m_FOVAngle);
+    }
+#pragma endregion
+
+#pragma region Movement
     void Camera::Scroll(SDL_MouseWheelEvent wheel)
     {
         // Check whether the mouse is over the ImGui window
@@ -60,44 +90,12 @@ namespace dae
             m_Origin -= m_Forward * m_ScrollSpeed;
         }
     }
-
-    void Camera::IncreaseFOV()
-    {
-        ++m_FOVAngle;
-        CalculateFOV();
-    }
-
-    void Camera::DecreaseFOV()
-    {
-        --m_FOVAngle;
-        CalculateFOV();
-    }
-
-    void Camera::SetTotalPitch(float pitch)
-    {
-        m_TotalPitch = pitch;
-    }
-
-    void Camera::SetTotalYaw(float yaw)
-    {
-        m_TotalYaw = yaw;
-    }
-
-    float Camera::CalculateFOV(float angle) const
-    {
-        const float halfAlpha{(angle * 0.5f) * TO_RADIANS};
-        return std::tanf(halfAlpha);
-    }
-
-    void Camera::CalculateFOV()
-    {
-        m_FOV = CalculateFOV(m_FOVAngle);
-    }
-
+    
     void Camera::MoveCamera(const uint8_t* pKeyboardState, float deltaTime)
     {
         const float speedMultiplier = pKeyboardState[SDL_SCANCODE_LSHIFT] or pKeyboardState[SDL_SCANCODE_RSHIFT] ? 2.0f : 1.0f;
-        
+
+        // Left/Right
         if (pKeyboardState[SDL_SCANCODE_A] or pKeyboardState[SDL_SCANCODE_LEFT])
         {
             m_Origin -= m_Right * deltaTime * m_KeyboardSpeed * speedMultiplier;
@@ -106,6 +104,8 @@ namespace dae
         {
             m_Origin += m_Right * deltaTime * m_KeyboardSpeed * speedMultiplier;
         }
+
+        // Up/Down
         if (pKeyboardState[SDL_SCANCODE_W] or pKeyboardState[SDL_SCANCODE_UP])
         {
             m_Origin += m_Forward * deltaTime * m_KeyboardSpeed * speedMultiplier;
@@ -157,7 +157,9 @@ namespace dae
             //forward.Normalize();
         }
     }
+#pragma endregion
 
+#pragma region Matrix
     void Camera::CalculateViewMatrix()
     {
         m_ViewMatrix        = Matrix::CreateLookAtLH(m_Origin, m_Forward, m_Up, m_Right);
@@ -168,5 +170,5 @@ namespace dae
     {
         m_ProjectionMatrix = Matrix::CreatePerspectiveFovLH(m_FOV, m_AspectRatio, m_NearPlane, m_FarPlane);
     }
-
+#pragma endregion
 }

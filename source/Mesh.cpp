@@ -1,14 +1,17 @@
 #include "pch.h"
-
 #include "Mesh.h"
+
+// Project includes
 #include "Effect.h"
 #include "SceneSelector.h"
 #include "Texture.h"
 
+// Standard includes
 #include <cassert>
 
 namespace dae
 {
+#pragma region Initialization
     Mesh::Mesh(ID3D11Device* devicePtr, const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices)
         : m_DevicePtr{devicePtr},
           m_Vertices{vertices},
@@ -193,15 +196,15 @@ namespace dae
 #elif TODO_1
         m_WorldViewProjectionMatrixPtr = m_EffectPtr->GetVariableByName("gWorldViewProj")->AsMatrix();
         if (not m_WorldViewProjectionMatrixPtr->IsValid())
-            assert(false and "Failed to create matrix variable!");
+            assert(false and "Failed to create matrix variable: gWorldViewProj!");
 #elif TODO_2
         m_WorldViewProjectionMatrixPtr = m_EffectPtr->GetVariableByName("gWorldViewProj")->AsMatrix();
         if (not m_WorldViewProjectionMatrixPtr->IsValid())
-            assert(false and "Failed to create matrix variable!");
+            assert(false and "Failed to create matrix variable: gWorldViewProj!");
 #elif TODO_3
         m_WorldViewProjectionMatrixPtr = m_EffectPtr->GetVariableByName("gWorldViewProj")->AsMatrix();
         if (not m_WorldViewProjectionMatrixPtr->IsValid())
-            assert(false and "Failed to create matrix variable!");
+            assert(false and "Failed to create matrix variable: gWorldViewProj!");
 #endif
 
         // --- WEEK 3 ---
@@ -209,7 +212,7 @@ namespace dae
 #if TODO_0
         m_WorldViewProjectionMatrixPtr = m_EffectPtr->GetVariableByName("gWorldViewProj")->AsMatrix();
         if (not m_WorldViewProjectionMatrixPtr->IsValid())
-            assert(false and "Failed to create matrix variable!");
+            assert(false and "Failed to create matrix variable: gWorldViewProj!");
 #endif
 #endif
     }
@@ -221,15 +224,15 @@ namespace dae
 #if TODO_1
         m_DiffuseMapVariablePtr = m_EffectPtr->GetVariableByName("gDiffuseMap")->AsShaderResource();
         if (not m_DiffuseMapVariablePtr->IsValid())
-            assert(false and "Failed to create texture variable!");
+            assert(false and "Failed to create texture variable: gDiffuseMap!");
 #elif TODO_2
         m_DiffuseMapVariablePtr = m_EffectPtr->GetVariableByName("gDiffuseMap")->AsShaderResource();
         if (not m_DiffuseMapVariablePtr->IsValid())
-            assert(false and "Failed to create texture variable!");
+            assert(false and "Failed to create texture variable: gDiffuseMap!");
 #elif TODO_3
         m_DiffuseMapVariablePtr = m_EffectPtr->GetVariableByName("gDiffuseMap")->AsShaderResource();
         if (not m_DiffuseMapVariablePtr->IsValid())
-            assert(false and "Failed to create texture variable!");
+            assert(false and "Failed to create texture variable: gDiffuseMap!");
 #endif
         
         // --- WEEK 3 ---
@@ -237,19 +240,19 @@ namespace dae
 #if TODO_0
         m_DiffuseMapVariablePtr = m_EffectPtr->GetVariableByName("gDiffuseMap")->AsShaderResource();
         if (not m_DiffuseMapVariablePtr->IsValid())
-            assert(false and "Failed to create texture variable!");
+            assert(false and "Failed to create texture variable: gDiffuseMap!");
         
         m_NormalMapVariablePtr = m_EffectPtr->GetVariableByName("gNormalMap")->AsShaderResource();
         if (not m_NormalMapVariablePtr->IsValid())
-            assert(false and "Failed to create texture variable!");
+            assert(false and "Failed to create texture variable: gNormalMap!");
 
         m_SpecularMapVariablePtr = m_EffectPtr->GetVariableByName("gSpecularMap")->AsShaderResource();
         if (not m_SpecularMapVariablePtr->IsValid())
-            assert(false and "Failed to create texture variable!");
+            assert(false and "Failed to create texture variable: gSpecularMap!");
 
         m_GlossinessMapVariablePtr = m_EffectPtr->GetVariableByName("gGlossMap")->AsShaderResource();
         if (not m_GlossinessMapVariablePtr->IsValid())
-            assert(false and "Failed to create texture variable!");
+            assert(false and "Failed to create texture variable: gGlossMap!");
 #endif
 #endif
     }
@@ -261,7 +264,7 @@ namespace dae
 #if TODO_3
         m_TimeVariablePtr = m_EffectPtr->GetVariableByName("gTime")->AsScalar();
         if (not m_TimeVariablePtr->IsValid())
-            assert(false and "Failed to create scalar variable!");
+            assert(false and "Failed to create scalar variable: gTime!");
 #endif
         
         // --- WEEK 3 ---
@@ -269,41 +272,100 @@ namespace dae
 #if TODO_0
         m_TimeVariablePtr = m_EffectPtr->GetVariableByName("gTime")->AsScalar();
         if (not m_TimeVariablePtr->IsValid())
-            assert(false and "Failed to create scalar variable!");
+            assert(false and "Failed to create scalar variable: gTime!");
 
         m_CameraPositionVariablePtr = m_EffectPtr->GetVariableByName("gCameraPos")->AsVector();
         if (not m_CameraPositionVariablePtr->IsValid())
-            assert(false and "Failed to create scalar variable!");
+            assert(false and "Failed to create scalar variable: gCameraPos!");
 
         m_UseNormalMapVariablePtr = m_EffectPtr->GetVariableByName("gUseNormalMap")->AsScalar();
         if (not m_UseNormalMapVariablePtr->IsValid())
-            assert(false and "Failed to create scalar variable!");
+            assert(false and "Failed to create scalar variable: gUseNormalMap!");
 
         m_ShadingModeVariablePtr = m_EffectPtr->GetVariableByName("gShadingMode")->AsScalar();
         if (not m_ShadingModeVariablePtr->IsValid())
-            assert(false and "Failed to create scalar variable!");
+            assert(false and "Failed to create scalar variable: gShadingMode!");
 
         m_AmbientVariablePtr = m_EffectPtr->GetVariableByName("gAmbientColor")->AsVector();
         if (not m_AmbientVariablePtr->IsValid())
-            assert(false and "Failed to create scalar variable!");
+            assert(false and "Failed to create scalar variable: gAmbientColor!");
 
         m_LightDirectionVariablePtr = m_EffectPtr->GetVariableByName("gLightDir")->AsVector();
         if (not m_LightDirectionVariablePtr->IsValid())
-            assert(false and "Failed to create scalar variable!");
+            assert(false and "Failed to create scalar variable: gLightDir!");
 
         m_LightIntensityVariablePtr = m_EffectPtr->GetVariableByName("gLightIntensity")->AsScalar();
         if (not m_LightIntensityVariablePtr->IsValid())
-            assert(false and "Failed to create scalar variable!");
+            assert(false and "Failed to create scalar variable: gLightIntensity!");
 
         m_KDVariablePtr = m_EffectPtr->GetVariableByName("gKD")->AsScalar();
         if (not m_KDVariablePtr->IsValid())
-            assert(false and "Failed to create scalar variable!");
+            assert(false and "Failed to create scalar variable: gKD!");
 
         m_ShininessVariablePtr = m_EffectPtr->GetVariableByName("gShininess")->AsScalar();
         if (not m_ShininessVariablePtr->IsValid())
-            assert(false and "Failed to create scalar variable!");
+            assert(false and "Failed to create scalar variable: gShininess!");
 #endif
 #endif
+    }
+#pragma endregion
+
+#pragma region Cleanup
+    Mesh::~Mesh()
+    {
+        SAFE_RELEASE(m_VertexBufferPtr)
+        SAFE_RELEASE(m_InputLayoutPtr)
+        SAFE_RELEASE(m_IndexBufferPtr)
+
+        SAFE_RELEASE(m_WorldViewProjectionMatrixPtr)
+
+        // Texture variables
+        SAFE_RELEASE(m_DiffuseMapVariablePtr)
+        SAFE_RELEASE(m_NormalMapVariablePtr)
+        SAFE_RELEASE(m_SpecularMapVariablePtr) 
+        SAFE_RELEASE(m_GlossinessMapVariablePtr)
+
+        // Scalar variables
+        SAFE_RELEASE(m_TimeVariablePtr)
+        SAFE_RELEASE(m_CameraPositionVariablePtr)
+        SAFE_RELEASE(m_UseNormalMapVariablePtr)
+        SAFE_RELEASE(m_ShadingModeVariablePtr)
+        SAFE_RELEASE(m_AmbientVariablePtr)
+        SAFE_RELEASE(m_LightDirectionVariablePtr)
+        SAFE_RELEASE(m_LightIntensityVariablePtr)
+        SAFE_RELEASE(m_KDVariablePtr)
+        SAFE_RELEASE(m_ShininessVariablePtr)
+
+        SAFE_RELEASE(m_TechniquePtr)
+        
+        delete m_EffectPtr;
+    }
+#pragma endregion
+
+#pragma region Render & Draw
+    void Mesh::Render() const
+    {
+        // 1. Set Primitive Topology
+        //=======================================================================================================
+        m_DeviceContextPtr->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+        // 2. Set Input Layout
+        //=======================================================================================================
+        m_DeviceContextPtr->IASetInputLayout(m_InputLayoutPtr);
+
+        // 3. Set VertexBuffer
+        //=======================================================================================================
+        constexpr UINT stride = sizeof(Vertex);
+        constexpr UINT offset = 0;
+        m_DeviceContextPtr->IASetVertexBuffers(0, 1, &m_VertexBufferPtr, &stride, &offset);
+
+        // 4. Set IndexBuffer
+        //=======================================================================================================
+        m_DeviceContextPtr->IASetIndexBuffer(m_IndexBufferPtr, DXGI_FORMAT_R32_UINT, 0);
+
+        // 5. Draw
+        //=======================================================================================================
+        Draw();
     }
 
     void Mesh::Draw() const
@@ -352,7 +414,9 @@ namespace dae
 #endif
 #endif
     }
+#pragma endregion
 
+#pragma region Pass
     void Mesh::LoadPass() const
     {
         D3DX11_TECHNIQUE_DESC techDesc;
@@ -363,61 +427,7 @@ namespace dae
             m_DeviceContextPtr->DrawIndexed(m_NumIndices, 0, 0);
         }
     }
-
-    Mesh::~Mesh()
-    {
-        SAFE_RELEASE(m_VertexBufferPtr)
-        SAFE_RELEASE(m_InputLayoutPtr)
-        SAFE_RELEASE(m_IndexBufferPtr)
-
-        SAFE_RELEASE(m_WorldViewProjectionMatrixPtr)
-
-        // Texture variables
-        SAFE_RELEASE(m_DiffuseMapVariablePtr)
-        SAFE_RELEASE(m_NormalMapVariablePtr)
-        SAFE_RELEASE(m_SpecularMapVariablePtr) 
-        SAFE_RELEASE(m_GlossinessMapVariablePtr)
-
-        // Scalar variables
-        SAFE_RELEASE(m_TimeVariablePtr)
-        SAFE_RELEASE(m_CameraPositionVariablePtr)
-        SAFE_RELEASE(m_UseNormalMapVariablePtr)
-        SAFE_RELEASE(m_ShadingModeVariablePtr)
-        SAFE_RELEASE(m_AmbientVariablePtr)
-        SAFE_RELEASE(m_LightDirectionVariablePtr)
-        SAFE_RELEASE(m_LightIntensityVariablePtr)
-        SAFE_RELEASE(m_KDVariablePtr)
-        SAFE_RELEASE(m_ShininessVariablePtr)
-
-        SAFE_RELEASE(m_TechniquePtr)
-        
-        delete m_EffectPtr;
-    }
-
-    void Mesh::Render() const
-    {
-        // 1. Set Primitive Topology
-        //=======================================================================================================
-        m_DeviceContextPtr->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-        // 2. Set Input Layout
-        //=======================================================================================================
-        m_DeviceContextPtr->IASetInputLayout(m_InputLayoutPtr);
-
-        // 3. Set VertexBuffer
-        //=======================================================================================================
-        constexpr UINT stride = sizeof(Vertex);
-        constexpr UINT offset = 0;
-        m_DeviceContextPtr->IASetVertexBuffers(0, 1, &m_VertexBufferPtr, &stride, &offset);
-
-        // 4. Set IndexBuffer
-        //=======================================================================================================
-        m_DeviceContextPtr->IASetIndexBuffer(m_IndexBufferPtr, DXGI_FORMAT_R32_UINT, 0);
-
-        // 5. Draw
-        //=======================================================================================================
-        Draw();
-    }
+#pragma endregion
 
 #pragma region Setters
     void Mesh::SetMatrix(const Matrix& viewMatrix, const Matrix& projectionMatrix) const
@@ -524,6 +534,9 @@ namespace dae
             case FillMode::Wireframe:
                 rasterizerDesc.FillMode = D3D11_FILL_WIREFRAME;
                 break;
+            default:
+                rasterizerDesc.FillMode = D3D11_FILL_SOLID;
+                break;
         }
         
         switch (cullingMode)
@@ -535,6 +548,9 @@ namespace dae
                 rasterizerDesc.CullMode = D3D11_CULL_FRONT;
                 break;
             case CullMode::Back:
+                rasterizerDesc.CullMode = D3D11_CULL_BACK;
+                break;
+            default:
                 rasterizerDesc.CullMode = D3D11_CULL_BACK;
                 break;
         }
