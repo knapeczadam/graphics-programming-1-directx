@@ -366,28 +366,30 @@ namespace dae
 
     Mesh::~Mesh()
     {
-        if (m_VertexBufferPtr)              m_VertexBufferPtr->Release();
-        if (m_InputLayoutPtr)               m_InputLayoutPtr->Release();
-        if (m_IndexBufferPtr)               m_IndexBufferPtr->Release();
+        SAFE_RELEASE(m_VertexBufferPtr)
+        SAFE_RELEASE(m_InputLayoutPtr)
+        SAFE_RELEASE(m_IndexBufferPtr)
 
-        if (m_WorldViewProjectionMatrixPtr) m_WorldViewProjectionMatrixPtr->Release();
+        SAFE_RELEASE(m_WorldViewProjectionMatrixPtr)
 
         // Texture variables
-        if (m_DiffuseMapVariablePtr)        m_DiffuseMapVariablePtr->Release();
-        if (m_NormalMapVariablePtr)         m_NormalMapVariablePtr->Release();
-        if (m_SpecularMapVariablePtr)       m_SpecularMapVariablePtr->Release();
-        if (m_GlossinessMapVariablePtr)     m_GlossinessMapVariablePtr->Release();
+        SAFE_RELEASE(m_DiffuseMapVariablePtr)
+        SAFE_RELEASE(m_NormalMapVariablePtr)
+        SAFE_RELEASE(m_SpecularMapVariablePtr) 
+        SAFE_RELEASE(m_GlossinessMapVariablePtr)
 
         // Scalar variables
-        if (m_TimeVariablePtr)              m_TimeVariablePtr->Release();
-        if (m_CameraPositionVariablePtr)    m_CameraPositionVariablePtr->Release();
-        if (m_UseNormalMapVariablePtr)      m_UseNormalMapVariablePtr->Release();
-        if (m_ShadingModeVariablePtr)       m_ShadingModeVariablePtr->Release();
-        if (m_AmbientVariablePtr)           m_AmbientVariablePtr->Release();
-        if (m_LightDirectionVariablePtr)    m_LightDirectionVariablePtr->Release();
-        if (m_LightIntensityVariablePtr)    m_LightIntensityVariablePtr->Release();
-        if (m_KDVariablePtr)                m_KDVariablePtr->Release();
-        if (m_ShininessVariablePtr)         m_ShininessVariablePtr->Release();
+        SAFE_RELEASE(m_TimeVariablePtr)
+        SAFE_RELEASE(m_CameraPositionVariablePtr)
+        SAFE_RELEASE(m_UseNormalMapVariablePtr)
+        SAFE_RELEASE(m_ShadingModeVariablePtr)
+        SAFE_RELEASE(m_AmbientVariablePtr)
+        SAFE_RELEASE(m_LightDirectionVariablePtr)
+        SAFE_RELEASE(m_LightIntensityVariablePtr)
+        SAFE_RELEASE(m_KDVariablePtr)
+        SAFE_RELEASE(m_ShininessVariablePtr)
+
+        SAFE_RELEASE(m_TechniquePtr)
         
         delete m_EffectPtr;
     }

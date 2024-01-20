@@ -76,8 +76,8 @@ namespace dae
     {
         FreeSurface();
 
-        if (m_ResourcePtr) m_ResourcePtr->Release();
-        if (m_SRVPtr)      m_SRVPtr->Release();
+        SAFE_RELEASE(m_ResourcePtr)
+        SAFE_RELEASE(m_SRVPtr)
     }
 
     Texture* Texture::LoadFromFile(const std::string& path)

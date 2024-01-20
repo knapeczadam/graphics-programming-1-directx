@@ -354,19 +354,19 @@ namespace dae
         // 1. Device
         // 0. DXGI Factory
 
-        if (m_RenderTargetViewPtr)   m_RenderTargetViewPtr->Release();
-        if (m_RenderTargetBufferPtr) m_RenderTargetBufferPtr->Release();
-        if (m_DepthStencilViewPtr)   m_DepthStencilViewPtr->Release();
-        if (m_DepthStencilBufferPtr) m_DepthStencilBufferPtr->Release();
-        if (m_SwapChainPtr)          m_SwapChainPtr->Release();
+        SAFE_RELEASE(m_RenderTargetViewPtr)
+        SAFE_RELEASE(m_RenderTargetBufferPtr)
+        SAFE_RELEASE(m_DepthStencilViewPtr)
+        SAFE_RELEASE(m_DepthStencilBufferPtr)
+        SAFE_RELEASE(m_SwapChainPtr)
         if (m_DeviceContextPtr)
         {
             m_DeviceContextPtr->ClearState();
             m_DeviceContextPtr->Flush();
-            m_DeviceContextPtr->Release();
+            SAFE_RELEASE(m_DeviceContextPtr)
         }
-        if (m_DevicePtr)      m_DevicePtr->Release();
-        if (m_DXGIFactoryPtr) m_DXGIFactoryPtr->Release();
+        SAFE_RELEASE(m_DevicePtr)
+        SAFE_RELEASE(m_DXGIFactoryPtr)
 
         // Textures
         delete m_TexturePtr;
@@ -381,7 +381,7 @@ namespace dae
         if (m_DebugPtr)
         {
             m_DebugPtr->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY | D3D11_RLDO_DETAIL | D3D11_RLDO_IGNORE_INTERNAL);
-            m_DebugPtr->Release();
+            SAFE_RELEASE(m_DebugPtr)
         }
     }
 #pragma endregion

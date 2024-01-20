@@ -22,3 +22,6 @@
 // Framework Headers
 #include "Timer.h"
 #include "Math.h"
+
+#define SAFE_RELEASE(p) { if (p) { (p)->Release(); (p) =nullptr; } }
+

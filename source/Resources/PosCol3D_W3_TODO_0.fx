@@ -30,7 +30,7 @@ SamplerState samPoint
 {
     Filter   = MIN_MAG_MIP_POINT; // MIN_MAG_MIP_POINT = 0, MIN_MAG_POINT_MIP_LINEAR = 0x1, MIN_POINT_MAG_LINEAR_MIP_POINT = 0x4, etc.,  MIN_MAG_MIP_LINEAR by default
     AddressU = WRAP; // WRAP = 1, MIRROR = 2, CLAMP = 3, BORDER = 4, MIRROR_ONCE = 5, CLAMP by default
-    AddressV = Wrap; // WRAP = 1, MIRROR = 2, CLAMP = 3, BORDER = 4, MIRROR_ONCE = 5, CLAMP by default
+    AddressV = WRAP; // WRAP = 1, MIRROR = 2, CLAMP = 3, BORDER = 4, MIRROR_ONCE = 5, CLAMP by default
 };
 
 SamplerState samLinear
