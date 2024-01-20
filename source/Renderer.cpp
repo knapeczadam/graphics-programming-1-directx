@@ -529,11 +529,7 @@ namespace dae
         m_SamplerState = static_cast<SamplerState>((static_cast<int>(m_SamplerState) + 1) % static_cast<int>(SamplerState::COUNT));
         UpdateSamplerStateString();
         
-#if W3
-#if TODO_0
         m_MeshPtr->SetPassIdx(static_cast<UINT>(m_SamplerState));
-#endif
-#endif
     }
 
     void Renderer::CycleShadingMode()
@@ -547,11 +543,7 @@ namespace dae
         m_CullMode = static_cast<CullMode>((static_cast<int>(m_CullMode) + 1) % static_cast<int>(CullMode::COUNT));
         UpdateCullModeString();
         
-#if W3
-#if TODO_0
         m_MeshPtr->SetRasterizerState(m_FillMode, m_CullMode, m_UseFrontCounterClockwise);
-#endif
-#endif
     }
 
     void Renderer::CycleFillMode()
@@ -559,11 +551,7 @@ namespace dae
         m_FillMode = static_cast<FillMode>((static_cast<int>(m_FillMode) + 1) % static_cast<int>(FillMode::COUNT));
         UpdateFillModeString();
 
-#if W3
-#if TODO_0
         m_MeshPtr->SetRasterizerState(m_FillMode, m_CullMode, m_UseFrontCounterClockwise);
-#endif
-#endif
     }
 
     void Renderer::ToggleRotation()

@@ -10,23 +10,23 @@ float     gTime          : Time;
 //---------------------------------------------------------------------------
 SamplerState samPoint
 {
-    Filter = MIN_MAG_MIP_POINT; // or LINEAR, ANISOTROPIC, COMPARISON_MIN_MAG_MIP_POINT, etc.
-    AddressU = Wrap; // or Mirror, Clamp, Border, MirrorOnce
-    AddressV = Wrap; // or Mirror, Clamp, Border, MirrorOnce
+    Filter   = MIN_MAG_MIP_POINT;
+    AddressU = WRAP;
+    AddressV = WRAP;
 };
 
 SamplerState samLinear
 {
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Wrap;
-    AddressV = Wrap;
+    Filter   = MIN_MAG_MIP_LINEAR;
+    AddressU = WRAP;
+    AddressV = WRAP;
 };
 
 SamplerState samAnisotropic
 {
-    Filter = ANISOTROPIC;
-    AddressU = Wrap;
-    AddressV = Wrap;
+    Filter   = ANISOTROPIC;
+    AddressU = WRAP;
+    AddressV = WRAP;
 };
 
 //---------------------------------------------------------------------------

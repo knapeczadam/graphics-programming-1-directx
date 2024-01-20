@@ -98,6 +98,8 @@ int main(int argc, char* args[])
             case SDL_QUIT:
                 isLooping = false;
                 break;
+#if W3
+#if TODO_0
             case SDL_KEYUP:
                 switch (e.key.keysym.scancode)
                 {
@@ -145,6 +147,8 @@ int main(int argc, char* args[])
                     break;
                 }
                 break;
+#endif
+#endif
             case SDL_MOUSEWHEEL:
                 rendererPtr->GetCamera().Scroll(e.wheel);
                 break;
