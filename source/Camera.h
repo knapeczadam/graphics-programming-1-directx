@@ -28,6 +28,7 @@ namespace dae
 
         // --- Getters & Setters ---
         float   GetFOV() const;
+        float   GetFOVAngle() const                { return m_FOVAngle;            }
         Vector3 GetPosition() const                { return m_Origin;              }
         float   GetAspectRatio() const             { return m_AspectRatio;         }
         void    SetAspectRatio(float aspect_ratio) { m_AspectRatio = aspect_ratio; }

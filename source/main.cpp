@@ -102,10 +102,10 @@ int main(int argc, char* args[])
                 switch (e.key.keysym.scancode)
                 {
                 case SDL_SCANCODE_Q:
-                    rendererPtr->GetCamera().IncreaseFOV();
+                    rendererPtr->GetCamera().DecreaseFOV();
                     break;
                 case SDL_SCANCODE_E:
-                    rendererPtr->GetCamera().DecreaseFOV();
+                    rendererPtr->GetCamera().IncreaseFOV();
                     break;
                 case SDL_SCANCODE_F1:
                     rendererPtr->ToggleFrontCounterClockwise();

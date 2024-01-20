@@ -672,7 +672,7 @@ namespace dae
             ImGui::Text("Camera");
             ImGui::Spacing();
             ImGui::Text("Position (WASD) : (%.1f, %.1f, %.1f)", m_Camera.GetPosition().x, m_Camera.GetPosition().y, m_Camera.GetPosition().z);
-            ImGui::Text("FOV (QE)        : %f", m_Camera.GetFOV());
+            ImGui::Text("FOV Angle (QE)  : %.0f°", m_Camera.GetFOVAngle());
             ImGui::Text("Aspect Ratio    : %f",  m_Camera.GetAspectRatio());
             
             ImGui::Spacing();
