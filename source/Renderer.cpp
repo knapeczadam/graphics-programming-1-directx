@@ -86,7 +86,11 @@ namespace dae
 
         // Debug
         //=======================================================================================================
+#if W3
+#if TODO_0
         PrintDebugInfo();
+#endif
+#endif
     }
     
     HRESULT Renderer::InitializeDirectX()
@@ -114,7 +118,10 @@ namespace dae
             );
 
         if (FAILED(result))
+        {
+            std::cout << RED_TEXT("Failed to create device and device context!\n");
             return result;
+        }
 
         // Create DXGI factory
         //=======================================================================================================
@@ -179,7 +186,7 @@ namespace dae
         depthStencilDesc.CPUAccessFlags     = 0;
         depthStencilDesc.MiscFlags          = 0;
 
-        // View
+        // Resource View
         //=======================================================================================================
         D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
         depthStencilViewDesc.Format             = depthStencilDesc.Format;
@@ -225,7 +232,7 @@ namespace dae
 
         // 6. Set viewport
         //=======================================================================================================
-        D3D11_VIEWPORT viewport;
+        D3D11_VIEWPORT viewport{};
         viewport.Width    = static_cast<float>(m_Width);
         viewport.Height   = static_cast<float>(m_Height);
         viewport.TopLeftX = 0.0f;
@@ -267,7 +274,7 @@ namespace dae
     {
         // --- WEEK 1 ---
 #if W1
-#if TODO_0
+#if TODO_1
         m_MeshPtr = new Mesh(m_DevicePtr, triangle_vertices_ndc, triangle_indices);
 #endif
         
@@ -461,7 +468,7 @@ namespace dae
 
         // 1. Clear RTV and DSV
         //=======================================================================================================
-        float clearColor[] = {m_CurrentBackgroundColor[0], m_CurrentBackgroundColor[1], m_CurrentBackgroundColor[2], 1.0f};
+        float clearColor[4] = {m_BackgroundColor[0], m_BackgroundColor[1], m_BackgroundColor[2], 1.0f};
         if (m_UseClearColor)
         {
             clearColor[0] = m_ClearColor[0];
@@ -470,9 +477,9 @@ namespace dae
         }
         else
         {
-            clearColor[0] = m_CurrentBackgroundColor[0];
-            clearColor[1] = m_CurrentBackgroundColor[1];
-            clearColor[2] = m_CurrentBackgroundColor[2];
+            clearColor[0] = m_BackgroundColor[0];
+            clearColor[1] = m_BackgroundColor[1];
+            clearColor[2] = m_BackgroundColor[2];
         }
         
         m_DeviceContextPtr->ClearRenderTargetView(m_RenderTargetViewPtr, clearColor);
@@ -483,8 +490,8 @@ namespace dae
         
         // --- WEEK 1 ---
 #if W1
-#if TODO_0
-        Render_W1_TODO_0();
+#if TODO_1
+        Render_W1_TODO_1();
 #endif
         
         // --- WEEK 2 ---
@@ -520,30 +527,43 @@ namespace dae
     void Renderer::CycleSamplerState()
     {
         m_SamplerState = static_cast<SamplerState>((static_cast<int>(m_SamplerState) + 1) % static_cast<int>(SamplerState::COUNT));
-        m_MeshPtr->SetPassIdx(static_cast<UINT>(m_SamplerState));
         UpdateSamplerStateString();
+        
+#if W3
+#if TODO_0
+        m_MeshPtr->SetPassIdx(static_cast<UINT>(m_SamplerState));
+#endif
+#endif
     }
 
     void Renderer::CycleShadingMode()
     {
-        m_ShadingMode = static_cast<ShadingMode>(
-            (static_cast<int>(m_ShadingMode) + 1) % static_cast<int>(ShadingMode::COUNT)
-            );
+        m_ShadingMode = static_cast<ShadingMode>((static_cast<int>(m_ShadingMode) + 1) % static_cast<int>(ShadingMode::COUNT));
         UpdateShadingModeString();
     }
 
     void Renderer::CycleCullMode()
     {
         m_CullMode = static_cast<CullMode>((static_cast<int>(m_CullMode) + 1) % static_cast<int>(CullMode::COUNT));
-        m_MeshPtr->SetRasterizerState(m_FillMode, m_CullMode, m_UseFrontCounterClockwise);
         UpdateCullModeString();
+        
+#if W3
+#if TODO_0
+        m_MeshPtr->SetRasterizerState(m_FillMode, m_CullMode, m_UseFrontCounterClockwise);
+#endif
+#endif
     }
 
     void Renderer::CycleFillMode()
     {
         m_FillMode = static_cast<FillMode>((static_cast<int>(m_FillMode) + 1) % static_cast<int>(FillMode::COUNT));
-        m_MeshPtr->SetRasterizerState(m_FillMode, m_CullMode, m_UseFrontCounterClockwise);
         UpdateFillModeString();
+
+#if W3
+#if TODO_0
+        m_MeshPtr->SetRasterizerState(m_FillMode, m_CullMode, m_UseFrontCounterClockwise);
+#endif
+#endif
     }
 
     void Renderer::ToggleRotation()
@@ -688,7 +708,7 @@ namespace dae
             ImGui::Separator();
             ImGui::Spacing();
 
-            ImGui::ColorEdit3("Background color", m_CurrentBackgroundColor);
+            ImGui::ColorEdit3("Background color", m_BackgroundColor);
 
             ImGui::Spacing();
             ImGui::Separator();
@@ -848,7 +868,7 @@ namespace dae
 #pragma endregion
 
 #pragma region Week 1
-    void Renderer::Render_W1_TODO_0() const
+    void Renderer::Render_W1_TODO_1() const
     {
         m_MeshPtr->Render();
     }

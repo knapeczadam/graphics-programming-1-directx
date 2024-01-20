@@ -62,11 +62,18 @@ namespace dae
         void LoadPass() const;
 
     private:
+        //-------------------------------------------------------------------------------------------
+        // POINTERS MANAGED BY OTHER CLASSES
+        //-------------------------------------------------------------------------------------------
+        
         // From Renderer
         ID3D11Device*                        m_DevicePtr                    = nullptr;
-        ID3D11DeviceContext*                 m_DeviceContextPtr             = nullptr;
 
-        // From Effect
+        //-------------------------------------------------------------------------------------------
+        // POINTERS MANAGED BY THIS CLASS
+        //-------------------------------------------------------------------------------------------
+        
+        // Effect
         Effect*                              m_EffectPtr                    = nullptr;
 
         // Shader variables
@@ -74,8 +81,10 @@ namespace dae
         ID3D11InputLayout*                   m_InputLayoutPtr               = nullptr;
         ID3D11Buffer*                        m_IndexBufferPtr               = nullptr;
 
-        // Technique
+        // Technique 
         ID3DX11EffectTechnique*              m_TechniquePtr                 = nullptr;
+        // Device context created by m_DevicePtr->DetImmediateContext(&m_DeviceContextPtr);
+        ID3D11DeviceContext*                 m_DeviceContextPtr             = nullptr;
 
         // Texture variables
         ID3DX11EffectShaderResourceVariable* m_DiffuseMapVariablePtr        = nullptr;

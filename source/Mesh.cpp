@@ -19,6 +19,9 @@ namespace dae
     {
         InitializeEffect();
         
+        if (not m_EffectPtr)
+            assert(false and "Failed to create effect!");
+        
         m_TechniquePtr = m_EffectPtr->GetTechniqueByName("DefaultTechnique");
         
         if (not m_TechniquePtr->IsValid())
@@ -161,7 +164,7 @@ namespace dae
     {
         // --- WEEK 1 ---
 #if W1
-#if TODO_0
+#if TODO_1
         m_EffectPtr = new Effect(m_DevicePtr, L"Resources/PosCol3D_W1_TODO_0.fx");
 #endif
         
@@ -336,6 +339,7 @@ namespace dae
         SAFE_RELEASE(m_KDVariablePtr)
         SAFE_RELEASE(m_ShininessVariablePtr)
 
+        SAFE_RELEASE(m_DeviceContextPtr)
         SAFE_RELEASE(m_TechniquePtr)
         
         delete m_EffectPtr;
@@ -372,6 +376,7 @@ namespace dae
     {
         // --- WEEK 1 ---
 #if W1
+#if TODO_1
         D3DX11_TECHNIQUE_DESC techDesc{};
         m_TechniquePtr->GetDesc(&techDesc);
         
@@ -380,6 +385,7 @@ namespace dae
             m_TechniquePtr->GetPassByIndex(p)->Apply(0, m_DeviceContextPtr);
             m_DeviceContextPtr->DrawIndexed(m_NumIndices, 0, 0);
         }
+#endif
         
         // --- WEEK 2 ---
 #elif W2

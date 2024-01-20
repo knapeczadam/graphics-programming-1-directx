@@ -108,7 +108,7 @@ namespace dae
         void PrintDebugInfo() const;
 
         // --- Week 1 ---
-        void Render_W1_TODO_0() const;
+        void Render_W1_TODO_1() const;
 
         // --- Week 2 ---
         void Render_W2_TODO_0() const;
@@ -212,6 +212,12 @@ namespace dae
 
         // Background color
         const float m_ClearColor[3]       = {0.1f, 0.1f, 0.1f};
-        float m_CurrentBackgroundColor[3] = {0.39f, 0.59f, 0.93f};
+#if W3
+#if TODO_0
+        float m_BackgroundColor[3] = {0.39f, 0.59f, 0.93f};
+#endif
+#else
+        float m_BackgroundColor[3] = {0.0f, 0.0f, 0.3f};
+#endif
     };
 }

@@ -18,7 +18,8 @@ namespace dae
 
 // --- WEEK 1 ---
 /*
- * TODO_0: First triangle (NDC)
+ * TODO_0: DirectX initialization
+ * TODO_1: First triangle (NDC)
  */
 
 // --- WEEK 2 ---

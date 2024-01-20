@@ -68,18 +68,20 @@ namespace dae
                 OutputDebugStringW(ss.str().c_str());
                 SAFE_RELEASE(errorBlobPtr)
 
-                std::wcout << ss.str() << '\n';
+                auto wstr = ss.str();
+                std::wcout << RED_TEXT(L"" + wstr + L"") << '\n';
             }
             else
             {
                 std::wstringstream ss;
                 ss << "EffectLoader: Failed to CreateEffectFromFile!\nPath: " << assetFile;
-                // std::wcout << ss.str() << '\n';
                 auto wstr = ss.str();
                 std::wcout << RED_TEXT(L"" + wstr + L"") << '\n';
-                return nullptr;
             }
+            return nullptr;
         }
+        
+        SAFE_RELEASE(errorBlobPtr)
 
         return effectPtr;
     }
