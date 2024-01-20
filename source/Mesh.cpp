@@ -147,7 +147,7 @@ namespace dae
         m_NumIndices = static_cast<uint32_t>(m_Indices.size());
         
         bd.Usage          = D3D11_USAGE_IMMUTABLE;
-        bd.ByteWidth      = sizeof(uint32_t)         * m_NumIndices;
+        bd.ByteWidth      = sizeof(uint32_t) * m_NumIndices;
         bd.BindFlags      = D3D11_BIND_INDEX_BUFFER;
         bd.CPUAccessFlags = 0;
         bd.MiscFlags      = 0;
@@ -316,10 +316,7 @@ namespace dae
 #pragma region Cleanup
     Mesh::~Mesh()
     {
-        SAFE_RELEASE(m_VertexBufferPtr)
-        SAFE_RELEASE(m_InputLayoutPtr)
-        SAFE_RELEASE(m_IndexBufferPtr)
-
+        // Matrix variables
         SAFE_RELEASE(m_WorldViewProjectionMatrixPtr)
 
         // Texture variables
@@ -338,6 +335,11 @@ namespace dae
         SAFE_RELEASE(m_LightIntensityVariablePtr)
         SAFE_RELEASE(m_KDVariablePtr)
         SAFE_RELEASE(m_ShininessVariablePtr)
+
+        // Shader variables
+        SAFE_RELEASE(m_IndexBufferPtr)
+        SAFE_RELEASE(m_VertexBufferPtr)
+        SAFE_RELEASE(m_InputLayoutPtr)
 
         SAFE_RELEASE(m_DeviceContextPtr)
         SAFE_RELEASE(m_TechniquePtr)

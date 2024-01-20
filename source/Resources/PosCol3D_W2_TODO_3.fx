@@ -70,7 +70,7 @@ VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
     
-    input.Position  = mul(input.Position, CreateRotation(gTime));
+    input.Position  = mul(float4(input.Position, 1.0f), CreateRotation(gTime)).xyz;
     output.Position = mul(float4(input.Position, 1.0f), gWorldViewProj);
     output.Color    = input.Color;
     output.Uv       = input.Uv;

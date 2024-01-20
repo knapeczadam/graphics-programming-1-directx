@@ -200,13 +200,13 @@ VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
     
-    input.Position  = mul(input.Position, CreateRotation(ROTATION_ANGLE * DEG_TO_RAD * gTime));
+    input.Position  = mul(float4(input.Position, 1.0f), CreateRotation(ROTATION_ANGLE * DEG_TO_RAD * gTime)).xyz;
     output.Position = mul(float4(input.Position, 1.0f), gWorldViewProj);
     
-    input.Normal    = mul(input.Normal, CreateRotation(ROTATION_ANGLE * DEG_TO_RAD * gTime));
+    input.Normal    = mul(input.Normal, (float3x3) CreateRotation(ROTATION_ANGLE * DEG_TO_RAD * gTime));
     output.Normal   = input.Normal;
     
-    input.Tangent   = mul(input.Tangent, CreateRotation(ROTATION_ANGLE * DEG_TO_RAD * gTime));
+    input.Tangent   = mul(input.Tangent, (float3x3) CreateRotation(ROTATION_ANGLE * DEG_TO_RAD * gTime));
     output.Tangent  = input.Tangent;
     
     output.Color    = input.Color;
@@ -219,7 +219,7 @@ VS_OUTPUT VS_FireFX(VS_INPUT input)
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
     
-    input.Position  = mul(input.Position, CreateRotation(ROTATION_ANGLE * DEG_TO_RAD * gTime));
+    input.Position  = mul(float4(input.Position, 1.0f), CreateRotation(ROTATION_ANGLE * DEG_TO_RAD * gTime)).xyz;
     output.Position = mul(float4(input.Position, 1.0f), gWorldViewProj);
     
     output.Uv       = input.Uv;
