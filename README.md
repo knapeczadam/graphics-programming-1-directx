@@ -1,11 +1,11 @@
-# ⚙️ Graphics Programming 1 – DirectX (2023)
+# ⚙️ Graphics Programming 1 – DirectX  
 
 Hey there, fellow DAE student, curious visitor, or graphics tinkerer 👋  
 Welcome to my **Graphics Programming 1 – DirectX** repository — part of the **third semester (2023)** at **Digital Arts & Entertainment**, **Howest University**, **Kortrijk, Belgium**.
 
 ---
 
-## 🗂️ About this repository
+## 🗄️ About this repository
 
 This repo contains the **third and final project** of the Graphics Programming 1 course — a **GPU-based real-time renderer** built using **DirectX 11**.  
 It builds on the knowledge gained from the **raytracer** and **software rasterizer** projects, moving fully into the GPU domain with hardware-accelerated rendering and physically-based shading.
@@ -15,12 +15,12 @@ It builds on the knowledge gained from the **raytracer** and **software rasteriz
 
 ---
 
-## 🧱 Course Information
+## 🔎 Course Information
 
-**📘 Course:** Graphics Programming 1  
-**🏫 University:** Howest DAE – Digital Arts & Entertainment  
+**📚 Course:** Graphics Programming 1  
+**🏫 University:** Howest University of Applied Sciences - Digital Arts and Entertainment   
 **📍 Location:** Kortrijk, Belgium  
-**🗓️ Semester:** 2023 – Third semester  
+**🗓️ Academic year:** 2023–24 | Third semester  
 **🎓 Study load:** 6 credits  
 **⏱️ Total study time:** 180 hours  
 
@@ -28,21 +28,29 @@ It builds on the knowledge gained from the **raytracer** and **software rasteriz
 
 ## 👨‍🏫 Teaching Staff
 
-- **Co-ordinator:** Koen Samyn
-- **Other teaching staff:** Flor Delombaerde, Pieter-Jan Vandenberghe
+- **Co-ordinator:** Koen Samyn  
+- **Other teaching staff:** Flor Delombaerde, Pieter-Jan Vandenberghe  
 
 ---
 
-## 🎯 Learning Goals (LR07 + LR09)
+## 🎯 Learning Goals  
 
-> *The student develops interactive 3D applications using game technology in an efficient, technically proficient way.*  
-> *The student writes maintainable, optimized C++ code and integrates rendering algorithms based on performance constraints.*
-
-- Implements a **3D application** using the **DirectX 11 graphics API**.  
-- Utilizes **GPU rendering** for real-time image generation.  
-- Applies **Physically Based Rendering (PBR)** principles.  
-- Writes efficient and maintainable **C++ graphics code**.  
-- Manages shaders, buffers, and textures in a modern GPU pipeline.
+- Handles **stress and workload** effectively while meeting deadlines.  
+- Creates and follows a **planning** to ensure project progress.  
+- Uses **version control systems** to track and manage development efficiently.  
+- Monitors personal and project progress over time.  
+- Maintains a **critical attitude** toward own work and peers’ work, benchmarking results to **industry standards**.  
+- Detects **technical and visual errors** down to the pixel level.  
+- Reviews and validates **code quality** and maintainability.  
+- Develops **3D applications** iteratively, applying feedback from stakeholders.  
+- Selects and applies **efficient rendering algorithms** for 3D scenes.  
+- Measures and evaluates **application performance**.  
+- Analyzes and optimizes **graphics performance** in real-time contexts.  
+- Implements **Physically Based Rendering (PBR)** techniques in a 3D environment.  
+- Uses **game engines** correctly to solve design and technical problems.  
+- Writes **structured, readable, and maintainable** code within a game project.  
+- Integrates and evaluates **middleware, external services, and frameworks** under technical and production constraints.  
+- Implements **lighting systems** in 3D applications using **shader languages**.  
 
 ---
 
@@ -57,7 +65,7 @@ It builds on the knowledge gained from the **raytracer** and **software rasteriz
 
 ---
 
-## 🔖 Repository Structure
+## 📂 Repository Structure
 
 All code and assets for the DirectX project are located on the **main branch**.  
 It demonstrates the transition from CPU-based to GPU-accelerated rendering, using DirectX 11 for efficient, real-time 3D visualization.
@@ -84,10 +92,10 @@ If you’re diving into DirectX yourself: **experiment, profile, and learn how t
 
 ---
 
-### 🪪 License
+### ⚖️ License
 This repository is licensed under the **MIT License** — feel free to explore, learn, or reuse for study purposes.
 
 ---
 
 *Built with shaders, buffers, and the eternal quest for 60 fps 🎮  
-— Adam*
+— Ádám*
