@@ -1,4 +1,4 @@
-# ⚙️ Graphics Programming 1 – DirectX  
+# 🪟 Graphics Programming 1 – DirectX  
 
 Hey there, fellow DAE student, curious visitor, or graphics tinkerer 👋  
 Welcome to my **Graphics Programming 1 – DirectX** repository — part of the **third semester (2023)** at **Digital Arts & Entertainment**, **Howest University**, **Kortrijk, Belgium**.
